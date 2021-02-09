@@ -26,3 +26,10 @@ export const connectDB = () => {
     }
   });
 }
+
+/**
+ * Closes the default mongoose connection.
+ * 
+ * @returns {Promise}
+ */
+export const disconnectDB = () => mongoose.connection.close();
