@@ -14,7 +14,7 @@ const {
  * resolves to 'this'. If connection fails, returns object with a message and
  * the error.
  */
-export const connectDB = () => {
+const connectDB = () => {
   const URI = `mongodb+srv://${DB_USER}:${DB_PASS}@cluster0.sd3mb.mongodb.net/${DB_NAME}?retryWrites=true&w=majority`;
   const options = { useNewUrlParser: true, useUnifiedTopology: true }
   return mongoose.connect(URI, options, (err) => {
@@ -32,4 +32,6 @@ export const connectDB = () => {
  * 
  * @returns {Promise}
  */
-export const disconnectDB = () => mongoose.connection.close();
+const disconnectDB = () => mongoose.connection.close();
+
+module.exports = { connectDB, disconnectDB }
