@@ -1,8 +1,8 @@
 const mongoose = require("mongoose");
 
 // TODO:
-// Without the following two lines, line 14 logs are undefined. When lines 9 and
-// 10 are commented, line 14 logs the correct env variables.
+// Without lines 9 and 10, line 14 logs are undefined. When lines 9 and
+// 10 are uncommented, line 14 logs the correct env variables.
 // Suggested solution: add the following config object ({ path:
 // path.resove(__direname, "../.env")}) to the require statement at /ping/www:4
 
