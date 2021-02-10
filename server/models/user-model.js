@@ -31,4 +31,20 @@ const userSchema = new mongoose.Schema({
  */
 const User = mongoose.model("User", userSchema);
 
-module.exports = User;
+/**
+ * Given a user object, produce the mongoose model of a user. If user object is
+ * missing either email, companyName or password, will return a usage string.
+ *
+ * @param {object} user - user object.
+ * @property {string} email - the user's email.
+ * @property {string} companyName - the user's company name.
+ * @property {string} password - the user's password.
+ * @returns {object|string}
+ */
+const createNewUser = ({ email, companyName, password }) => {
+  if (!email || !companyName || !password)
+    return "User must have email, companyName and password properties.";
+  return new User({ email, companyName, password });
+};
+
+module.exports = { createNewUser };
