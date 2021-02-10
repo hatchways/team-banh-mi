@@ -6,18 +6,22 @@ This starter repo will be used for building applications using React, Material-U
 
 The project is broken down into a client and server folder.
 
-### Database Setup
+### Database
 
-To set-up the database locally, you need to add the database name, user-name
-and password to variables named DB_NAME, DB_USER and DB_PASS respectively to
-your local `.env` files. For example:
+#### Database Setup
+
+To set-up the database locally, you need to add the database name, testing
+database name, user-name and password to variables named DB_NAME,
+DB_TEST_NAME, DB_USER and DB_PASS respectively to your local `.env` files.
+For example:
 
 ```bash
-DB_NAME='database-name'
-DB_USER='my-database-username'
-DB_PASS='my-database-password'
+DB_NAME=database-name
+DB_TEST_NAME=testing-database-name
+DB_USER=my-database-username
+DB_PASS=my-database-password
 ```
 
 You can then use the `connectDB` and `disconnectDB` functions provided in the
-`/server/database/helpers.js` to both connect and disconnect from the database
+`/server/utils/database.js` to both connect and disconnect from the database
 using your personal login information from the `.env` file.
