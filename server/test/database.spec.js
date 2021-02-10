@@ -1,10 +1,6 @@
 const assert = require("chai").assert;
 const expect = require("chai").expect;
-const path = require("path");
-const mongoose = require("mongoose");
-const { connectDB, disconnectDB } = require("../utils/database");
 const { createNewUser } = require("../models/user-model");
-require("dotenv").config({ path: path.resolve(__dirname, "../.env") });
 
 describe("User model", () => {
   const testUser = createNewUser({
