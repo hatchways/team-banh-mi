@@ -1,17 +1,6 @@
 const mongoose = require("mongoose");
 
-// TODO:
-// Without the following two lines, line 14 logs are undefined. When lines 9 and
-// 10 are commented, line 14 logs the correct env variables.
-// Suggested solution: add the following config object ({ path:
-// path.resove(__direname, "../.env")}) to the require statement at /ping/www:4
-
-// const path = require("path");
-// require("dotenv").config({ path: path.resolve(__dirname, "../.env") });
-
 const { DB_USER, DB_PASS, DB_NAME, DB_TEST_NAME } = process.env;
-
-console.log(DB_USER, DB_NAME);
 
 /**
  * Opens a connection to the MongoDB Atlas instance used, using the
