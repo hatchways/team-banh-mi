@@ -2,7 +2,6 @@ const User = require("./user");
 const bcrypt = require("bcrypt");
 const cookieParser = require("cookie-parser");
 const registerUser = require("../controllers/registerController");
-const { model } = require("mongoose");
 const saltRounds = 10;
 
 function encryptedPasswordWithSalt(plaintextPassword){
@@ -21,7 +20,8 @@ function createNewUserObject(user){
     const newUser = new User({
         email:user.email,
         companyName:user.companyName,
-        password: encryptedPasswordWithSalt(user.password)
+        password: encryptedPasswordWithSalt(user.password),
+        isActive: true
     });
 
     return newUser;
@@ -33,17 +33,6 @@ function saveDataToUserModel(newUser){
             return {"error": "Error while saving data in database."};
         } else {
             return {"valid":true};
-        }
-    });
-}
-
-
-function findDataByEmail(userEmail){
-    User.findOne({email:userEmail}, function(err,foundUser){
-        if(err){
-            return {"error": "Error while fetching data in databse."};
-        } else {
-            return foundUser;
         }
     });
 }
@@ -61,7 +50,6 @@ function generateAuthToken(user){
 
 const UserData = {
     isPasswordValid,
-    findDataByEmail,
     saveDataToUserModel,
     createNewUserObject,
     generateAuthToken
