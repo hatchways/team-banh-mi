@@ -10,7 +10,7 @@ const registerRouter = require('./routes/register');
 
 const { json, urlencoded } = express;
 
-var app = express();
+const app = express();
 
 app.use(logger('dev'));
 app.use(json());
