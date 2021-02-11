@@ -5,6 +5,19 @@ import { Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { Typography } from "@material-ui/core";
 import { Link } from "react-router-dom";
+import { useFormik } from "formik";
+import * as yup from "yup";
+
+const validationSchema = yup.object({
+  email: yup
+    .string("Enter your email")
+    .email("Enter a valid email")
+    .required("Email is required"),
+  password: yup
+    .string("Enter your password")
+    .min(8, "Password should be of minimum 8 characters length")
+    .required("Password is required"),
+});
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -27,9 +40,9 @@ const useStyles = makeStyles((theme) => ({
   fullWidth: {
     width: "100%",
   },
-  marginBottom:{
-    'margin-bottom':'2rem'
-  }
+  marginBottom: {
+    "margin-bottom": "2rem",
+  },
 }));
 
 export default function LoginPage() {
@@ -43,6 +56,18 @@ export default function LoginPage() {
   }, [user]);
 
   const classes = useStyles();
+
+  const formik = useFormik({
+    initialValues: {
+      email: "foobar@example.com",
+      password: "foobar",
+    },
+    validationSchema: validationSchema,
+    onSubmit: (values) => {
+      alert(JSON.stringify(values, null, 2));
+    },
+  });
+
   return (
     <React.Fragment>
       <Grid
@@ -67,7 +92,7 @@ export default function LoginPage() {
             >
               Login into your account
             </Typography>
-            <form noValidate autoComplete="off">
+            <form onSubmit={formik.handleSubmit}>
               <Grid
                 id="grid-form"
                 container
@@ -81,27 +106,30 @@ export default function LoginPage() {
                   className={classes.fullWidth}
                 >
                   <TextField
-                    id="emailInput"
-                    label="Your email"
-                    variant="outlined"
-                    fullWidth={true}
-                    value={user.username}
-                    onChange={(event) =>
-                      setUser({ ...user, username: event.target.value })
-                    }
+                    fullWidth
+                    id="email"
+                    name="email"
+                    label="Email"
+                    value={formik.values.email}
+                    onChange={formik.handleChange}
+                    error={formik.touched.email && Boolean(formik.errors.email)}
+                    helperText={formik.touched.email && formik.errors.email}
                   />
                 </Grid>
                 <Grid item className={classes.fullWidth}>
                   <TextField
-                    className={classes.roundedCorner}
-                    id="passwordInput"
+                    fullWidth
+                    id="password"
+                    name="password"
                     label="Password"
-                    variant="outlined"
-                    fullWidth={true}
                     type="password"
-                    value={user.password}
-                    onChange={(event) =>
-                      setUser({ ...user, password: event.target.value })
+                    value={formik.values.password}
+                    onChange={formik.handleChange}
+                    error={
+                      formik.touched.password && Boolean(formik.errors.password)
+                    }
+                    helperText={
+                      formik.touched.password && formik.errors.password
                     }
                   />
                 </Grid>
@@ -111,6 +139,7 @@ export default function LoginPage() {
                     variant="contained"
                     color="primary"
                     size="large"
+                    type="submit"
                   >
                     LOG IN
                   </Button>
