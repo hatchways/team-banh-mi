@@ -1,4 +1,6 @@
 import { createMuiTheme } from "@material-ui/core";
+import {lightBlue} from '@material-ui/core/colors';
+
 
 export const theme = createMuiTheme({
   typography: {
@@ -10,5 +12,7 @@ export const theme = createMuiTheme({
   },
   palette: {
     primary: { main: "#DF1B1B" },
+    secondary: lightBlue,
+
   },
 });
