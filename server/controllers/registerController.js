@@ -1,19 +1,21 @@
-const User = require("../userModel/userData");
+const User = require('../userModel/userData');
 
-function registerUser(req,res){
+function registerUser(req, res) {
+  const user = User.createNewUserObject(req.body);
 
-    const user = User.createNewUserObject(req.body);
-    
-    const result = User.saveDataToUserModel(user);
+  const result = User.saveDataToUserModel(user);
 
-    if(!hasValidProperty(result))
-        res.status(500).send(result);
+  if (!hasValidProperty(result)) res.status(500).send(result);
 
-    const token = User.generateAuthToken(user);
+  const token = User.generateAuthToken(user);
 
-    res.header("x-auth-token", token).status(201).send({email:user.email,companyName:user.companyName}).redirect('main');
+  res
+    .header('x-auth-token', token)
+    .status(201)
+    .send({ email: user.email, companyName: user.companyName })
+    .redirect('main');
 
-    /*res.header("x-auth-token", token).send({
+  /*res.header("x-auth-token", token).send({
         _id: user._id,
         name: user.name,
         email: user.email
@@ -29,8 +31,8 @@ function registerUser(req,res){
     res.status(201).render("main");*/
 }
 
-function hasValidProperty(name){
-    return name.hasOwnProperty('valid');
+function hasValidProperty(name) {
+  return name.hasOwnProperty('valid');
 }
 
 module.exports = registerUser;
