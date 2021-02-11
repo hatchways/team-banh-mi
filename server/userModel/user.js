@@ -1,7 +1,7 @@
-const mongoose = require('mongoose');
-const { createNewUserObject, saveDataToUserModel } = require('./userData');
+const mongoose = require("mongoose");
+const { createNewUserObject, saveDataToUserModel } = require("./userData");
 
-mongoose.connect('mongodb://localhost:27017/userDB', { useNewUrlParser: true });
+mongoose.connect("mongodb://localhost:27017/userDB", { useNewUrlParser: true });
 
 /**
  * User Schema.
@@ -26,13 +26,27 @@ const userSchema = new mongoose.Schema({
 });
 
 /**
+ * Plugin for the userSchema. Adds the 'isActive' property (boolean) with a
+ * default value of 'true'.
+ *
+ * @param {object} schema - represents the schema to which the changes will be
+ * applied.
+ */
+function softDeletionPlugin(schema) {
+  schema.path("isActive", Boolean).default(true);
+}
+
+/** Applying the softDeletion plugin to the userSchema */
+userSchema.plugin(softDeletionPlugin);
+
+/**
  * User Model.
  * @constructor
  * @property {string} email - email of the user.
  * @property {string} companyName - company name of the user.
  * @property {string} password - password of the user.
  */
-const User = mongoose.model('User', userSchema);
+const User = mongoose.model("User", userSchema);
 
 /**
  * Given a user object, validate the user using it's model's schema, produce
@@ -52,15 +66,15 @@ userSchema.statics.createAndUpload = async function ({
   password,
 }) {
   try {
-    await User.validate({ email, companyName }, ['email', 'companyName']);
+    await User.validate({ email, companyName }, ["email", "companyName"]);
     const newUser = createNewUserObject({ email, companyName, password });
     return saveDataToUserModel(newUser);
   } catch (err) {
     if (err instanceof mongoose.Error.ValidationError) {
       const errorMessages = Object.keys(err.errors).map(
-        key => `Validation Error: ${key} needs to be present.`
+        (key) => `Validation Error: ${key} needs to be present.`
       );
-      return errorMessages.join('\n');
+      return errorMessages.join("\n");
     }
   }
 };
@@ -160,7 +174,7 @@ userSchema.methods.softRecover = function () {
  * @method
  */
 userSchema.methods.getCompanyName = function () {
-  return User.find({ email: this.email }).select('companyName -_id');
+  return User.find({ email: this.email }).select("companyName -_id");
 };
 
 /**
