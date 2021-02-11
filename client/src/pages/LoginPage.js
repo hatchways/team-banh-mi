@@ -110,6 +110,7 @@ export default function LoginPage() {
                     id="email"
                     name="email"
                     label="Email"
+                    variant="outlined"
                     value={formik.values.email}
                     onChange={formik.handleChange}
                     error={formik.touched.email && Boolean(formik.errors.email)}
@@ -123,6 +124,7 @@ export default function LoginPage() {
                     name="password"
                     label="Password"
                     type="password"
+                    variant="outlined"
                     value={formik.values.password}
                     onChange={formik.handleChange}
                     error={
