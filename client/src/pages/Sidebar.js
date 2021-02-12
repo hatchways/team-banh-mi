@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
     
     width: '100%',
     maxWidth: 360,
-  
+    
    
   },
   
@@ -41,8 +41,8 @@ export default function Sidebar() {
     setChecked(newChecked);
   };
   return( 
-  <div className={classes.root}>
-     <Box display="flex" flexDirection="column" p={1} bgcolor="green">
+  <div className={classes.root} position = 'fixed'>
+     <Box display="flex" flexDirection="column" p={1} bgcolor="green" position = 'fixed' className = {classes.root}>
         <List  className={classes.root} display = "flex" flexGrow={1}>
         <ListItem className={classes.boxroot}>
           <ListItemText id="switch-list-label-wifi" primary="Reddit" />

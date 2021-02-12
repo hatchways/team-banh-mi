@@ -9,9 +9,9 @@ import { CardContent, Typography } from "@material-ui/core";
 function DashBoard(){
   return (
     <div>
-      <Navbar/>
+      <Navbar className="navBar"/>
       <div className = "screenContainer">
-        <Sidebar/>
+        <Sidebar className ="sideBar"/>
         <div className = "mainScreen">
             <div className = "content">
               <div className = "mainHeader">
@@ -21,6 +21,16 @@ function DashBoard(){
                  <Button>Most popular</Button>
                 </ButtonGroup>
               </div>
+              <ResultCard/>
+              <ResultCard/>
+              <ResultCard/>
+              <ResultCard/>
+              <ResultCard/>
+              <ResultCard/>
+              <ResultCard/>
+              <ResultCard/>
+              <ResultCard/>
+              <ResultCard/>
               <ResultCard/>
               <ResultCard/>
               <ResultCard/>
