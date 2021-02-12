@@ -175,7 +175,7 @@ export default function LoginPage() {
                 </Button>
               </Grid>
               <Grid item>
-                <Link to="/signup">Create Account</Link>
+                <Link to="/signup" underline="none">Create Account</Link>
               </Grid>
             </Grid>
           </form>
