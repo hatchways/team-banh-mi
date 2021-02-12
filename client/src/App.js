@@ -1,38 +1,38 @@
-import React from "react";
-import { MuiThemeProvider, Paper } from "@material-ui/core";
+import React, { useReducer } from "react";
+import { MuiThemeProvider } from "@material-ui/core";
 import { BrowserRouter, Route, Redirect } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 
 import { theme } from "./themes/theme";
 import LandingPage from "./pages/Landing";
 
+import { reducer as userReducer, initialState as userInitialState } from "./store/UserReducer";
+
 import "./App.css";
 import LoginPage from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage";
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    height: "100vh",
-  },
-  page: {
-    display: "flex",
-    "flex-grow": 1,
-  },
-}));
+export const UserContext = React.createContext();
 
 function App() {
-  const loggedIn = false;
+  const [userState, userDispatch] = useReducer(userReducer, userInitialState);
+
+  const loggedIn = userState.loggedIn;
 
   return (
     <MuiThemeProvider theme={theme}>
-            <BrowserRouter>
-              <Route exact path="/">
-                {loggedIn ? <Redirect to="/dashboard" /> : <Redirect to="/login" />}
-              </Route>
-              <Route path="/dashboard" exact component={LandingPage} />
-              <Route path="/login" exact component={LoginPage} />
-              <Route path="/signup" exact component={SignupPage} />
-            </BrowserRouter>
+      <UserContext.Provider
+        value={{ state: userState, dispatch: userDispatch }}
+      >
+        <BrowserRouter>
+          <Route exact path="/">
+            {loggedIn ? <Redirect to="/dashboard" /> : <Redirect to="/login" />}
+          </Route>
+          <Route path="/dashboard" exact component={LandingPage} />
+          <Route path="/login" exact component={LoginPage} />
+          <Route path="/signup" exact component={SignupPage} />
+        </BrowserRouter>
+      </UserContext.Provider>
     </MuiThemeProvider>
   );
 }

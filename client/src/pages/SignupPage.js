@@ -52,21 +52,18 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function SignupPage() {
+
   const [user, setUser] = useState({
     username: "",
     password: "",
     company: "",
-  });
-
-  
+  });  
 
   useEffect(() => {
     console.log("user updated", user);
   }, [user]);
 
-  const classes = useStyles();
-
-  
+  const classes = useStyles();  
 
   const formik = useFormik({
     initialValues: {
@@ -80,7 +77,6 @@ export default function SignupPage() {
   });
 
   return (
-    <React.Fragment>
       <Grid
         id="loginPage"
         className={classes.root}
@@ -179,6 +175,5 @@ export default function SignupPage() {
           </Card>
         </Grid>
       </Grid>
-    </React.Fragment>
   );
 }
