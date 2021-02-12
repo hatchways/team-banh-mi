@@ -60,7 +60,7 @@ const User = mongoose.model("User", userSchema);
  * @property {string} password - the user's password.
  * @returns {object|string}
  */
-userSchema.statics.createAndUpload = async function ({
+userSchema.statics.createUser = async function ({
   email,
   companyName,
   password,
