@@ -4,6 +4,7 @@ const verifyRegister = require("../middlewares/verifyRegister");
 const controller = require("../controllers/registerController");
 const auth = require("../middlewares/auth");
 const { token } = require("morgan");
+const hp = require("../utils/hasProperty");
 
 router.get("/",function(req,res){
     res.status(200).send({ message: "register page displayed successfully!" });
@@ -12,18 +13,18 @@ router.get("/",function(req,res){
 
 router.post("/", function(req, res, next) {
     const message = validateRequest(req.body);
-    if(!hasValidProperty(message))
+    if(!hp.hasValidProperty(message))
         return res.status(400).send(message);
     
     let result = verifyRegister.checkEmailExistedInModel(req,res,next);
 
-    if(hasStatusProperty(result)){
+    if(hp.hasStatusProperty(result)){
         res.status(result.status).send(result.error);
     }
 
     result = controller.registerUser(req.body);
 
-    if(hasStatusProperty(result)){
+    if(hp.hasStatusProperty(result)){
         res.status(result.status).send(result.error);
     }
 
@@ -46,13 +47,7 @@ router.post("/", function(req, res, next) {
     //res.status(201).render("main");
 });
 
-function hasValidProperty(name){
-    return name.hasOwnProperty('valid');
-}
 
-function hasStatusProperty(name){
-    return name.hasOwnProperty('status');
-}
 
 function isStringNullOREmptyORUndefined(field){
     if(typeof field === undefined || typeof field === null || field === "")

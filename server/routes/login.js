@@ -1,11 +1,12 @@
 const express = require("express");
 const router = express.Router();
 const controller = require("../controllers/loginController");
+const hp = require("../utils/hasProperty");
 
 router.post("/", function(req, res) {    
     const result = controller.loginUser(req.body);
 
-    if(hasStatusProperty(result)){
+    if(hp.hasStatusProperty(result)){
         res.status(result.status).send(result.error);
     }
 
@@ -26,11 +27,6 @@ router.post("/", function(req, res) {
     });
     //res.redirect("main");
 });
-
-function hasStatusProperty(name){
-    return name.hasOwnProperty('status');
-}
-
 
 router.get("/",function(req,res){
     res.status(200).send({ message: "login page displayed successfully!" });
