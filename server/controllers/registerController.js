@@ -1,4 +1,4 @@
-const User = require('../userModel/userData');
+const User = require("../userModel/userData");
 
 function registerUser(req, res) {
   const user = User.createNewUserObject(req.body);
@@ -10,10 +10,10 @@ function registerUser(req, res) {
   const token = User.generateAuthToken(user);
 
   res
-    .header('x-auth-token', token)
+    .header("x-auth-token", token)
     .status(201)
     .send({ email: user.email, companyName: user.companyName })
-    .redirect('main');
+    .redirect("main");
 
   /*res.header("x-auth-token", token).send({
         _id: user._id,
@@ -32,7 +32,7 @@ function registerUser(req, res) {
 }
 
 function hasValidProperty(name) {
-  return name.hasOwnProperty('valid');
+  return name.hasOwnProperty("valid");
 }
 
 module.exports = registerUser;

@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const { createNewUserObject, saveDataToUserModel } = require("./userData");
 
-mongoose.connect("mongodb://localhost:27017/userDB", { useNewUrlParser: true });
+// mongoose.connect("mongodb://localhost:27017/userDB", { useNewUrlParser: true });
 
 /**
  * User Schema.
@@ -34,10 +34,11 @@ const userSchema = new mongoose.Schema({
  */
 function softDeletionPlugin(schema) {
   schema.path("isActive", Boolean).default(true);
+  console.log(schema);
 }
 
 /** Applying the softDeletion plugin to the userSchema */
-userSchema.plugin(softDeletionPlugin);
+// userSchema.plugin(softDeletionPlugin);
 
 /**
  * User Model.

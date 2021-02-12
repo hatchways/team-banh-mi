@@ -1,7 +1,6 @@
-const User = require('./user');
-const bcrypt = require('bcrypt');
-const cookieParser = require('cookie-parser');
-const registerUser = require('../controllers/registerController');
+const User = require("./user").User;
+const bcrypt = require("bcrypt");
+const cookieParser = require("cookie-parser");
 const saltRounds = 10;
 
 function encryptedPasswordWithSalt(plaintextPassword) {
@@ -30,7 +29,7 @@ function createNewUserObject(user) {
 function saveDataToUserModel(newUser) {
   newUser.save(function (err) {
     if (err) {
-      return { error: 'Error while saving data in database.' };
+      return { error: "Error while saving data in database." };
     } else {
       return { valid: true };
     }
@@ -41,7 +40,7 @@ function generateAuthToken(user) {
   const token = jwt.sign({ email: user.email }, config.secret, {
     expiresIn: 86400, // 24 hours
   });
-  return cookie('token', token, {
+  return cookie("token", token, {
     expires: new Date(Date.now() + expiration),
     secure: false, // set to true if your using https
     httpOnly: true,
