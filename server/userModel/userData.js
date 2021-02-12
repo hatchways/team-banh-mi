@@ -1,20 +1,15 @@
 const User = require("./user");
 const bcrypt = require("bcrypt");
-const cookieParser = require("cookie-parser");
-const registerUser = require("../controllers/registerController");
-const { model } = require("mongoose");
 const saltRounds = 10;
+const jwt = require("jsonwebtoken");
+const config = require("../config/auth.config");
 
 function encryptedPasswordWithSalt(plaintextPassword){
-    bcrypt.hash(plaintextPassword, saltRounds, function(err,hash){
-        return hash;
-    });
+    return bcrypt.hash(plaintextPassword, saltRounds);
 }
 
 function isPasswordValid(plaintextPassword,hash){
-    bcrypt.compare(plaintextPassword, hash, function(err,result){
-        return result;
-    });
+    return bcrypt.compare(plaintextPassword, hash);
 }
 
 function createNewUserObject(user){
@@ -35,6 +30,7 @@ function saveDataToUserModel(newUser){
             return {"valid":true};
         }
     });
+    return {"valid":true};
 }
 
 
@@ -43,7 +39,7 @@ function findDataByEmail(userEmail){
         if(err){
             return {"error": "Error while fetching data in databse."};
         } else {
-            return foundUser;
+            return {"User":foundUser};
         }
     });
 }
@@ -52,30 +48,12 @@ function generateAuthToken(user){
     const token = jwt.sign({ email: user.email }, config.secret, { 
         expiresIn: 86400 // 24 hours
     });
-    return cookie('token', token, {
-        expires: new Date(Date.now() + expiration),
-        secure: false, // set to true if your using https
-        httpOnly: true,
-    });
+
+    return token;
 }
 
-const UserData = {
-    isPasswordValid,
-    findDataByEmail,
-    saveDataToUserModel,
-    createNewUserObject,
-    generateAuthToken
-};
-
-module.exports = UserData;
-
-/*User.findOne({email:req.body.email}, function(err,foundUser){
-    if(err){
-        res.status(500).send({ "error": err });
-    } else {
-        if(foundUser){
-            res.status(400).send({ message: "Failed! Email is already in use!" });
-            return;
-        }
-    }
-});*/
+exports.isPasswordValid = isPasswordValid;
+exports.findDataByEmail = findDataByEmail;
+exports.saveDataToUserModel = saveDataToUserModel;
+exports.createNewUserObject = createNewUserObject;
+exports.generateAuthToken = generateAuthToken;

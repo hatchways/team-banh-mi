@@ -1,36 +1,23 @@
-const User = require("../userModel/userData");
+const db = require("../userModel");
+const User = db.user;
+const UserData = require("../userModel/userData");
 
-function registerUser(req,res){
-
-    const user = User.createNewUserObject(req.body);
+function registerUser(field){
+    const user = UserData.createNewUserObject(field);
     
-    const result = User.saveDataToUserModel(user);
+    const result = UserData.saveDataToUserModel(user);
 
-    if(!hasValidProperty(result))
-        res.status(500).send(result);
+    if(!hasValidProperty(result)){
+        return { "status": "500", "error": result };;
+    }
 
-    const token = User.generateAuthToken(user);
+    const token = UserData.generateAuthToken(user);
 
-    res.header("x-auth-token", token).status(201).send({email:user.email,companyName:user.companyName}).redirect('main');
-
-    /*res.header("x-auth-token", token).send({
-        _id: user._id,
-        name: user.name,
-        email: user.email
-      });
-
-    res.status(200).send({
-        id: user._id,
-        email: user.email,
-        companyName: user.companyName,
-        accessToken: token
-    });
-
-    res.status(201).render("main");*/
+    return {"token": token}; 
 }
 
 function hasValidProperty(name){
     return name.hasOwnProperty('valid');
 }
 
-module.exports = registerUser;
+exports.registerUser = registerUser;

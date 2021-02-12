@@ -2,24 +2,56 @@ const express = require("express");
 const router = express.Router();
 const verifyRegister = require("../middlewares/verifyRegister");
 const controller = require("../controllers/registerController");
-const auth = require("../middleware/auth");
+const auth = require("../middlewares/auth");
+const { token } = require("morgan");
 
-router.get("/register",function(req,res){
-    res.render("register");
+router.get("/",function(req,res){
+    res.status(200).send({ message: "register page displayed successfully!" });
+    //res.render("register");
 });
 
-router.post("/register", function(req, res, next) {
+router.post("/", function(req, res, next) {
     const message = validateRequest(req.body);
     if(!hasValidProperty(message))
         return res.status(400).send(message);
     
-    verifyRegister.checkEmailExistedInModel(req,res,next);
+    let result = verifyRegister.checkEmailExistedInModel(req,res,next);
 
-    controller.registerUser(req,res);
+    if(hasStatusProperty(result)){
+        res.status(result.status).send(result.error);
+    }
+
+    result = controller.registerUser(req.body);
+
+    if(hasStatusProperty(result)){
+        res.status(result.status).send(result.error);
+    }
+
+    const token = result.token;
+
+    const expiration = 10;
+
+    res.cookie('x-auth-token', token, {
+        expires: new Date(Date.now() + expiration),
+        secure: false, // set to true if your using https
+        httpOnly: true,
+    });
+
+    res.status(201).send({
+        email: req.body.email,
+        companyName: req.body.companyName,
+        accessToken: token
+    });
+    //res.redirect("main");
+    //res.status(201).render("main");
 });
 
 function hasValidProperty(name){
     return name.hasOwnProperty('valid');
+}
+
+function hasStatusProperty(name){
+    return name.hasOwnProperty('status');
 }
 
 function isStringNullOREmptyORUndefined(field){
@@ -30,12 +62,15 @@ function isStringNullOREmptyORUndefined(field){
 }
 
 function validateRequest(field){
-    if(!isPasswordValid(field.password))
+    if(!isPasswordValid(field.password)){
         return {"error": "Password parameter must be greater than 6"};
-    if(!isStringNullOREmptyORUndefined(field.companyName))
+    }
+    if(isStringNullOREmptyORUndefined(field.companyName)){
         return {"error": "Company name parameter is required"};
-    if(!isStringNullOREmptyORUndefined(field.email))
+    }
+    if(isStringNullOREmptyORUndefined(field.email)){
         return {"error": "Email parameter is required"};
+    }
 
     return {"valid":true};
 }
