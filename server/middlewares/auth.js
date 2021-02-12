@@ -1,18 +1,18 @@
 const jwt = require("jsonwebtoken");
 const config = require("../config/auth.config.js");
 
-function verifyToken(req, res, next) {
-  const token = req.headers["x-access-token"] || req.headers["authorization"];
+function verifyToken(req){
 
-  if (!token)
-    return res.status(401).send({ error: "Access denied. No token provided." });
+    const token = req.cookies["x-auth-token"];
 
-  try {
-    const verified = jwt.verify(token, config.secret);
-    req.email = verified;
-  } catch (err) {
-    res.status(401).send({ error: "Invalid token." });
-  }
+    if(!token) return {"status": "401", "error": "Access denied. No token provided."};
+
+    try{
+        const verified = jwt.verify(token,config.secret);
+        return verified;
+    } catch(err) {
+        return {"status": "401", "error": "Invalid token."};
+    }
 }
 
 module.exports = verifyToken;

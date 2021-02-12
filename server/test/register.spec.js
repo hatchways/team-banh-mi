@@ -1,8 +1,82 @@
 const rewire = require('rewire');
 const chai = require('chai');
 const should = chai.should();
+const server = require("../bin/www");
 
 const tag = rewire('../routes/register');
+
+describe('App path test', function(){
+    describe("Test get /welcome",function(){
+        it("It Should return 200 status and  welcomeMessag with Step 1 (completed)",function(){
+            chai.request(server)
+                .get("/welcome")
+                .end((err,res) =>{
+                    res.should.have.status(200);
+                    expect(res).to.be.json;
+                    res.body.should.be.deep.equal({ welcomeMessage: "Step 1 (completed)" });
+                });
+        });
+    });
+
+    describe("Test get /register",function(){
+        it("It Should return 200 status and message with register page displayed successfully!",function(){
+            chai.request(server)
+                .get("/register")
+                .end((err,res) =>{
+                    res.should.have.status(200);
+                    expect(res).to.be.json;
+                    res.body.should.be.deep.equal({ message: "register page displayed successfully!" });
+                });
+        });
+    });
+
+    describe("Test post /register",function(){
+        it("It Should return 400 status and error with comapny name parameter is required.",function(){
+            chai.request(server)
+                .post("/register")
+                .body({"email": "abc@gmail.com", "companyName": "", "password": "1234567"})
+                .end((err,res) =>{
+                    res.should.have.status(400);
+                    expect(res).to.be.json;
+                    res.body.should.be.deep.equal({"error": "Company name parameter is required"});
+                });
+        });
+    });
+
+    
+    describe("Test post /register",function(){
+        it("It Should return 400 status and error with Password parameter must be greater than 6",function(){
+            chai.request(server)
+                .post("/register")
+                .body({"email": "abc@gmail.com", "companyName": "abc", "password": "1234"})
+                .end((err,res) =>{
+                    res.should.have.status(400);
+                    expect(res).to.be.json;
+                    res.body.should.be.deep.equal({"error": "Password parameter must be greater than 6"});
+                });
+        });
+    });
+
+    describe("Test post /register",function(){
+        it("It Should return 400 status and error with Email parameter is required.",function(){
+            chai.request(server)
+                .post("/register")
+                .body({"email": "abc@gmail.com", "companyName": "", "password": "1234567"})
+                .end((err,res) =>{
+                    res.should.have.status(400);
+                    expect(res).to.be.json;
+                    res.body.should.be.deep.equal({"error": "Email parameter is required"});
+                });
+        });
+    });
+
+
+
+
+
+
+});
+
 
 const hasValidProperty = tag.__get__('hasValidProperty');
 

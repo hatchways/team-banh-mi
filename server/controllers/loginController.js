@@ -1,40 +1,29 @@
-const config = require('../config/auth.config');
-const User = require('../userModel/userData');
-var jwt = require('jsonwebtoken');
+const db = require("../userModel");
+const User = db.user;
+const UserData = require("../userModel/userData");
+const hp = require("../utils/hasProperty");
 
-function loginUser(req, res) {
-  user = User.findDataByEmail(req.body.email);
+function loginUser(field){
+    UserData.findDataByEmail(field.email,(result) => {
+        if(!hp.hasErrorProperty(result)){
+            return { "status": "500", result };
+        }
+    
+        console.log(result);
+        if(!hp.hasUserProperty(result)){
+            return { "status": "404", "error": "User Not found." };
+        }
 
-  if (hasValidProperty(user)) {
-    res.status(500).send({ user });
-  }
+        const password = User.isPasswordValid(field.password,user.password);
 
-  if (!user) {
-    return res.status(404).send({ error: 'User Not found.' });
-  }
+        if (!password) {
+            return { "status": "401", "error": "Invalid Password!" };
+        }
 
-  const password = User.isPasswordValid(req.body.password, user.password);
+        const token = UserData.generateAuthToken(result);
 
-  if (!password) {
-    return res
-      .status(401)
-      .send({ accessToken: null, error: 'Invalid Password!' });
-  }
-
-  var token = jwt.sign({ email: user.email }, config.secret, {
-    expiresIn: 86400, // 24 hours
-  });
-
-  res.status(200).send({
-    id: user._id,
-    email: user.email,
-    companyName: user.companyName,
-    accessToken: token,
-  });
+        return {"token":token};
+    });
 }
 
-function hasValidProperty(name) {
-  return name.hasOwnProperty('valid');
-}
-
-module.exports = loginUser;
+exports.loginUser = loginUser;

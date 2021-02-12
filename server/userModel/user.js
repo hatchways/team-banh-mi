@@ -38,16 +38,7 @@ function softDeletionPlugin(schema) {
 }
 
 /** Applying the softDeletion plugin to the userSchema */
-// userSchema.plugin(softDeletionPlugin);
-
-/**
- * User Model.
- * @constructor
- * @property {string} email - email of the user.
- * @property {string} companyName - company name of the user.
- * @property {string} password - password of the user.
- */
-const User = mongoose.model("User", userSchema);
+userSchema.plugin(softDeletionPlugin);
 
 /**
  * Given a user object, validate the user using it's model's schema, produce
@@ -208,4 +199,13 @@ userSchema.methods.resetPassword = function (password) {
   });
 };
 
-module.exports = { userSchema, User };
+/**
+ * User Model.
+ * @constructor
+ * @property {string} email - email of the user.
+ * @property {string} companyName - company name of the user.
+ * @property {string} password - password of the user.
+ */
+const User = mongoose.model("User", userSchema);
+
+module.exports = User;
