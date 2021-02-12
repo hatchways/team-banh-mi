@@ -5,6 +5,25 @@ import { Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { Typography } from "@material-ui/core";
 import { Link } from "react-router-dom";
+import { useFormik } from "formik";
+import * as yup from "yup";
+
+
+
+const validationSchema = yup.object({
+  email: yup
+    .string("Enter your email")
+    .email("Enter a valid email")
+    .required("Email is required"),
+  company: yup
+    .string("Enter your company name")
+    .min(8, "Company name should be of minimum 4 characters length")
+    .required("Company name is required"),
+  password: yup
+    .string("Enter your password")
+    .min(6, "Password should be of minimum 6 characters length")
+    .required("Password is required"),
+});
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -39,11 +58,27 @@ export default function SignupPage() {
     company: "",
   });
 
+  
+
   useEffect(() => {
     console.log("user updated", user);
   }, [user]);
 
   const classes = useStyles();
+
+  
+
+  const formik = useFormik({
+    initialValues: {
+      email: "foobar@example.com",
+      password: "foobar",
+    },
+    validationSchema: validationSchema,
+    onSubmit: (values) => {
+      alert(JSON.stringify(values, null, 2));
+    },
+  });
+
   return (
     <React.Fragment>
       <Grid
@@ -68,7 +103,7 @@ export default function SignupPage() {
             >
               Create an account
             </Typography>
-            <form noValidate autoComplete="off">
+            <form onSubmit={formik.handleSubmit}>
               <Grid
                 id="grid-form"
                 container
@@ -82,14 +117,15 @@ export default function SignupPage() {
                   className={classes.fullWidth}
                 >
                   <TextField
-                    id="emailInput"
+                    id="email"
+                    name="email"
                     label="Your email"
                     variant="outlined"
                     fullWidth={true}
-                    value={user.username}
-                    onChange={(event) =>
-                      setUser({ ...user, username: event.target.value })
-                    }
+                    value={formik.values.email}
+                    onChange={formik.handleChange}
+                    error={formik.touched.email && Boolean(formik.errors.email)}
+                    helperText={formik.touched.email && formik.errors.email}
                   />
                 </Grid>
                 <Grid
@@ -98,28 +134,30 @@ export default function SignupPage() {
                   className={classes.fullWidth}
                 >
                   <TextField
-                    id="company-input"
+                    id="company"
+                    name="company"
                     label="Company Name"
                     variant="outlined"
                     fullWidth={true}
-                    value={user.company}
-                    onChange={(event) =>
-                      setUser({ ...user, company: event.target.value })
-                    }
+                    value={formik.values.company}
+                    onChange={formik.handleChange}
+                    error={formik.touched.company && Boolean(formik.errors.company)}
+                    helperText={formik.touched.company && formik.errors.company}
                   />
                 </Grid>
                 <Grid item className={classes.fullWidth}>
                   <TextField
                     className={classes.roundedCorner}
-                    id="passwordInput"
+                    id="password"
+                    name="password"
                     label="Password"
                     variant="outlined"
                     fullWidth={true}
                     type="password"
-                    value={user.password}
-                    onChange={(event) =>
-                      setUser({ ...user, password: event.target.value })
-                    }
+                    value={formik.values.password}
+                    onChange={formik.handleChange}
+                    error={formik.touched.password && Boolean(formik.errors.password)}
+                    helperText={formik.touched.password && formik.errors.password}
                   />
                 </Grid>
                 <Grid item>
@@ -128,6 +166,7 @@ export default function SignupPage() {
                     variant="contained"
                     color="primary"
                     size="large"
+                    type="submit"
                   >
                     Create
                   </Button>

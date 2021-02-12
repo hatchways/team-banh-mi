@@ -22,7 +22,6 @@ const useStyles = makeStyles((theme) => ({
 
 function App() {
   const loggedIn = false;
-  const classes = useStyles();
 
   return (
     <MuiThemeProvider theme={theme}>
@@ -36,25 +35,6 @@ function App() {
             </BrowserRouter>
     </MuiThemeProvider>
   );
-
-  // return (
-  //   <MuiThemeProvider theme={theme}>
-  //     <Paper>
-  //       <Grid container direction="column" className={classes.root}>
-  //         <Grid item></Grid>
-  //         <Grid className={classes.page}>
-  //           <BrowserRouter>
-  //             <Route exact path="/">
-  //               {loggedIn ? <Redirect to="/dashboard" /> : <LoginPage />}
-  //             </Route>
-  //             <Route path="/dashboard" exact component={LandingPage} />
-  //             <Route path="/login" exact component={LoginPage} />
-  //           </BrowserRouter>
-  //         </Grid>
-  //       </Grid>
-  //     </Paper>
-  //   </MuiThemeProvider>
-  // );
 }
 
 export default App;
