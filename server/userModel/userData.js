@@ -26,27 +26,6 @@ async function createNewUser({ email, companyName, password }) {
   }
 }
 
-function saveDataToUserModel(newUser) {
-  newUser.save(function (err) {
-    if (err) {
-      return { error: "Error while saving data in database." };
-    } else {
-      return { valid: true };
-    }
-  });
-  return { valid: true };
-}
-
-function findDataByEmail(userEmail) {
-  User.findOne({ email: userEmail }, function (err, foundUser) {
-    if (err) {
-      return { error: "Error while fetching data in databse." };
-    } else {
-      return { User: foundUser };
-    }
-  });
-}
-
 function generateAuthToken(user) {
   const token = jwt.sign({ email: user.email }, config.secret, {
     expiresIn: 86400, // 24 hours
@@ -57,7 +36,5 @@ function generateAuthToken(user) {
 
 exports.encryptPasswordWithSalt = encryptPasswordWithSalt;
 exports.isPasswordValid = isPasswordValid;
-exports.findDataByEmail = findDataByEmail;
-exports.saveDataToUserModel = saveDataToUserModel;
 exports.createNewUser = createNewUser;
 exports.generateAuthToken = generateAuthToken;
