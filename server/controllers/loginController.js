@@ -1,5 +1,8 @@
 const User = require("../models/user-model");
-const { isPasswordValid, generateAuthToken } = require("../userModel/userData");
+const {
+  isPasswordValid,
+  generateAuthToken,
+} = require("../utils/authentication");
 
 async function loginUser({ email, password }) {
   const [user] = await User.findByEmail(email);
