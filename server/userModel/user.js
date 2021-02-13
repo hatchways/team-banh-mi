@@ -60,8 +60,9 @@ userSchema.statics.findAll = function () {
  * @returns {object} - the user with the given email.
  * @static
  */
-userSchema.statics.findByEmail = function (email) {
-  return this.find({ email });
+userSchema.statics.findByEmail = async function (email) {
+  const [user] = await this.find({ email });
+  return user;
 };
 
 /**
@@ -184,6 +185,7 @@ userSchema.methods.resetPassword = async function (password) {
  * Encrypt the password of the user's instance.
  *
  * @returns {object} Confirmation object with 'ok' property.
+ * @private
  * @method
  */
 userSchema.methods._encryptPassword = async function () {
@@ -201,11 +203,12 @@ userSchema.methods._encryptPassword = async function () {
  * fails.
  *
  * @returns {object} Response object with a valid token.
+ * @private
  * @method
  */
 userSchema.methods._registerUser = async function () {
   try {
-    await this.encryptPassword();
+    await this._encryptPassword();
     await this.save();
     const token = generateAuthToken(this);
     return { token };
