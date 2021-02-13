@@ -3,7 +3,7 @@ const User = require("../userModel/user");
 async function registerUser(user) {
   try {
     const newUser = new User(user);
-    return await newUser.registerUser();
+    return await newUser._registerUser();
   } catch (error) {
     return {
       ok: false,

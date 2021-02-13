@@ -186,7 +186,7 @@ userSchema.methods.resetPassword = async function (password) {
  * @returns {object} Confirmation object with 'ok' property.
  * @method
  */
-userSchema.methods.encryptPassword = async function () {
+userSchema.methods._encryptPassword = async function () {
   try {
     this.password = await encryptPasswordWithSalt(this.password);
     return { ok: true };
@@ -203,7 +203,7 @@ userSchema.methods.encryptPassword = async function () {
  * @returns {object} Response object with a valid token.
  * @method
  */
-userSchema.methods.registerUser = async function () {
+userSchema.methods._registerUser = async function () {
   try {
     await this.encryptPassword();
     await this.save();
