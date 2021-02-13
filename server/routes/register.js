@@ -49,11 +49,10 @@ router.post("/", function(req, res, next) {
 
 
 
-function isStringNullOREmptyORUndefined(field){
-    if(typeof field === undefined || typeof field === null || field === "")
-        return true;
-    else 
-        return false;
+function isStringNullOREmptyORUndefined(field) {
+  if (typeof field === undefined || typeof field === null || field === "")
+    return true;
+  else return false;
 }
 
 function validateRequest(field){
@@ -67,18 +66,15 @@ function validateRequest(field){
         return {"error": "Email parameter is required"};
     }
 
-    return {"valid":true};
+  return { valid: true };
 }
 
-function isPasswordValid(password){
-    if(password.length > 6){
-        return {"valid":true};
-    } else {
-        return false;
-    }
+function isPasswordValid(password) {
+  if (password.length > 6) {
+    return { valid: true };
+  } else {
+    return false;
+  }
 }
 
 module.exports = router;
-
-
-
