@@ -4,7 +4,6 @@ import { BrowserRouter, Route, Redirect } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 
 import { theme } from "./themes/theme";
-import LandingPage from "./pages/Landing";
 
 import { reducer as userReducer, initialState as userInitialState } from "./store/UserReducer";
 
@@ -28,7 +27,7 @@ function App() {
           <Route exact path="/">
             {loggedIn ? <Redirect to="/dashboard" /> : <Redirect to="/login" />}
           </Route>
-          <Route path="/dashboard" exact component={LandingPage} />
+          <Route path="/dashboard" exact component={LoginPage} />
           <Route path="/login" exact component={LoginPage} />
           <Route path="/signup" exact component={SignupPage} />
         </BrowserRouter>

@@ -82,16 +82,14 @@ export default function LoginPage() {
     }
   };
 
-  useEffect(() => {
-    console.log(state);
-  }, [state]);
+  
 
   const classes = useStyles();
 
   const formik = useFormik({
     initialValues: {
-      email: "foobar@example.com",
-      password: "foobar",
+      email: "",
+      password: "",
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {

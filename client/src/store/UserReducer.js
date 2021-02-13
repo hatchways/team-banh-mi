@@ -10,6 +10,32 @@ const initialState = {
 
 const reducer = (state, action) => {
   switch (action.type) {
+    case "SIGNUP_ACTION":
+      return {
+        loading: true,
+        message: "Registering user...",
+        showSnack: false,
+        user: {
+          loggedIn: false,
+        },
+        error: false,
+      };
+    case "SIGNUP_SUCCESS":
+      return {
+        loading: false,
+        message: "Sign up was successful",
+        showSnack: true,
+        user: { ...action.payload, loggedIn: true },
+        error: false,
+      };
+    case "SIGNUP_ERROR":
+      return {
+        loading: false,
+        message: action.payload,
+        showSnack: true,
+        user: {loggedIn: false},
+        error: true,
+      };
     case "LOGIN_ACTION":
       return {
         loading: true,
