@@ -41,7 +41,7 @@ const databaseErrorHandler = (error) => {
     );
     errorObject.errorMessage = errorMessages;
     // duplicate email
-  } else if (err.code === 11000) {
+  } else if (error.code === 11000) {
     errorObject.errorMessage = `The email ${this.email} already exists.`;
   }
   return errorObject;

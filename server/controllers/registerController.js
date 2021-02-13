@@ -1,22 +1,16 @@
-const db = require("../userModel");
-const User = db.user;
-const { createNewUser, generateAuthToken } = require("../userModel/userData");
-const hp = require("../utils/hasProperty");
+const User = require("../userModel/user");
 
-function registerUser(field) {
-  const result = createNewUser(field);
-
-  if (!result.ok) {
+async function registerUser(user) {
+  try {
+    const newUser = new User(user);
+    return await newUser.registerUser();
+  } catch (error) {
     return {
-      ...result,
+      ok: false,
       status: "500",
-      errorMessage: "User registration failed",
+      errorMessage: error,
     };
   }
-
-  const token = generateAuthToken(user);
-
-  return { token: token };
 }
 
 exports.registerUser = registerUser;

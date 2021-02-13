@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const { databaseErrorHandler } = require("../utils/database");
-const { encryptPasswordWithSalt } = require("./userData");
+const { encryptPasswordWithSalt, generateAuthToken } = require("./userData");
 
 /**
  * User Schema.
@@ -200,14 +200,15 @@ userSchema.methods.encryptPassword = async function () {
  * and store it into the database. This operation will fail if either operation
  * fails.
  *
- * @returns {string} ID number of the new user.
+ * @returns {object} Response object with a valid token.
  * @method
  */
-userSchema.methods.processAndSaveUser = async function () {
+userSchema.methods.registerUser = async function () {
   try {
     await this.encryptPassword();
     await this.save();
-    return { ok: true };
+    const token = generateAuthToken(this);
+    return { token };
   } catch (err) {
     return databaseErrorHandler(err);
   }
