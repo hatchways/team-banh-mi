@@ -12,16 +12,15 @@ function isPasswordValid(plaintextPassword, hash) {
   return bcrypt.compare(plaintextPassword, hash);
 }
 
-async function createNewUserObject(user) {
+async function createNewUser({ email, companyName, password }) {
   try {
     const newUser = new User({
-      email: user.email,
-      companyName: user.companyName,
-      password: await encryptPasswordWithSalt(user.password),
-      isActive: true,
+      email,
+      companyName,
+      password,
     });
 
-    return newUser;
+    await newUser.processAndSaveUser();
   } catch (error) {
     console.error(error);
   }
@@ -60,5 +59,5 @@ exports.encryptPasswordWithSalt = encryptPasswordWithSalt;
 exports.isPasswordValid = isPasswordValid;
 exports.findDataByEmail = findDataByEmail;
 exports.saveDataToUserModel = saveDataToUserModel;
-exports.createNewUserObject = createNewUserObject;
+exports.createNewUser = createNewUser;
 exports.generateAuthToken = generateAuthToken;
