@@ -44,7 +44,7 @@ const MentionSchema = new mongoose.Schema({
  * @property {string} date - date of the Mention.
  * @property {string} popularity - popularity of the Mention.
  */
-const Mention = mongoose.model("Mention", MentionSchema);
+module.exports = mongoose.model("Mention", MentionSchema);
 
 /**
  * Given a Mention object, produce the mongoose model of a Mention. If Mention object is
@@ -57,10 +57,10 @@ const Mention = mongoose.model("Mention", MentionSchema);
  * @property {string} date - date of the Mention.
  * @returns {object|string}
  */
-const createNewMention = ({ content, companyName, platform }) => {
-  if (!content || !companyName || !platform)
-    return "Mention must have content, companyName and platform properties.";
-  return new Mention({ content, title, platform, image, date, popularity });
-};
+// const createNewMention = ({ content, companyName, platform }) => {
+//   if (!content || !companyName || !platform)
+//     return "Mention must have content, companyName and platform properties.";
+//   return new Mention({ content, title, platform, image, date, popularity });
+// };
 
-module.exports = { createNewMention };
+// module.exports = { createNewMention };
