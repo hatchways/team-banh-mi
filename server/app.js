@@ -6,8 +6,7 @@ const logger = require("morgan");
 const loginRouter = require("./routes/login");
 const registerRouter = require("./routes/register");
 const indexRouter = require("./routes/index");
-
-const db = require("./userModel");
+const { connectDB, disconnectDB } = require("./utils/database");
 
 const { json, urlencoded } = express;
 
@@ -19,8 +18,8 @@ app.use(urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(join(__dirname, "public")));
 
-db.mongoose.connect("mongodb://localhost:27017/userDB", {useNewUrlParser: true});
-
+// TODO: Change this in production. Remove the argument.
+connectDB("test");
 
 app.use("/", indexRouter);
 
@@ -33,7 +32,6 @@ app.use("/", indexRouter);
 });*/
 app.use("/login", loginRouter);
 app.use("/register", registerRouter);
-
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

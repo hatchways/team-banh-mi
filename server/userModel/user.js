@@ -1,7 +1,5 @@
 const mongoose = require("mongoose");
-const { createNewUserObject, saveDataToUserModel } = require("./userData");
-
-// mongoose.connect("mongodb://localhost:27017/userDB", { useNewUrlParser: true });
+const { encryptedPasswordWithSalt } = require("./userData");
 
 /**
  * User Schema.
@@ -22,6 +20,7 @@ const userSchema = new mongoose.Schema({
   password: {
     type: String,
     required: true,
+    min: [6, "Password must be at least 6 characters"],
   },
 });
 
@@ -33,43 +32,15 @@ const userSchema = new mongoose.Schema({
  * applied.
  */
 function softDeletionPlugin(schema) {
-  schema.path("isActive", Boolean).default(true);
-  console.log(schema);
+  schema.add({ isActive: Boolean });
+  schema.pre("save", function (next) {
+    this.isActive = true;
+    next();
+  });
 }
 
 /** Applying the softDeletion plugin to the userSchema */
 userSchema.plugin(softDeletionPlugin);
-
-/**
- * Given a user object, validate the user using it's model's schema, produce
- * the new user's instance of a user and upload it to the database. If user
- * object is missing either email, companyName or password, will return a usage
- * string.
- *
- * @param {object} user - user object.
- * @property {string} email - the user's email.
- * @property {string} companyName - the user's company name.
- * @property {string} password - the user's password.
- * @returns {object|string}
- */
-userSchema.statics.createUser = async function ({
-  email,
-  companyName,
-  password,
-}) {
-  try {
-    await User.validate({ email, companyName }, ["email", "companyName"]);
-    const newUser = createNewUserObject({ email, companyName, password });
-    return saveDataToUserModel(newUser);
-  } catch (err) {
-    if (err instanceof mongoose.Error.ValidationError) {
-      const errorMessages = Object.keys(err.errors).map(
-        (key) => `Validation Error: ${key} needs to be present.`
-      );
-      return errorMessages.join("\n");
-    }
-  }
-};
 
 /**
  * Produce an array of active users (not soft-deleted).
@@ -136,7 +107,7 @@ userSchema.methods.softDelete = function () {
     { email: this.email },
     { isActive: false },
     (err, res) => {
-      if (error) return false;
+      if (err) return false;
       return res;
     }
   );
@@ -179,24 +150,75 @@ userSchema.methods.getCompanyName = function () {
  */
 userSchema.methods.setCompanyName = function (companyName) {
   return User.updateOne({ email: this.email }, { companyName }, (err, res) => {
-    if (error) return false;
+    if (err) return false;
     return res;
   });
 };
 
 /**
- * Given a company name, set the current user's instance company to be the
- * given company name.
+ * Given a password, hash the given password and update the current user
+ * instance to be the hashed password.
  *
  * @param {string} password - the new password.
  * @returns {boolean|mongoose.Query} false if operation failed.
  * @method
  */
-userSchema.methods.resetPassword = function (password) {
-  return User.updateOne({ email: this.email }, { password }, (error, res) => {
-    if (error) return false;
-    return res;
-  });
+userSchema.methods.resetPassword = async function (password) {
+  try {
+    const hashedPass = await encryptedPasswordWithSalt(password);
+    return User.updateOne(
+      { email: this.email },
+      { password: hashedPass },
+      (error, res) => {
+        if (error) return false;
+        return res;
+      }
+    );
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+/**
+ * Encrypt the password of the user's instance.
+ *
+ * @returns {void}
+ * @method
+ */
+userSchema.methods.encryptPassword = async function () {
+  try {
+    this.password = await encryptedPasswordWithSalt(this.password);
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+/**
+ * Validate the user instance using it's model's schema, encrypt it's password
+ * and store it into the database. This operation will fail if either operation
+ * fails.
+ *
+ * @returns {string} ID number of the new user.
+ * @method
+ */
+userSchema.methods.processAndSaveUser = async function () {
+  try {
+    await this.encryptPassword();
+    await this.save();
+  } catch (err) {
+    // validation error
+    if (err instanceof mongoose.Error.ValidationError) {
+      const errorMessages = Object.keys(err.errors).map(
+        (key) => `Validation Error: ${key}.`
+      );
+      return errorMessages.join("\n");
+      // duplicate email
+    } else if (err.code === 11000) {
+      console.error(`The email ${this.email} already exists.`);
+    }
+    // other errors
+    else console.error(err);
+  }
 };
 
 /**
