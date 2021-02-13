@@ -1,6 +1,8 @@
 const mongoose = require("mongoose");
+const bcrypt = require("bcrypt");
 
 const { DB_USER, DB_PASS, DB_NAME, DB_TEST_NAME } = process.env;
+const saltRounds = 10;
 
 /**
  * Opens a connection to the MongoDB Atlas instance used, using the
@@ -47,4 +49,19 @@ const databaseErrorHandler = (error) => {
   return errorObject;
 };
 
-module.exports = { connectDB, disconnectDB, databaseErrorHandler };
+/**
+ * Given a plain text password, produce it's hashed equivalent.
+ *
+ * @param {string} plaintextPassword - a plain text password.
+ * @returns {string} A hashed version of the given password.
+ */
+function encryptPasswordWithSalt(plaintextPassword) {
+  return bcrypt.hash(plaintextPassword, saltRounds);
+}
+
+module.exports = {
+  connectDB,
+  disconnectDB,
+  databaseErrorHandler,
+  encryptPasswordWithSalt,
+};

@@ -1,12 +1,7 @@
 const User = require("../models/user-model");
 const bcrypt = require("bcrypt");
-const saltRounds = 10;
 const jwt = require("jsonwebtoken");
 const { JWT_SECRET } = process.env;
-
-function encryptPasswordWithSalt(plaintextPassword) {
-  return bcrypt.hash(plaintextPassword, saltRounds);
-}
 
 function isPasswordValid(plaintextPassword, hash) {
   return bcrypt.compare(plaintextPassword, hash);
@@ -19,6 +14,5 @@ function generateAuthToken(user) {
   return token;
 }
 
-exports.encryptPasswordWithSalt = encryptPasswordWithSalt;
 exports.isPasswordValid = isPasswordValid;
 exports.generateAuthToken = generateAuthToken;
