@@ -7,19 +7,13 @@ const mongoose = require("mongoose");
 const indexRouter = require("./routes/index");
 const mentionRouter = require("./routes/mention");
 const pingRouter = require("./routes/ping");
-
+const { connectDB } = require("./utils/database");
 const { json, urlencoded } = express;
 
 const app = express();
 
 //Connect to DB
-mongoose.connect(
-  process.env.DB_CONNECT,
-  { useUnifiedTopology: true, useNewUrlParser: true },
-  () => {
-    console.log("Connected to db");
-  }
-);
+connectDB("test");
 
 app.use(logger("dev"));
 app.use(json());
