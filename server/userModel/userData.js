@@ -3,6 +3,7 @@ const bcrypt = require("bcrypt");
 const saltRounds = 10;
 const jwt = require("jsonwebtoken");
 const config = require("../config/auth.config");
+const { databaseErrorHandler } = require("../utils/database");
 
 function encryptPasswordWithSalt(plaintextPassword) {
   return bcrypt.hash(plaintextPassword, saltRounds);
@@ -20,9 +21,10 @@ async function createNewUser({ email, companyName, password }) {
       password,
     });
 
-    await newUser.processAndSaveUser();
+    const result = await newUser.processAndSaveUser();
+    if (result.ok) return result;
   } catch (error) {
-    console.error(error);
+    databaseErrorHandler(error);
   }
 }
 

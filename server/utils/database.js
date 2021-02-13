@@ -25,4 +25,26 @@ const connectDB = (environment = "prod") => {
  */
 const disconnectDB = () => mongoose.connection.close();
 
-module.exports = { connectDB, disconnectDB };
+/**
+ * Given an error object, produce an error object to facilitate error handling
+ * through the application.
+ *
+ * @param {object} error - the database error.
+ * @returns {object} Error object with an 'ok' property (boolean).
+ */
+const databaseErrorHandler = (error) => {
+  const errorObject = { ok: false, error };
+  // validation error
+  if (error instanceof mongoose.Error.ValidationError) {
+    const errorMessages = Object.keys(error.errors).map(
+      (key) => `Validation Error: ${key}.`
+    );
+    errorObject.errorMessage = errorMessages;
+    // duplicate email
+  } else if (err.code === 11000) {
+    errorObject.errorMessage = `The email ${this.email} already exists.`;
+  }
+  return errorObject;
+};
+
+module.exports = { connectDB, disconnectDB, databaseErrorHandler };

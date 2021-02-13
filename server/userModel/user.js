@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const { databaseErrorHandler } = require("../utils/database");
 const { encryptPasswordWithSalt } = require("./userData");
 
 /**
@@ -10,12 +11,12 @@ const { encryptPasswordWithSalt } = require("./userData");
 const userSchema = new mongoose.Schema({
   email: {
     type: String,
-    unique: true,
-    required: true,
+    unique: [true, "Email already exists"],
+    required: [true, "Email is required"],
   },
   companyName: {
     type: String,
-    required: true,
+    required: [true, "Company name is required"],
   },
   password: {
     type: String,
@@ -107,7 +108,7 @@ userSchema.methods.softDelete = function () {
     { email: this.email },
     { isActive: false },
     (err, res) => {
-      if (err) return false;
+      if (err) return databaseErrorHandler(err);
       return res;
     }
   );
@@ -124,7 +125,7 @@ userSchema.methods.softRecover = function () {
     { email: this.email },
     { isActive: true },
     (err, res) => {
-      if (err) return false;
+      if (err) return databaseErrorHandler(err);
       return res;
     }
   );
@@ -150,7 +151,7 @@ userSchema.methods.getCompanyName = function () {
  */
 userSchema.methods.setCompanyName = function (companyName) {
   return User.updateOne({ email: this.email }, { companyName }, (err, res) => {
-    if (err) return false;
+    if (err) return databaseErrorHandler(err);
     return res;
   });
 };
@@ -170,26 +171,27 @@ userSchema.methods.resetPassword = async function (password) {
       { email: this.email },
       { password: hashedPass },
       (error, res) => {
-        if (error) return false;
+        if (error) return databaseErrorHandler(error);
         return res;
       }
     );
   } catch (error) {
-    console.error(error);
+    return databaseErrorHandler(error);
   }
 };
 
 /**
  * Encrypt the password of the user's instance.
  *
- * @returns {void}
+ * @returns {object} Confirmation object with 'ok' property.
  * @method
  */
 userSchema.methods.encryptPassword = async function () {
   try {
     this.password = await encryptPasswordWithSalt(this.password);
+    return { ok: true };
   } catch (error) {
-    console.error(error);
+    return databaseErrorHandler(error);
   }
 };
 
@@ -205,19 +207,9 @@ userSchema.methods.processAndSaveUser = async function () {
   try {
     await this.encryptPassword();
     await this.save();
+    return { ok: true };
   } catch (err) {
-    // validation error
-    if (err instanceof mongoose.Error.ValidationError) {
-      const errorMessages = Object.keys(err.errors).map(
-        (key) => `Validation Error: ${key}.`
-      );
-      return errorMessages.join("\n");
-      // duplicate email
-    } else if (err.code === 11000) {
-      console.error(`The email ${this.email} already exists.`);
-    }
-    // other errors
-    else console.error(err);
+    return databaseErrorHandler(err);
   }
 };
 
