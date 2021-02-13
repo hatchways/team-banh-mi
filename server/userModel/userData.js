@@ -2,8 +2,8 @@ const User = require("./user");
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
 const jwt = require("jsonwebtoken");
-const config = require("../config/auth.config");
 const { databaseErrorHandler } = require("../utils/database");
+const { JWT_SECRET } = process.env;
 
 function encryptPasswordWithSalt(plaintextPassword) {
   return bcrypt.hash(plaintextPassword, saltRounds);
@@ -29,7 +29,7 @@ async function createNewUser({ email, companyName, password }) {
 }
 
 function generateAuthToken(user) {
-  const token = jwt.sign({ email: user.email }, config.secret, {
+  const token = jwt.sign({ email: user.email }, JWT_SECRET, {
     expiresIn: 86400, // 24 hours
   });
 
