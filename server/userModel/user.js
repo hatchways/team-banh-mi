@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const { encryptedPasswordWithSalt } = require("./userData");
+const { encryptPasswordWithSalt } = require("./userData");
 
 /**
  * User Schema.
@@ -165,7 +165,7 @@ userSchema.methods.setCompanyName = function (companyName) {
  */
 userSchema.methods.resetPassword = async function (password) {
   try {
-    const hashedPass = await encryptedPasswordWithSalt(password);
+    const hashedPass = await encryptPasswordWithSalt(password);
     return User.updateOne(
       { email: this.email },
       { password: hashedPass },
@@ -187,7 +187,7 @@ userSchema.methods.resetPassword = async function (password) {
  */
 userSchema.methods.encryptPassword = async function () {
   try {
-    this.password = await encryptedPasswordWithSalt(this.password);
+    this.password = await encryptPasswordWithSalt(this.password);
   } catch (error) {
     console.error(error);
   }

@@ -4,7 +4,7 @@ const saltRounds = 10;
 const jwt = require("jsonwebtoken");
 const config = require("../config/auth.config");
 
-function encryptedPasswordWithSalt(plaintextPassword) {
+function encryptPasswordWithSalt(plaintextPassword) {
   return bcrypt.hash(plaintextPassword, saltRounds);
 }
 
@@ -17,7 +17,7 @@ async function createNewUserObject(user) {
     const newUser = new User({
       email: user.email,
       companyName: user.companyName,
-      password: await encryptedPasswordWithSalt(user.password),
+      password: await encryptPasswordWithSalt(user.password),
       isActive: true,
     });
 
@@ -56,7 +56,7 @@ function generateAuthToken(user) {
   return token;
 }
 
-exports.encryptedPasswordWithSalt = encryptedPasswordWithSalt;
+exports.encryptPasswordWithSalt = encryptPasswordWithSalt;
 exports.isPasswordValid = isPasswordValid;
 exports.findDataByEmail = findDataByEmail;
 exports.saveDataToUserModel = saveDataToUserModel;
