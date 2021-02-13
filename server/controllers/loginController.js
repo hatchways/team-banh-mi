@@ -1,29 +1,14 @@
-const db = require("../userModel");
-const User = db.user;
-const UserData = require("../userModel/userData");
-const hp = require("../utils/hasProperty");
+const User = require("../userModel/user");
+const { isPasswordValid, generateAuthToken } = require("../userModel/userData");
 
-function loginUser(field) {
-  UserData.findDataByEmail(field.email, (result) => {
-    if (!hp.hasErrorProperty(result)) {
-      return { status: "500", result };
-    }
-
-    console.log(result);
-    if (!hp.hasUserProperty(result)) {
-      return { status: "404", error: "User Not found." };
-    }
-
-    const password = User.isPasswordValid(field.password, user.password);
-
-    if (!password) {
-      return { status: "401", error: "Invalid Password!" };
-    }
-
-    const token = UserData.generateAuthToken(result);
-
-    return { token: token };
-  });
+async function loginUser({ email, password }) {
+  const [user] = await User.findByEmail(email);
+  if (!user) return { status: 404, error: "User not found" };
+  if (user.error) return { status: 500, result: user };
+  const isValid = await isPasswordValid(password, user.password);
+  if (!isValid) return { status: 401, error: "Invalid password!" };
+  const token = generateAuthToken({ email });
+  return { token };
 }
 
 exports.loginUser = loginUser;
