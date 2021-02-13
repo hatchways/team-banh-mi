@@ -1,28 +1,40 @@
 const express = require("express");
 const router = express.Router();
-const Mention = require("../models/mention-model");
+const Mention = require("../models/Mention");
+const { mentionValidation } = require("../utils/validation");
 
 router.get("/", async (req, res) => {
-  try{
+  try {
     const result = await Mention.find();
-    res.status(200).send(result)
-  }catch(e){
-    res.status(400).send(e.message)
+    res.status(200).send(result);
+  } catch (e) {
+    res.status(400).send(e.message);
   }
 });
 
-router.get("/:id", async (req, res)=> {
-  try{
+router.get("/:id", async (req, res) => {
+  try {
     const result = await Mention.findById(req.params.id);
-    res.status(200).send(result)
-  }catch(e){
-    res.status(400).send(e.message)
+    res.status(200).send(result);
+  } catch (e) {
+    res.status(400).send(e);
   }
 });
 
 router.post("/", async (req, res) => {
-  try{
+  try {
     const { content, title, platform, image, date, popularity } = req.body;
+    const validationErrorsForMentionObject = mentionValidation({
+      content,
+      title,
+      platform,
+      image,
+      date,
+      popularity,
+    });
+    if(validationErrorsForMentionObject && validationErrorsForMentionObject.error){
+      return res.status(400).send(validationErrorsForMentionObject.error.details)//Return an array of error messages
+    }
     const mention = new Mention({
       content,
       title,
@@ -33,52 +45,61 @@ router.post("/", async (req, res) => {
     });
     const result = await mention.save();
     res.status(200).send(result);
-
-  }catch(e){
-    res.status(500).send(e.message)
+  } catch (e) {
+    res.status(500).send(e.message);
   }
 });
 
 router.delete("/:id", async (req, res) => {
-  try{
+  try {
     const mention = await Mention.findById(req.params.id);
-    const result = await mention.delete()
-    res.status(200).send(result)
-  }catch(e){
-    res.status(400).send(e.message)
+    const result = await mention.delete();
+    res.status(200).send(result);
+  } catch (e) {
+    res.status(400).send(e.message);
   }
 });
 router.put("/:id", async (req, res) => {
-  try{
+  try {
     const mention = await Mention.findById(req.params.id);
     const { content, title, platform, image, date, popularity } = req.body;
-    // const result = await Mention.updateOne({_id:req.params.id},{ content, title, platform, image, date, popularity })  
-    if(content){
-      mention.content = content
+    
+    const validationErrorsForMentionObject = mentionValidation({
+      content,
+      title,
+      platform,
+      image,
+      date,
+      popularity,
+    });
+    if(validationErrorsForMentionObject && validationErrorsForMentionObject.error){
+      return res.status(400).send(validationErrorsForMentionObject.error.details)//Return an array of error messages
     }
-    if(title){
-      mention.title = title
+
+    if (content) {
+      mention.content = content;
     }
-    if(platform){
-      mention.platform = platform
+    if (title) {
+      mention.title = title;
     }
-    if(image){
-      mention.image = image
+    if (platform) {
+      mention.platform = platform;
     }
-    if(date){
-      mention.date = date
+    if (image) {
+      mention.image = image;
     }
-    if(popularity){
-      mention.popularity = popularity
+    if (date) {
+      mention.date = date;
+    }
+    if (popularity) {
+      mention.popularity = popularity;
     }
 
     const result = await mention.save();
     res.status(200).send(result);
-  }catch(e){
+  } catch (e) {
     res.status(500).send(e.message);
-  } 
+  }
 });
-
-
 
 module.exports = router;

@@ -4,5 +4,5 @@
     "platform":"reddit",
     "date":"2021-02-12",
     "popularity":"5",
-    "image":"https://img.nbc.com/sites/nbcunbc/files/images/2021/2/12/210204_4306795_Today___Feb__12__2021.jpg?impolicy=nbc_com&imwidth=480&imdensity=1"
+    "image":""
 }
