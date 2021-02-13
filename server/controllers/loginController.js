@@ -3,10 +3,17 @@ const { isPasswordValid, generateAuthToken } = require("../userModel/userData");
 
 async function loginUser({ email, password }) {
   const [user] = await User.findByEmail(email);
-  if (!user) return { status: 404, error: "User not found" };
-  if (user.error) return { status: 500, result: user };
+  if (!user) return { ok: false, status: 404, errorMessage: "User not found" };
+  if (user.error)
+    return {
+      ok: false,
+      status: 500,
+      errorMessage: "Database error",
+      error: user.error,
+    };
   const isValid = await isPasswordValid(password, user.password);
-  if (!isValid) return { status: 401, error: "Invalid password!" };
+  if (!isValid)
+    return { ok: false, status: 401, errorMessage: "Invalid password!" };
   const token = generateAuthToken({ email });
   return { token };
 }
