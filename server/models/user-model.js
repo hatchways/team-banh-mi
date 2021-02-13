@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const { databaseErrorHandler } = require("../utils/database");
-const { encryptPasswordWithSalt, generateAuthToken } = require("./userData");
+const { encryptPasswordWithSalt, generateAuthToken } = require("../userModel/userData");
 
 /**
  * User Schema.

@@ -1,4 +1,4 @@
-const User = require("../userModel/user");
+const User = require("../models/user-model");
 const { isPasswordValid, generateAuthToken } = require("../userModel/userData");
 
 async function loginUser({ email, password }) {
