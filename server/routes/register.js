@@ -3,12 +3,10 @@ const router = express.Router();
 const verifyRegister = require("../middlewares/verifyRegister");
 const controller = require("../controllers/registerController");
 const auth = require("../middlewares/auth");
-const { token } = require("morgan");
 const hp = require("../utils/hasProperty");
 
 router.get("/",function(req,res){
     res.status(200).send({ message: "register page displayed successfully!" });
-    //res.render("register");
 });
 
 router.post("/", function(req, res, next) {
@@ -34,7 +32,7 @@ router.post("/", function(req, res, next) {
 
     res.cookie('x-auth-token', token, {
         expires: new Date(Date.now() + expiration),
-        secure: false, // set to true if your using https
+        secure: false, 
         httpOnly: true,
     });
 
@@ -43,8 +41,6 @@ router.post("/", function(req, res, next) {
         companyName: req.body.companyName,
         accessToken: token
     });
-    //res.redirect("main");
-    //res.status(201).render("main");
 });
 
 

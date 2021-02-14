@@ -16,7 +16,7 @@ router.post("/", function(req, res) {
 
     res.cookie('x-auth-token', token, {
         expires: new Date(Date.now() + expiration),
-        secure: false, // set to true if your using https
+        secure: false, 
         httpOnly: true,
     });
 
@@ -25,12 +25,6 @@ router.post("/", function(req, res) {
         companyName: req.body.companyName,
         accessToken: token
     });
-    //res.redirect("main");
 });
 
-router.get("/",function(req,res){
-    res.status(200).send({ message: "login page displayed successfully!" });
-    //res.redirect("main");
-});
- 
 module.exports = router;

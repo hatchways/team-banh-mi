@@ -22,7 +22,6 @@ app.use(express.static(join(__dirname, "public")));
 connectDB("test");
 
 app.use("/", indexRouter);
-
 app.use("/login", loginRouter);
 app.use("/register", registerRouter);
 
