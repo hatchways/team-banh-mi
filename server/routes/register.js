@@ -1,8 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const verifyRegister = require("../middlewares/verifyRegister");
 const controller = require("../controllers/registerController");
-const auth = require("../middlewares/auth");
 const hp = require("../utils/hasProperty");
 
 router.get("/",function(req,res){
@@ -13,8 +11,6 @@ router.post("/", function(req, res, next) {
     const message = validateRequest(req.body);
     if(!hp.hasValidProperty(message))
         return res.status(400).send(message);
-    
-    let result = verifyRegister.checkEmailExistedInModel(req,res,next);
 
     if(hp.hasStatusProperty(result)){
         res.status(result.status).send(result.error);
