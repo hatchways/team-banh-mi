@@ -10,7 +10,7 @@ async function loginUser(req,res) {
   console.log(user);
   if (!user) return res.status(404).send({ ok: false, errorMessage: "User not found" });
   if (user.error){
-    return res.status(404).send({ 
+    return res.status(500).send({ 
       ok: false,
       status: 500,
       errorMessage: "Database error",
