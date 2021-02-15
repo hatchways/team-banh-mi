@@ -3,7 +3,8 @@ const router = express.Router();
 const auth = require("../middleware/auth");
 
 router.get("/",function(req,res){
-    if(auth.verifyToken(req)){
+    const verified = auth.verifyToken(req);
+    if(verified){
         res.render("main");
     } else {
         res.redirect("/login");
