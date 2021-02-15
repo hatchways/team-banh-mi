@@ -3,7 +3,7 @@ const {
   databaseErrorHandler,
   encryptPasswordWithSalt,
 } = require("../utils/database");
-const { generateAuthToken } = require("../userModel/userData");
+const { generateAuthToken } = require("../utils/authentication");
 
 /**
  * User Schema.
@@ -211,12 +211,16 @@ userSchema.methods._encryptPassword = async function () {
  */
 userSchema.methods._registerUser = async function () {
   try {
+    console.log("_encryptPassword");
     await this._encryptPassword();
+    console.log("save");
     await this.save();
+    console.log("generateAuthToken b");
     const token = generateAuthToken(this);
-    return { token };
+    console.log("token");
+    return { token: token };
   } catch (err) {
-    return databaseErrorHandler(err);
+    return {err: databaseErrorHandler(err) };
   }
 };
 
