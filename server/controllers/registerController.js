@@ -1,5 +1,6 @@
 const User = require("../models/user-model");
 const cookie = require("../utils/cookies");
+const { generateAuthToken } = require("../utils/authentication");
 
 async function registerUser(req,res) {
   try {
@@ -7,12 +8,15 @@ async function registerUser(req,res) {
     if(error)
       return res.status(400).send(error);
     const newUser = new User(req.body);
-    console.log(newUser);
-    const {token,err} = await newUser._registerUser();
-    if(!token){
+    const {err,save} = await newUser.registerUser();
+    if(err){
       return res.status(500).send(err);
     }
     else{
+      const {token,err}= generateAuthToken(newUser.email);
+      if(err){
+        return res.status(404).send({ ok: false, errorMessage: "token not found" })
+      }
       res.cookie(cookie.getCookiesName(), token, cookie.generateCookiesObject());
       return res.status(201).send({
         email: req.body.email,

@@ -20,7 +20,7 @@ async function loginUser(req,res) {
   const isValid = await isPasswordValid(req.body.password, user.password);
   if (!isValid)
     return res.status(401).send({ ok: false, status: 401, errorMessage: "Invalid password!" });
-  const token = generateAuthToken(req.body.email);
+  const {token,err} = generateAuthToken(req.body.email);
   
   if(token){
     res.cookie(cookie.getCookiesName(), token, cookie.generateCookiesObject());  
@@ -29,6 +29,9 @@ async function loginUser(req,res) {
       companyName: user.companyName,
       accessToken: token
     });
+  }
+  else{
+    return res.status(404).send({ ok: false, errorMessage: "token not found" })
   }
 }
 

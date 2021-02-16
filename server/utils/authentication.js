@@ -24,10 +24,14 @@ function isPasswordValid(plaintextPassword, hash) {
  * @returns {string} The token signed with a secret key.
  */
 function generateAuthToken(user) {
-  const token = jwt.sign({ email: user.email }, JWT_SECRET, {
-    expiresIn: JWT_EXPIRES_MS
-  });
-  return token;
+  try{
+    const token = jwt.sign({ email: user.email }, JWT_SECRET, {
+      expiresIn: JWT_EXPIRES_MS
+    });
+    return {token:token};
+  } catch(error){
+    return {err:error};
+  }
 }
 
 module.exports = { isPasswordValid, generateAuthToken };
