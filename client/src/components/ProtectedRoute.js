@@ -1,10 +1,13 @@
 import React, { useContext } from "react";
 import { Redirect, Route } from "react-router-dom";
-import { AuthContext } from "...";
+import { authContext } from "...";
 
 const ProtectedRoute = ({ children, ...rest }) => {
   // Check if the user is authenticated with the useContext hook.
-  const { isAuthenticated } = useContext(AuthContext);
+  const { isAuthenticated, checkValidToken } = useContext(authContext);
+
+  // checkValidToken()
+
   return (
     <Route
       {...rest}
