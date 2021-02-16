@@ -7,8 +7,7 @@ import SettingsIcon from '@material-ui/icons/Settings';
 import SearchIcon from '@material-ui/icons/Search';
 const useStyles = makeStyles((theme) => ({
   root: {
-    flexGrow: 1,
-    position: 'stick',
+    flexGrow: 1
   },
 
   title: {
@@ -16,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
   
   },
   inputRoot: {
-    color: 'inherit',
+    color: 'Primary',
   },
   search: {
     position: 'relative',
