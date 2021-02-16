@@ -25,6 +25,8 @@ DB_TEST_NAME=testing-database-name
 DB_USER=my-database-username
 DB_PASS=my-database-password
 JWT_SECRET=secret-key
+COOKIES_EXPIRES_MS=cookies-expires-ms
+JWT_EXPIRES_MS=jwt-expires-ms
 ```
 
 You can then use the `connectDB` and `disconnectDB` functions provided in the

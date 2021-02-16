@@ -1,6 +1,6 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const { JWT_SECRET,JWT_EXPIRES } = process.env;
+const { JWT_SECRET,JWT_EXPIRES_MS } = process.env;
 
 /**
  * Given a plain text password and a hashed password, produce true if the plain
@@ -25,11 +25,9 @@ function isPasswordValid(plaintextPassword, hash) {
  */
 function generateAuthToken(user) {
   const token = jwt.sign({ email: user.email }, JWT_SECRET, {
-    expiresIn: JWT_EXPIRES
+    expiresIn: JWT_EXPIRES_MS
   });
   return token;
 }
-
-
 
 module.exports = { isPasswordValid, generateAuthToken };
