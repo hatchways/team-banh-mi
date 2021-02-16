@@ -15,7 +15,7 @@ async function registerUser(req,res) {
     else{
       const {token,err}= generateAuthToken(newUser.email);
       if(err){
-        return res.status(404).send({ ok: false, errorMessage: "token not found" })
+        return res.status(404).send({ ok: false, errorMessage: "Token not found" })
       }
       res.cookie(cookie.getCookiesName(), token, cookie.generateCookiesObject());
       return res.status(201).send({

@@ -7,7 +7,6 @@ const {
 
 async function loginUser(req,res) {
   const user = await User.findByEmail(req.body.email);
-  console.log(user);
   if (!user) return res.status(404).send({ ok: false, errorMessage: "User not found" });
   if (user.error){
     return res.status(500).send({ 
@@ -31,7 +30,7 @@ async function loginUser(req,res) {
     });
   }
   else{
-    return res.status(404).send({ ok: false, errorMessage: "token not found" })
+    return res.status(404).send({ ok: false, errorMessage: "Token not found" })
   }
 }
 
