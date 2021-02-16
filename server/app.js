@@ -3,9 +3,8 @@ const express = require("express");
 const { join } = require("path");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
-const loginRouter = require("./routes/login");
-const registerRouter = require("./routes/register");
 const indexRouter = require("./routes/index");
+const authRouter = require("./routes/auth");
 const { connectDB, disconnectDB } = require("./utils/database");
 
 const { json, urlencoded } = express;
@@ -22,8 +21,7 @@ app.use(express.static(join(__dirname, "public")));
 connectDB("test");
 
 app.use("/", indexRouter);
-app.use("/login", loginRouter);
-app.use("/register", registerRouter);
+app.use("/auth", authRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
