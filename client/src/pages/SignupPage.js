@@ -96,10 +96,6 @@ export default function SignupPage() {
     } catch (e) {
       dispatch({ type: "SIGNUP_ERROR", payload: e.message });
     }
-    // finally {
-    //   // await timer(2000);
-    //   dispatch({ type: "DEFAULT", payload: state.error });
-    // }
   };
 
   const classes = useStyles();

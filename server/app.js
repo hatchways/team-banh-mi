@@ -5,6 +5,7 @@ const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 const indexRouter = require("./routes/index");
 const authRouter = require("./routes/auth");
+const allowCors = require("./middlewares/cors");
 const { connectDB, disconnectDB } = require("./utils/database");
 
 const { json, urlencoded } = express;
@@ -16,6 +17,7 @@ app.use(json());
 app.use(urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(join(__dirname, "public")));
+app.use(allowCors);
 
 // TODO: Change this in production. Remove the argument.
 connectDB("test");

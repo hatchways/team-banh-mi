@@ -4,7 +4,6 @@ const { generateAuthToken } = require("../utils/authentication");
 
 async function registerUser(req, res) {
   try {
-    console.log(`--- [registerUser] req.body.email: ${req.body.email}`);
     const { error } = validateRequest(req.body);
     if (error) return res.status(400).send(error);
     const newUser = new User(req.body);
