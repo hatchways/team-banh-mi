@@ -15,9 +15,11 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexDirection: "row",
   },
-  media: {
-    height: "max",
-    width: 200,
+  image: {
+    height: 150,
+    width: 150,
+    flexShrink: 0,
+    flexGrow: 0,
   },
 }));
 
@@ -25,8 +27,8 @@ function Mention({ title, source, body, mood, imgSrc, imgAlt }) {
   const classes = useStyles();
 
   return (
-    <Card className={classes.root}>
-      <CardMedia className={classes.media} image={imgSrc} title={imgAlt} />
+    <Card className={classes.root} variant="outlined">
+      <CardMedia className={classes.image} image={imgSrc} title={imgAlt} />
       <CardContent>
         <MoodIcon mood={mood} />
         <MentionHeading title={title} source={source} />
