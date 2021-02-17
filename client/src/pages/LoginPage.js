@@ -47,12 +47,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const timer = (t) => {
-  return new Promise((res) => {
-    setTimeout(() => res(), t);
-  });
-};
-
 export default function LoginPage() {
   const { vertical, horizontal } = { vertical: "bottom", horizontal: "center" };
 
@@ -60,22 +54,36 @@ export default function LoginPage() {
 
   const login = async (user) => {
     dispatch({ type: "LOGIN_ACTION" });
-    //async login operation
     try {
-      await timer(1000);
-      if (Math.random() > 0.5) {
+      const myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
+
+      const urlencoded = new URLSearchParams();
+      urlencoded.append("email", user.email);
+      urlencoded.append("password", user.password);
+
+      const requestOptions = {
+        method: "POST",
+        headers: myHeaders,
+        body: urlencoded,
+        redirect: "follow",
+      };
+
+      const response = await fetch(
+        "http://localhost:3001/auth/login",
+        requestOptions
+      );
+      if (response.ok) {
         dispatch({
           type: "LOGIN_SUCCESS",
           payload: { email: user.email },
         });
+        console.log(response);
       } else {
-        throw new Error("User does not exist");
+        throw new Error("Error logging user");
       }
     } catch (e) {
       dispatch({ type: "LOGIN_ERROR", payload: e.message });
-    } finally {
-      await timer(2000);
-      dispatch({ type: "DEFAULT", payload: state.error });
     }
   };
 
@@ -87,9 +95,7 @@ export default function LoginPage() {
       password: "",
     },
     validationSchema: validationSchema,
-    onSubmit: (values) => {
-      login(values);
-    },
+    onSubmit: (values) => login(values),
   });
 
   const handleClose = () => {
