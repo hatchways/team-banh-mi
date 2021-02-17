@@ -78,6 +78,7 @@ export default function LoginPage() {
           type: "LOGIN_SUCCESS",
           payload: { email: user.email },
         });
+        console.log(response);
       } else {
         throw new Error("Error logging user");
       }
