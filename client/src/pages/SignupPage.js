@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import Grid from "@material-ui/core/Grid";
 import { Card, TextField, Snackbar } from "@material-ui/core";
 import { Button } from "@material-ui/core";
@@ -50,12 +50,6 @@ const useStyles = makeStyles((theme) => ({
     "margin-bottom": "2rem",
   },
 }));
-
-// const timer = (t) => {
-//   return new Promise((res) => {
-//     setTimeout(() => res(), t);
-//   });
-// };
 
 export default function SignupPage() {
   const { vertical, horizontal } = { vertical: "bottom", horizontal: "center" };
