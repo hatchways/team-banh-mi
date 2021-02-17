@@ -8,9 +8,7 @@ import { Link } from "react-router-dom";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import Alert from "../components/Alert";
-import { UserContext } from "../App"
-
-
+import { UserContext } from "../App";
 
 const validationSchema = yup.object({
   email: yup
@@ -49,7 +47,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-
 const timer = (t) => {
   return new Promise((res) => {
     setTimeout(() => res(), t);
@@ -59,7 +56,7 @@ const timer = (t) => {
 export default function LoginPage() {
   const { vertical, horizontal } = { vertical: "bottom", horizontal: "center" };
 
-  const {state,dispatch} = useContext(UserContext)
+  const { state, dispatch } = useContext(UserContext);
 
   const login = async (user) => {
     dispatch({ type: "LOGIN_ACTION" });
@@ -81,8 +78,6 @@ export default function LoginPage() {
       dispatch({ type: "DEFAULT", payload: state.error });
     }
   };
-
-  
 
   const classes = useStyles();
 
@@ -173,7 +168,9 @@ export default function LoginPage() {
                 </Button>
               </Grid>
               <Grid item>
-                <Link to="/signup" underline="none">Create Account</Link>
+                <Link to="/signup" underline="none">
+                  Create Account
+                </Link>
               </Grid>
             </Grid>
           </form>

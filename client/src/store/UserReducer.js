@@ -33,7 +33,7 @@ const reducer = (state, action) => {
         loading: false,
         message: action.payload,
         showSnack: true,
-        user: {loggedIn: false},
+        user: { loggedIn: false },
         error: true,
       };
     case "LOGIN_ACTION":
@@ -59,7 +59,7 @@ const reducer = (state, action) => {
         loading: false,
         message: action.payload,
         showSnack: true,
-        user: {loggedIn: false},
+        user: { loggedIn: false },
         error: true,
       };
     default:

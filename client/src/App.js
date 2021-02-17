@@ -5,7 +5,10 @@ import { makeStyles } from "@material-ui/core/styles";
 
 import { theme } from "./themes/theme";
 
-import { reducer as userReducer, initialState as userInitialState } from "./store/UserReducer";
+import {
+  reducer as userReducer,
+  initialState as userInitialState,
+} from "./store/UserReducer";
 
 import "./App.css";
 import LoginPage from "./pages/LoginPage";

@@ -1,7 +1,6 @@
 import React from "react";
-import MuiAlert from '@material-ui/lab/Alert';
+import MuiAlert from "@material-ui/lab/Alert";
 
-
-export default function Alert (props) {
+export default function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
-};
+}
