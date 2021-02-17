@@ -52,8 +52,6 @@ export default function LoginPage() {
 
   const { state, dispatch } = useContext(UserContext);
 
-  console.log(`login userContext.state: ${state.user.loggedIn}`);
-
   const login = async (user) => {
     dispatch({ type: "LOGIN_ACTION" });
     try {
@@ -80,7 +78,6 @@ export default function LoginPage() {
           type: "LOGIN_SUCCESS",
           payload: { email: user.email },
         });
-        console.log(response);
       } else {
         throw new Error("Error logging user");
       }
