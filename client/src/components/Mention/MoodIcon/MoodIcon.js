@@ -18,7 +18,7 @@ export default function MoodIcon(props) {
   const classes = useStyles();
 
   if (props.mood === "good") return <MoodIconSmile className={classes.icon} />;
-  if (props.mood === "med")
+  if (props.mood === "average")
     return <SentimentDissatisfiedIcon className={classes.icon} />;
   if (props.mood === "bad")
     return <SentimentVeryDissatisfiedIcon className={classes.icon} />;
