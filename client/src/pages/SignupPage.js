@@ -66,25 +66,33 @@ export default function SignupPage() {
     dispatch({ type: "SIGNUP_ACTION" });
     //async login operation
     try {
-      await fetch("http://127.0.0.1:3001/auth/register", {
+      const myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
+
+      const urlencoded = new URLSearchParams();
+      urlencoded.append("email", user.email);
+      urlencoded.append("companyName", user.company);
+      urlencoded.append("password", user.password);
+
+      const requestOptions = {
         method: "POST",
-        mode: "no-cors",
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-          // "Content-Type": "application/json",
-        },
-        body: user,
-      });
-      // const data = await response.json();
-      // await timer(1000);
-      // if (Math.random() > 0.5) {
-      //   dispatch({
-      //     type: "SIGNUP_SUCCESS",
-      //     payload: { email: user.email },
-      //   });
-      // } else {
-      //   throw new Error("Error registering user");
-      // }
+        headers: myHeaders,
+        body: urlencoded,
+        redirect: "follow",
+      };
+
+      const response = await fetch(
+        "http://localhost:3001/auth/register",
+        requestOptions
+      );
+      if (response.ok) {
+        dispatch({
+          type: "SIGNUP_SUCCESS",
+          payload: { email: user.email },
+        });
+      } else {
+        throw new Error("Error registering user");
+      }
     } catch (e) {
       dispatch({ type: "SIGNUP_ERROR", payload: e.message });
     }
@@ -103,9 +111,7 @@ export default function SignupPage() {
       password: "",
     },
     validationSchema: validationSchema,
-    onSubmit: async (values) => {
-      await signup(values);
-    },
+    onSubmit: (values) => signup(values),
   });
 
   const handleClose = () => {
