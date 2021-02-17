@@ -5,6 +5,7 @@ const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 const indexRouter = require("./routes/index");
 const authRouter = require("./routes/auth");
+const bullRouter = require("./routes/jobs");
 const { connectDB, disconnectDB } = require("./utils/database");
 
 const { json, urlencoded } = express;
@@ -22,6 +23,7 @@ connectDB("test");
 
 app.use("/", indexRouter);
 app.use("/auth", authRouter);
+app.use("/bull", bullRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
