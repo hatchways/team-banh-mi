@@ -14,12 +14,17 @@ const useStyles = makeStyles({
   },
 });
 
-export default function MoodIcon(props) {
+export default function MoodIcon({ mood }) {
   const classes = useStyles();
 
-  if (props.mood === "good") return <MoodIconSmile className={classes.icon} />;
-  if (props.mood === "average")
-    return <SentimentDissatisfiedIcon className={classes.icon} />;
-  if (props.mood === "bad")
-    return <SentimentVeryDissatisfiedIcon className={classes.icon} />;
+  switch (mood) {
+    case "good":
+      return <MoodIconSmile className={classes.icon} />;
+    case "average":
+      return <SentimentDissatisfiedIcon className={classes.icon} />;
+    case "bad":
+      return <SentimentVeryDissatisfiedIcon className={classes.icon} />;
+    default:
+      return null;
+  }
 }
