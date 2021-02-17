@@ -51,11 +51,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const timer = (t) => {
-  return new Promise((res) => {
-    setTimeout(() => res(), t);
-  });
-};
+// const timer = (t) => {
+//   return new Promise((res) => {
+//     setTimeout(() => res(), t);
+//   });
+// };
 
 export default function SignupPage() {
   const { vertical, horizontal } = { vertical: "bottom", horizontal: "center" };
@@ -66,21 +66,32 @@ export default function SignupPage() {
     dispatch({ type: "SIGNUP_ACTION" });
     //async login operation
     try {
-      await timer(1000);
-      if (Math.random() > 0.5) {
-        dispatch({
-          type: "SIGNUP_SUCCESS",
-          payload: { email: user.email },
-        });
-      } else {
-        throw new Error("Error registering user");
-      }
+      await fetch("http://127.0.0.1:3001/auth/register", {
+        method: "POST",
+        mode: "no-cors",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+          // "Content-Type": "application/json",
+        },
+        body: user,
+      });
+      // const data = await response.json();
+      // await timer(1000);
+      // if (Math.random() > 0.5) {
+      //   dispatch({
+      //     type: "SIGNUP_SUCCESS",
+      //     payload: { email: user.email },
+      //   });
+      // } else {
+      //   throw new Error("Error registering user");
+      // }
     } catch (e) {
       dispatch({ type: "SIGNUP_ERROR", payload: e.message });
-    } finally {
-      await timer(2000);
-      dispatch({ type: "DEFAULT", payload: state.error });
     }
+    // finally {
+    //   // await timer(2000);
+    //   dispatch({ type: "DEFAULT", payload: state.error });
+    // }
   };
 
   const classes = useStyles();
@@ -92,12 +103,11 @@ export default function SignupPage() {
       password: "",
     },
     validationSchema: validationSchema,
-    onSubmit: (values) => {
-      signup(values);
+    onSubmit: async (values) => {
+      await signup(values);
     },
   });
 
-  
   const handleClose = () => {
     console.log("Snackbar gone");
   };
