@@ -4,7 +4,7 @@ import { Card, TextField, Snackbar } from "@material-ui/core";
 import { Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { Typography } from "@material-ui/core";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import Alert from "../components/Alert";
@@ -107,6 +107,8 @@ export default function SignupPage() {
   const handleClose = () => {
     console.log("Snackbar gone");
   };
+
+  if (state.user.loggedIn) return <Redirect to="/dashboard" />;
 
   return (
     <Grid
