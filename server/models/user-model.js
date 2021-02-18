@@ -212,9 +212,9 @@ userSchema.methods.registerUser = async function () {
   try {
     await this._encryptPassword();
     await this.save();
-    return {save:true};
+    return { save: true };
   } catch (err) {
-    return {err: databaseErrorHandler(err) };
+    return { err: databaseErrorHandler(err) };
   }
 };
 
