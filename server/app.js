@@ -3,9 +3,9 @@ const express = require("express");
 const { join } = require("path");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
-
 const indexRouter = require("./routes/index");
-const pingRouter = require("./routes/ping");
+const authRouter = require("./routes/auth");
+const { connectDB, disconnectDB } = require("./utils/database");
 
 const { json, urlencoded } = express;
 
@@ -17,8 +17,11 @@ app.use(urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(join(__dirname, "public")));
 
+// TODO: Change this in production. Remove the argument.
+connectDB("test");
+
 app.use("/", indexRouter);
-app.use("/ping", pingRouter);
+app.use("/auth", authRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
@@ -28,6 +31,7 @@ app.use(function (req, res, next) {
 // error handler
 app.use(function (err, req, res, next) {
   // set locals, only providing error in development
+
   res.locals.message = err.message;
   res.locals.error = req.app.get("env") === "development" ? err : {};
 
