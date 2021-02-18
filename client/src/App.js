@@ -12,7 +12,7 @@ function App() {
   return (
     <MuiThemeProvider theme={theme}>
       <BrowserRouter>
-        <Route path="/" component={DashBoard} />
+        <Route path="/" component={LandingPage} />
       </BrowserRouter>
     </MuiThemeProvider>
   );
