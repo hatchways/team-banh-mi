@@ -22,7 +22,7 @@ async function loginUser(req, res) {
     return res
       .status(401)
       .send({ ok: false, status: 401, errorMessage: "Invalid password!" });
-  const { token, err } = generateAuthToken(req.body.email);
+  const { token, err } = generateAuthToken(req.body);
 
   if (token) {
     res.cookie(cookie.getCookiesName(), token, cookie.generateCookiesObject());
