@@ -1,19 +1,42 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { Redirect, Route } from "react-router-dom";
-import { authContext } from "...";
+import { AuthContext } from "../context/authContext";
+import Cookie from "js-cookie";
 
-const ProtectedRoute = ({ children, ...rest }) => {
-  // Check if the user is authenticated with the useContext hook.
-  const { isAuthenticated, checkValidToken } = useContext(authContext);
+const ProtectedRoute = ({ component: Comp, path, ...rest }) => {
+  const { isAuthenticated, login, logout } = useContext(AuthContext);
 
-  // checkValidToken()
+  useEffect(() => {
+    const checkTokenValidity = async () => {
+      try {
+        const cookie = Cookie.get("x-auth-token");
+        if (!cookie) throw new Error("No valid cookie");
+        const urlencoded = new URLSearchParams();
+        urlencoded.append("token", cookie);
+        const response = await fetch("http://localhost:3001/auth/checkAuth", {
+          method: "POST",
+          credentials: "same-origin",
+          body: urlencoded,
+        });
+        const isTokenValid = await response.json();
+        if (isTokenValid) login();
+        if (!isTokenValid) throw new Error("Token was invalid");
+      } catch (error) {
+        Cookie.remove("x-auth-token");
+        logout();
+        console.error(error);
+      }
+    };
+    checkTokenValidity();
+  }, []);
 
   return (
     <Route
+      path={path}
       {...rest}
-      render={() => {
+      render={(props) => {
         if (!isAuthenticated) return <Redirect to="/login" />;
-        return children;
+        return <Comp {...props} />;
       }}
     />
   );

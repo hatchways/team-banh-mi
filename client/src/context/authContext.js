@@ -1,24 +1,20 @@
 import React, { createContext, useState } from "react";
 
-export const UserContext = createContext({
+export const AuthContext = createContext({
   isAuthenticated: false,
   login: () => {},
   logout: () => {},
 });
 
-const UserContextProvider = ({ children }) => {
+const AuthContextProvider = ({ children }) => {
   const [isAuth, setIsAuth] = useState(false);
 
-  const loginHandler = () => {
-    setIsAuth(true);
-  };
+  const loginHandler = () => setIsAuth(true);
 
-  const logoutHandler = () => {
-    setIsAuth(false);
-  };
+  const logoutHandler = () => setIsAuth(false);
 
   return (
-    <UserContext.Provider
+    <AuthContext.Provider
       value={{
         isAuthenticated: isAuth,
         login: loginHandler,
@@ -26,8 +22,8 @@ const UserContextProvider = ({ children }) => {
       }}
     >
       {children}
-    </UserContext.Provider>
+    </AuthContext.Provider>
   );
 };
 
-export default UserContextProvider;
+export default AuthContextProvider;
