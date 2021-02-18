@@ -1,6 +1,7 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import MoodIconSmile from "@material-ui/icons/SentimentSatisfiedOutlined";
+import SentimentSatisfiedIcon from "@material-ui/icons/SentimentSatisfied";
 import SentimentDissatisfiedIcon from "@material-ui/icons/SentimentDissatisfied";
 import SentimentVeryDissatisfiedIcon from "@material-ui/icons/SentimentVeryDissatisfied";
 
@@ -25,6 +26,6 @@ export default function MoodIcon({ mood }) {
     case "bad":
       return <SentimentVeryDissatisfiedIcon className={classes.icon} />;
     default:
-      return null;
+      return <SentimentSatisfiedIcon className={classes.icon} />;
   }
 }
