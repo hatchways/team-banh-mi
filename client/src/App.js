@@ -8,14 +8,13 @@ import { theme } from "./themes/theme";
 import {
   reducer as userReducer,
   initialState as userInitialState,
-} from "./store/UserReducer";
+} from "./store/authReducer";
 
 import "./App.css";
 import LoginPage from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage";
 import Dashboard from "./pages/Dashboard";
-
-export const UserContext = React.createContext();
+import UserContextProvider from "./context/userContext";
 
 function App() {
   const [userState, userDispatch] = useReducer(userReducer, userInitialState);
@@ -24,9 +23,7 @@ function App() {
 
   return (
     <MuiThemeProvider theme={theme}>
-      <UserContext.Provider
-        value={{ state: userState, dispatch: userDispatch }}
-      >
+      <UserContextProvider>
         <BrowserRouter>
           <Route exact path="/">
             {loggedIn ? <Redirect to="/dashboard" /> : <Redirect to="/login" />}
@@ -35,7 +32,7 @@ function App() {
           <Route path="/login" exact component={LoginPage} />
           <Route path="/signup" exact component={SignupPage} />
         </BrowserRouter>
-      </UserContext.Provider>
+      </UserContextProvider>
     </MuiThemeProvider>
   );
 }

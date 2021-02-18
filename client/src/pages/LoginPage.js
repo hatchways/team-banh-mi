@@ -8,7 +8,7 @@ import { Link, Redirect } from "react-router-dom";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import Alert from "../components/Alert";
-import { UserContext } from "../App";
+import { UserContext } from "../context/userContext";
 
 const validationSchema = yup.object({
   email: yup
@@ -50,7 +50,11 @@ const useStyles = makeStyles((theme) => ({
 export default function LoginPage() {
   const { vertical, horizontal } = { vertical: "bottom", horizontal: "center" };
 
-  const { state, dispatch } = useContext(UserContext);
+  const {
+    isAuthenticated,
+    login: loginContext,
+    logout: logoutContext,
+  } = useContext(UserContext);
 
   const login = async (user) => {
     dispatch({ type: "LOGIN_ACTION" });
