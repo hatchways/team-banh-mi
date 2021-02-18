@@ -39,24 +39,17 @@ const r = new snoowrap({
   password: 'bot3424'
 });
 
+
 r.search({
   query: 'burgerking',
   subreddit: 'all',
   sort: 'top'
-}).then((data) =>{
-  
+}).then((data) =>{ 
   data.forEach(element=>{
     console.log(element.title);
     console.log(element.selftext);
   }
     )
-    
-   
-    //console.log(data[property].title);
-    //console.log(data[property].selftext);
-  
- 
-
 }
 )
 //r.search({query: 'burgerking',subreddit: 'all',sort: 'top'}).map(post => post.title).then(console.log);
