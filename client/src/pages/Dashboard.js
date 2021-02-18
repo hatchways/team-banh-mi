@@ -5,8 +5,14 @@ import Button from "@material-ui/core/Button";
 import ButtonGroup from "@material-ui/core/ButtonGroup";
 // CSS
 
+<<<<<<< HEAD
 import { CardContent, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
+=======
+
+import { CardContent, Typography} from "@material-ui/core";
+import { makeStyles} from '@material-ui/core/styles';
+>>>>>>> reddit
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -49,6 +55,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 function DashBoard() {
   const classes = useStyles();
+
   return (
     <div className={classes.root}>
       <Navbar className={classes.navBar} />

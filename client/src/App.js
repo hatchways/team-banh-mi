@@ -35,7 +35,7 @@ function App() {
           <Route path="/login" exact component={LoginPage} />
           <Route path="/signup" exact component={SignupPage} />
         </BrowserRouter>
-      </UserContext.Provider>
+      </UserContext.Provider> 
     </MuiThemeProvider>
   );
 }

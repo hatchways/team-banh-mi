@@ -1,3 +1,4 @@
+
 const createError = require("http-errors");
 const express = require("express");
 const { join } = require("path");
@@ -9,6 +10,7 @@ const taskRouter = require("./routes/jobs");
 const allowCors = require("./middlewares/cors");
 const { connectDB, disconnectDB } = require("./utils/database");
 const  { createTaskQueue } = require("./utils/taskqueues");
+var snoowrap = require('snoowrap');
 
 const { json, urlencoded } = express;
 
@@ -29,10 +31,44 @@ createTaskQueue();
 app.use("/", indexRouter);
 app.use("/auth", authRouter);
 app.use("/task", taskRouter);
+const r = new snoowrap({
+  userAgent: 'webcrawler',
+  clientId: 'rwl4j4FrYnxqPA',
+  clientSecret: 'qZ1p1Cp8q2Va6gBv8A18oI2KZGrK0Q',
+  username: 'bot3424',
+  password: 'bot3424'
+});
 
+r.search({
+  query: 'burgerking',
+  subreddit: 'all',
+  sort: 'top'
+}).then((data) =>{
+  
+  data.forEach(element=>{
+    console.log(element.title);
+    console.log(element.selftext);
+  }
+    )
+    
+   
+    //console.log(data[property].title);
+    //console.log(data[property].selftext);
+  
+ 
+
+}
+)
+//r.search({query: 'burgerking',subreddit: 'all',sort: 'top'}).map(post => post.title).then(console.log);
+//r.search({query: 'burgerking',subreddit: 'all',sort: 'top'}).map(post => post.selftext).then(console.log);
+
+
+//title = r.search({query: 'burgerking',subreddit: 'all',sort: 'top'}).map(post => post.title).then(console.log);
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
+  
   next(createError(404));
+  
 });
 
 // error handler
@@ -48,3 +84,4 @@ app.use(function (err, req, res, next) {
 });
 
 module.exports = app;
+
