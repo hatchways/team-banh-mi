@@ -11,7 +11,7 @@ async function registerUser(req, res) {
     if (err) {
       return res.status(500).send(err);
     } else {
-      const { token, err } = generateAuthToken(newUser.email);
+      const { token, err } = generateAuthToken(newUser);
       if (err) {
         return res
           .status(404)

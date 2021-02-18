@@ -1,4 +1,5 @@
 import React, { useEffect, useContext } from "react";
+import Cookies from "js-cookie";
 import Grid from "@material-ui/core/Grid";
 import { Card, Snackbar, TextField } from "@material-ui/core";
 import { Button } from "@material-ui/core";
@@ -77,7 +78,9 @@ export default function LoginPage() {
         "http://localhost:3001/auth/login",
         requestOptions
       );
+      const data = await response.json();
       if (response.ok) {
+        Cookies.set("x-auth-token", data.accessToken);
         dispatch({
           type: "LOGIN_SUCCESS",
           payload: { email: user.email },
