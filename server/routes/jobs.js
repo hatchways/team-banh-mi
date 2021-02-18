@@ -1,14 +1,9 @@
 const express = require('express');
-const { resolve } = require("path");
 const  { createTaskQueue } = require("../utils/taskqueues");
 const router = express();
 let taskQueue = createTaskQueue();
 
-router.get('/', function(req, res){
-    res.sendFile('indexBull.html',{ root: resolve( "..", "client","src","bull") });
-});
-
-router.get('/job', async function(req, res){
+router.post('/job', async function(req, res){
     try{
         console.log("job");
     let job = await taskQueue.add();
@@ -18,7 +13,7 @@ router.get('/job', async function(req, res){
     }
 });
 
-router.get('/list-job', async function(req, res){
+router.post('/list-job', async function(req, res){
     try{
     let jobs = await taskQueue.getJobs();
     jobs.forEach(job => console.log(job.id));
