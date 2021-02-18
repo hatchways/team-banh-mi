@@ -1,6 +1,6 @@
 import React from "react";
 import { MuiThemeProvider } from "@material-ui/core";
-import { BrowserRouter, Route } from "react-router-dom";
+import { BrowserRouter, Redirect, Route } from "react-router-dom";
 
 import { theme } from "./themes/theme";
 
@@ -16,6 +16,7 @@ function App() {
     <MuiThemeProvider theme={theme}>
       <AuthContextProvider>
         <BrowserRouter>
+          <ProtectedRoute path="/" exact component={Dashboard} />
           <ProtectedRoute path="/dashboard" exact component={Dashboard} />
           <Route path="/login" exact component={LoginPage} />
           <Route path="/signup" exact component={SignupPage} />
