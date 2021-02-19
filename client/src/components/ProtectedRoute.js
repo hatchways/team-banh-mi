@@ -13,7 +13,7 @@ const ProtectedRoute = ({ component: Comp, path, ...rest }) => {
         if (!cookie) throw new Error("No valid cookie");
         const urlencoded = new URLSearchParams();
         urlencoded.append("token", cookie);
-        const response = await fetch("http://localhost:3001/auth/checkAuth", {
+        const response = await fetch("/auth/checkAuth", {
           method: "POST",
           credentials: "same-origin",
           body: urlencoded,
@@ -28,7 +28,7 @@ const ProtectedRoute = ({ component: Comp, path, ...rest }) => {
       }
     };
     checkTokenValidity();
-  }, []);
+  }, [login, logout]);
 
   return (
     <Route
