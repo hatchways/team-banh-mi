@@ -1,9 +1,11 @@
-import React, { useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { Redirect, Route } from "react-router-dom";
+import Spinner from './Spinner';
 import { AuthContext } from "../context/authContext";
 import Cookie from "js-cookie";
 
 const ProtectedRoute = ({ component: Comp, path, ...rest }) => {
+  const [loading, setLoading] = useState(true);
   const { isAuthenticated, login, logout } = useContext(AuthContext);
 
   useEffect(() => {
@@ -20,22 +22,25 @@ const ProtectedRoute = ({ component: Comp, path, ...rest }) => {
         });
         const isTokenValid = await response.json();
         if (isTokenValid) login();
+        setLoading(false);
         if (!isTokenValid) throw new Error("Token was invalid");
       } catch (error) {
         Cookie.remove("x-auth-token");
         logout();
+        setLoading(false);
         console.error(error);
       }
     };
     checkTokenValidity();
-  }, [login, logout]);
+  }, [login, logout, setLoading]);
 
   return (
     <Route
       path={path}
       {...rest}
       render={(props) => {
-        if (!isAuthenticated) return <Redirect to="/login" />;
+        if (loading) return <Spinner />
+        if (!isAuthenticated && !loading) return <Redirect to="/login" />;
         return <Comp {...props} />;
       }}
     />
