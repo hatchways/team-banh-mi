@@ -10,7 +10,7 @@ module.exports = {
       res.status(400).send(e.message);
     }
   },
-  getMentionById:async (req, res) => {
+  getMentionById: async (req, res) => {
     try {
       const result = await Mention.findById(req.params.id);
       res.status(200).send(result);
@@ -18,7 +18,16 @@ module.exports = {
       res.status(400).send(e);
     }
   },
-  createMention:async (req, res) => {
+  getMentionByCompanyName: async (req, res) => {
+    try {
+      const { companyName } = req.params;
+      const result = await Mention.find({ companyName });
+      res.status(200).send(result);
+    } catch (e) {
+      res.status(400).send(e.message);
+    }
+  },
+  createMention: async (req, res) => {
     try {
       const { content, title, platform, image, date, popularity } = req.body;
       const validationErrorsForMentionObject = mentionValidation({
@@ -55,7 +64,7 @@ module.exports = {
     try {
       const mention = await Mention.findById(req.params.id);
       const { content, title, platform, image, date, popularity } = req.body;
-  
+
       const validationErrorsForMentionObject = mentionValidation({
         content,
         title,
@@ -72,7 +81,7 @@ module.exports = {
           .status(400)
           .send(validationErrorsForMentionObject.error.details); //Return an array of error messages
       }
-  
+
       if (content) {
         mention.content = content;
       }
@@ -91,14 +100,14 @@ module.exports = {
       if (popularity) {
         mention.popularity = popularity;
       }
-  
+
       const result = await mention.save();
       res.status(200).send(result);
     } catch (e) {
       res.status(500).send(e.message);
     }
   },
-  deleteMention:async (req, res) => {
+  deleteMention: async (req, res) => {
     try {
       const mention = await Mention.findById(req.params.id);
       const result = await mention.delete();
@@ -106,5 +115,5 @@ module.exports = {
     } catch (e) {
       res.status(400).send(e.message);
     }
-  }
+  },
 };
