@@ -5,8 +5,11 @@ const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 const indexRouter = require("./routes/index");
 const mentionRouter = require("./routes/mention");
-const pingRouter = require("./routes/ping");
-const { connectDB } = require("./utils/database");
+const cors = require("cors");
+const authRouter = require("./routes/auth");
+const { connectDB, disconnectDB } = require("./utils/database");
+const { corsOptions } = require("./middlewares/cors");
+
 const { json, urlencoded } = express;
 
 const app = express();
@@ -17,12 +20,15 @@ connectDB("test");
 app.use(logger("dev"));
 app.use(json());
 app.use(urlencoded({ extended: false }));
-app.use(cookieParser());
 app.use(express.static(join(__dirname, "public")));
+app.use(cors(corsOptions));
+app.use(cookieParser());
+
+// TODO: Change this in production. Remove the argument.
+connectDB("test");
 
 app.use("/", indexRouter);
-app.use("/ping", pingRouter);
-app.use("/mention", mentionRouter);
+app.use("/auth", authRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
@@ -32,6 +38,7 @@ app.use(function (req, res, next) {
 // error handler
 app.use(function (err, req, res, next) {
   // set locals, only providing error in development
+
   res.locals.message = err.message;
   res.locals.error = req.app.get("env") === "development" ? err : {};
 
