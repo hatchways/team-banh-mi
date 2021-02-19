@@ -1,4 +1,5 @@
 import React, { useContext } from "react";
+import Cookies from "js-cookie";
 import Grid from "@material-ui/core/Grid";
 import { Card, TextField, Snackbar } from "@material-ui/core";
 import { Button } from "@material-ui/core";
@@ -79,7 +80,9 @@ export default function SignupPage() {
         "http://localhost:3001/auth/register",
         requestOptions
       );
+      const data = await response.json();
       if (response.ok) {
+        Cookies.set("x-auth-token", data.accessToken);
         dispatch({
           type: "SIGNUP_SUCCESS",
           payload: { email: user.email },
