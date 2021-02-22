@@ -9,6 +9,7 @@ const mentionValidation = (data) => {
     date: Joi.date().required(),
     popularity: Joi.optional(),
     image: Joi.optional(),
+    url: Joi.string().required()
   });
   return schema.validate(data);
 };
