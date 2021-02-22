@@ -12,12 +12,16 @@ const useStyles = makeStyles((theme) => ({
   root: {
     height: 65,
     padding: 20,
-    backgroundColor: "#6583F2",
+    backgroundColor: theme.palette.primary.main,
     boxShadow: 'none',
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
+  },
+
+  titleSpan: {
+    color: theme.palette.primary.dark
   },
 
   search: {
@@ -31,11 +35,12 @@ const useStyles = makeStyles((theme) => ({
   },
 
   searchIcon: {
-    color: '#6583F2',
+    color: theme.palette.primary.main,
+    marginRight: -12
   },
 
   settingsIcon: {
-    color: '#94A8F5',
+    color: theme.palette.primary.light,
   }
 }));
 
@@ -44,7 +49,7 @@ export default function Navbar() {
   return (
       <AppBar position="fixed" className={classes.root}>
         <Typography variant="h6" className={classes.title}>
-          mentions<span style={{ color: "#284097" }}>crawler.</span>
+          mentions<span className={classes.titleSpan}>crawler.</span>
         </Typography>
         <OutlinedInput
           color='#6583F2'
