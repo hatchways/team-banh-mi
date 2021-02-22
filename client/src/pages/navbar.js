@@ -52,10 +52,9 @@ export default function Navbar() {
           mentions<span className={classes.titleSpan}>crawler.</span>
         </Typography>
         <OutlinedInput
-          color='#6583F2'
           placeholder="Search…"
           className={classes.search}
-          InputProps={{ "aria-label": "search" }}
+          inputProps={{ "aria-label": "search" }}
           endAdornment={
             <InputAdornment position="end">
               <IconButton type="submit" className={classes.searchIcon} aria-label="search">
