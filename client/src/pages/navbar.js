@@ -1,83 +1,70 @@
-import { AppBar, Toolbar, Typography } from "@material-ui/core";
+import { AppBar, InputAdornment, OutlinedInput, IconButton, Typography } from "@material-ui/core";
 
 import React from "react";
 import { makeStyles, fade } from "@material-ui/core/styles";
 import InputBase from "@material-ui/core/InputBase";
 import SettingsIcon from "@material-ui/icons/Settings";
 import SearchIcon from "@material-ui/icons/Search";
+
+// Main color: #6583F2
+// Main-dark: #284097
+// Main-light: #94A8F5
+// White: #FFF
+
 const useStyles = makeStyles((theme) => ({
   root: {
-    flexGrow: 1,
+    height: 65,
+    padding: 20,
+    backgroundColor: "#6583F2",
+    boxShadow: 'none',
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
   },
 
-  title: {
-    flexGrow: 1,
-  },
-  inputRoot: {
-    color: "Primary",
-  },
   search: {
-    position: "relative",
-    borderRadius: theme.shape.borderRadius,
-    backgroundColor: fade(theme.palette.common.white, 0.15),
-    "&:hover": {
-      backgroundColor: fade(theme.palette.common.white, 0.25),
-    },
+    position: 'relative',
+    borderRadius: 100,
+    height: 40,
+    outline: 'none',
+    backgroundColor: theme.palette.common.white,
     marginRight: theme.spacing(2),
-    marginLeft: 0,
-    width: "100%",
-    [theme.breakpoints.up("sm")]: {
-      marginLeft: theme.spacing(3),
-      width: "auto",
-    },
-  },
-  searchIcon: {
-    padding: theme.spacing(0, 2),
-    height: "100%",
-    position: "absolute",
-    pointerEvents: "none",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
+    width: "40%",
   },
 
-  inputInput: {
-    padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
-    paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
-    transition: theme.transitions.create("width"),
-    width: "100%",
-    [theme.breakpoints.up("md")]: {
-      width: "40ch",
-    },
+  searchIcon: {
+    color: '#6583F2',
   },
+
+  settingsIcon: {
+    color: '#94A8F5',
+  }
 }));
 
 export default function Navbar() {
   const classes = useStyles();
   return (
-    <div className={classes.root}>
-      <AppBar position="fixed">
-        <Toolbar>
-          <Typography variant="h6" className={classes.title}>
-            mentions<span style={{ color: "black" }}>Crawler</span>
-          </Typography>
-          <div className={classes.search}>
-            <div className={classes.searchIcon}>
-              <SearchIcon />
-            </div>
-            <InputBase
-              placeholder="Search…"
-              classes={{
-                root: classes.inputRoot,
-                input: classes.inputInput,
-              }}
-              inputProps={{ "aria-label": "search" }}
-            />
-          </div>
+      <AppBar position="fixed" className={classes.root}>
+        <Typography variant="h6" className={classes.title}>
+          mentions<span style={{ color: "#284097" }}>crawler.</span>
+        </Typography>
+        <OutlinedInput
+          color='#6583F2'
+          placeholder="Search…"
+          className={classes.search}
+          InputProps={{ "aria-label": "search" }}
+          endAdornment={
+            <InputAdornment position="end">
+              <IconButton type="submit" className={classes.searchIcon} aria-label="search">
+                <SearchIcon />
+              </IconButton>
+            </InputAdornment>
+          }
+        />
+        <IconButton className={classes.settingsIcon} aria-label="settings">
           <SettingsIcon />
-        </Toolbar>
+        </IconButton>
       </AppBar>
-    </div>
   );
 }
