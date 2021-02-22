@@ -1,15 +1,12 @@
-import { AppBar, InputAdornment, OutlinedInput, IconButton, Typography } from "@material-ui/core";
-
 import React from "react";
-import { makeStyles, fade } from "@material-ui/core/styles";
-import InputBase from "@material-ui/core/InputBase";
+import { makeStyles } from "@material-ui/core/styles";
+import AppBar from '@material-ui/core/AppBar';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import OutlinedInput from '@material-ui/core/OutlinedInput';
+import IconButton from '@material-ui/core/IconButton';
+import Typography from '@material-ui/core/Typography';
 import SettingsIcon from "@material-ui/icons/Settings";
 import SearchIcon from "@material-ui/icons/Search";
-
-// Main color: #6583F2
-// Main-dark: #284097
-// Main-light: #94A8F5
-// White: #FFF
 
 const useStyles = makeStyles((theme) => ({
   root: {
