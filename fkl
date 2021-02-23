@@ -1,0 +1,232 @@
+[33mcommit 49fa080f19668055ad206a5cdb42c51531546ad1[m[33m ([m[1;36mHEAD -> [m[1;32mdev[m[33m, [m[1;31morigin/dev[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Merge: 5035d31 97341a3
+Author: John Sciutto <31010488+johnsciutto@users.noreply.github.com>
+Date:   Wed Feb 17 19:29:30 2021 -0500
+
+    Merge pull request #66 from hatchways/front-back-integration/john
+    
+    Front/back integration
+
+[33mcommit 97341a3c97af47e133b2817d5ac2ccc29a3afcb4[m
+Merge: 12b3144 5035d31
+Author: John Sciutto <johnsciutto@gmail.com>
+Date:   Wed Feb 17 19:27:31 2021 -0500
+
+    Merged dev to resolve conflicts
+
+[33mcommit 5035d31b32d670359d267c2cb5ff12133f39af5c[m
+Merge: 9a21e9c 5ce878d
+Author: John Sciutto <31010488+johnsciutto@users.noreply.github.com>
+Date:   Wed Feb 17 19:16:14 2021 -0500
+
+    Merge pull request #65 from hatchways/mention-ui
+    
+    General MentionsUI Finished
+
+[33mcommit 5ce878d9dacb880aa93dca5b3d5d5ddd89fad391[m
+Merge: 199080c 9a21e9c
+Author: John Sciutto <johnsciutto@gmail.com>
+Date:   Wed Feb 17 19:15:11 2021 -0500
+
+    Merged dev to resolve conflicts
+
+[33mcommit 199080c0d9f90d6278354b8b5f9f85cb8389a10c[m
+Author: John Sciutto <johnsciutto@gmail.com>
+Date:   Wed Feb 17 19:09:53 2021 -0500
+
+    Add default icon for mention
+
+[33mcommit 95606e2933ae64e43a8df1ee7d808bb1ae67011c[m
+Author: John Sciutto <johnsciutto@gmail.com>
+Date:   Wed Feb 17 17:56:18 2021 -0500
+
+    Fix image resizing issues
+
+[33mcommit ac07cc7cd6ad81cee5873aea86e4d74292eb8881[m
+Author: John Sciutto <johnsciutto@gmail.com>
+Date:   Wed Feb 17 17:50:27 2021 -0500
+
+    Fix ellipsis.
+    
+    Had to create them programmatically with javascript.
+
+[33mcommit 003f68a970ebbfc0153a70109311cfc05a830f29[m
+Author: John Sciutto <johnsciutto@gmail.com>
+Date:   Wed Feb 17 16:52:52 2021 -0500
+
+    Change if statement to switch statement
+
+[33mcommit 12b3144a5f165038a91a935b98e6bb09d7bdaf4f[m
+Author: John Sciutto <johnsciutto@gmail.com>
+Date:   Wed Feb 17 16:34:11 2021 -0500
+
+    Delete console log
+
+[33mcommit fd9ba5e929ec59a3084a2b96107561a5188c91b9[m
+Merge: 9c8ff2a 085f62f
+Author: John Sciutto <johnsciutto@gmail.com>
+Date:   Wed Feb 17 16:32:55 2021 -0500
+
+    Merging after a git pull
+
+[33mcommit 9c8ff2a1a120b306597b342819ff337e595d1151[m
+Author: John Sciutto <johnsciutto@gmail.com>
+Date:   Wed Feb 17 16:32:08 2021 -0500
+
+    Delete console logs
+
+[33mcommit 90ca815e7ad41f3b3ce0cc145128c7bafd1b84d1[m
+Author: John Sciutto <johnsciutto@gmail.com>
+Date:   Wed Feb 17 16:19:57 2021 -0500
+
+    Add missing package from package.json
+    
+    For some reason, it happened again that a package that was being used and had
+    been installed before (@material-ui/icons), didn't appear in the package.json.
+
+[33mcommit f111a7385dff70de6411168ec639a80c16dca109[m
+Author: John Sciutto <johnsciutto@gmail.com>
+Date:   Wed Feb 17 15:59:07 2021 -0500
+
+    Connect backend and frontend: login
+
+[33mcommit 085f62f8f1ccd23aba5790cd527d16515c00422b[m
+Author: John Sciutto <johnsciutto@gmail.com>
+Date:   Wed Feb 17 15:59:07 2021 -0500
+
+    Connect backend and frontend: login
+
+[33mcommit b3cac7b5d63bdfa915fcf3d4d936c89d201197bf[m
+Author: John Sciutto <johnsciutto@gmail.com>
+Date:   Wed Feb 17 15:45:09 2021 -0500
+
+    Eliminate comments and unused imports
+
+[33mcommit 61a1e2ae6d1396d9f6b7483853e33e6e5b6b8fd5[m
+Author: John Sciutto <johnsciutto@gmail.com>
+Date:   Wed Feb 17 15:44:07 2021 -0500
+
+    Add allowCors middleware for local usage.
+
+[33mcommit 734c15cdc02a97f4e45f605675602cda388b9708[m
+Author: John Sciutto <johnsciutto@gmail.com>
+Date:   Wed Feb 17 15:42:51 2021 -0500
+
+    Connect backend and frontend: signup
+
+[33mcommit ab19cdd30ff719515ae493e562f41a99c11dd811[m
+Author: John Sciutto <johnsciutto@gmail.com>
+Date:   Wed Feb 17 12:26:30 2021 -0500
+
+    Prettier linting changes. No other change.
+
+[33mcommit b2fef0935b554be0820692eb53bffbff56b647cd[m
+Author: John Sciutto <johnsciutto@gmail.com>
+Date:   Wed Feb 17 12:20:37 2021 -0500
+
+    MoodIcon: change 'med' to 'average'
+
+[33mcommit 7b98841fc3d51e7a1af0b906dea88099c85d1a1d[m
+Author: John Sciutto <johnsciutto@gmail.com>
+Date:   Wed Feb 17 11:49:06 2021 -0500
+
+    Testing signup-page. Ignore.
+
+[33mcommit 3de29417e025f871959a162f0905557f085dc5a9[m
+Merge: 004083f f45ed48
+Author: John Sciutto <johnsciutto@gmail.com>
+Date:   Tue Feb 16 18:56:28 2021 -0500
+
+    Merged login/signup-pages branch
+
+[33mcommit 26f6cb1431f1dc35592027e3e8441354ab4be240[m
+Author: John Sciutto <johnsciutto@gmail.com>
+Date:   Tue Feb 16 17:55:07 2021 -0500
+
+    Add prop-types for Mention
+
+[33mcommit 004083f26dcbd028b5b73d84b9e889f4bee6b74c[m
+Merge: 001a839 9a21e9c
+Author: John Sciutto <johnsciutto@gmail.com>
+Date:   Tue Feb 16 16:53:32 2021 -0500
+
+    Merge branch 'dev' into front-back-integration/john
+
+[33mcommit 35621b8455a0f1f4b24a107554191069b0ececd5[m
+Author: John Sciutto <johnsciutto@gmail.com>
+Date:   Tue Feb 16 16:44:00 2021 -0500
+
+    General MentionsUI Finished.
+    
+    I've yet to fix auto-clamping in body.
+    Probably have to tweek styles based on root styles of project.
+
+[33mcommit 9a21e9cb39e57827751d315707971fa757f2d27f[m
+Merge: a4abb03 e7cd1ee
+Author: Grishma shah <41707316+shahgrishma123@users.noreply.github.com>
+Date:   Tue Feb 16 16:31:37 2021 -0500
+
+    Merge pull request #62 from hatchways/backend-login-signup
+    
+    Backend login signup
+
+[33mcommit e7cd1ee883bd770101f4df8c2528f0187b48234b[m[33m ([m[1;31morigin/backend-login-signup[m[33m)[m
+Merge: 79e442a a4abb03
+Author: shahgrishma123 <shahgrishma123@gmail.com>
+Date:   Tue Feb 16 15:46:53 2021 -0500
+
+    Merge branch 'dev' into backend-login-signup
+
+[33mcommit 79e442a6aff30031809d8b07321528707e39cfe3[m
+Author: shahgrishma123 <shahgrishma123@gmail.com>
+Date:   Tue Feb 16 15:38:45 2021 -0500
+
+    remove comment from loginController
+
+[33mcommit a4abb03cf241af7e8b189767991964dc48716b5a[m[33m ([m[1;31morigin/bull-integration[m[33m)[m
+Merge: e569eb8 802adf1
+Author: HenryZou1 <39718373+HenryZou1@users.noreply.github.com>
+Date:   Tue Feb 16 14:05:32 2021 -0500
+
+    Merge pull request #61 from hatchways/henryBranch
+    
+    Henry branch
+
+[33mcommit 802adf155e56509737330ba8c662e9ae9792a58e[m[33m ([m[1;31morigin/henryBranch[m[33m, [m[1;32mhenryBranch[m[33m)[m
+Author: HenryZou1 <henryzou2@hotmail.com>
+Date:   Tue Feb 16 14:04:00 2021 -0500
+
+    movedCSSintoMakeStyle
+
+[33mcommit fb62a07eaf64af6d9e9d2b61904bf3dbce87bf49[m
+Author: shahgrishma123 <shahgrishma123@gmail.com>
+Date:   Tue Feb 16 13:30:39 2021 -0500
+
+    Moved geenrateAuthToken method to userRegister method to controller.Also throw some error from generateAuthToken
+
+[33mcommit c4b816399a1a1b5f489b6688cd770e455f6d7045[m
+Author: shahgrishma123 <shahgrishma123@gmail.com>
+Date:   Tue Feb 16 12:57:28 2021 -0500
+
+    Added auth.js in router file and removed login and regiser route from router folder.
+
+[33mcommit bc3d3c6ec78283c5d966474a5a06b9ad5bf25c2d[m
+Author: shahgrishma123 <shahgrishma123@gmail.com>
+Date:   Tue Feb 16 12:48:10 2021 -0500
+
+    Changed Cookies_Expire and JWT_expire name in file. updated Readme file.
+
+[33mcommit 001a8396cf235be7306f5839c8f02468204d3ab6[m
+Author: John Sciutto <johnsciutto@gmail.com>
+Date:   Tue Feb 16 12:28:20 2021 -0500
+
+    Mocked ProtectedRoute component.
+    
+    Not done. Waiting on a couple of branches to be merged into dev before
+    continuing.
+
+[33mcommit 34bde232d17f20f6b3a5af5e27bc1a5ef7792e00[m
+Author: shahgrishma123 <shahgrishma123@gmail.com>
+Date:   Sun Feb 14 20:34:37 2021 -0500
+
+    update readme file
