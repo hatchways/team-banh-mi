@@ -35,6 +35,7 @@ function redditSearch(query){
   data.forEach(element=>{
     date = new Date(element.created_utc*1000);
      createMention(element.selftext, element.title, "reddit", media(element.media_embed),date, element.ups, element.permalink);
+    
   }
     )
 }
