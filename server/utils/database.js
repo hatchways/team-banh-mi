@@ -46,11 +46,6 @@ const connectDB = (environment = "prod") => {
   const URI = `mongodb+srv://${DB_USER}:${DB_PASS}@cluster0.sd3mb.mongodb.net/${dbName}?retryWrites=true&w=majority`;
   const options = { useUnifiedTopology: true, useNewUrlParser: true };
   mongoose.connect(URI, options);
-  
- 
- 
- 
- 
 };
  
 function createMention(mentionBody, mentionTitle, mentionPlatform, mentionImage, mentionDate, mentionPopularity, mentionUrl){
@@ -58,10 +53,13 @@ function createMention(mentionBody, mentionTitle, mentionPlatform, mentionImage,
   newMention.save(function (err) { if (err) return console.error(err);});
 }
 function getMention(){
-  mention.find(function (err, mention) {
+  let ans =[];
+  ans.push(mention.find(function (err, mention) {
   if (err) return console.error(err);
-    console.log(mention);
-  })
+    return mention;
+  }))
+  
+  return ans;
 }
 
 /**

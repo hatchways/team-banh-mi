@@ -8,7 +8,7 @@ require("dotenv").config({ path: join(__dirname, ".env") });
 
 const indexRouter = require("./routes/index");
 var snoowrap = require('snoowrap');
-const { createMention, connectDB } = require("./utils/database");
+const { createMention, connectDB, getMention } = require("./utils/database");
 const { NONAME } = require("dns");
 
 const { json, urlencoded } = express;
@@ -31,6 +31,8 @@ const r = new snoowrap({
 });
 connectDB("test");
 redditSearch('burgerking');
+
+//getMention();
 function redditSearch(query){
   r.search({query: query,subreddit: 'all',sort: 'top'}).then((data) =>{
   data.forEach(element=>{
