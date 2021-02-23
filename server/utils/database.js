@@ -1,7 +1,37 @@
 const mongoose = require("mongoose");
+const bcrypt = require("bcrypt");
 
 const { DB_USER, DB_PASS, DB_NAME, DB_TEST_NAME } = process.env;
+const saltRounds = 10;
+const mentionSchema = new mongoose.Schema({
+  content: {
+    type: String,
+ 
+  },
+  title: {
+    type: String,
+    required: true,
+  },
+  platform: {
+    type: String,
+    required: true,
+  },
+  image: {
+    type: String,
+  },
+  date: {
+    type: String,
+    required: true,
+  },
+  popularity: {
+    type: String,
+  },
+  url: {
+    type:String,
+  }
 
+});
+const mention = mongoose.model('mention', mentionSchema);
 /**
  * Opens a connection to the MongoDB Atlas instance used, using the
  * individual login credentials created in the root environment file.
@@ -16,7 +46,23 @@ const connectDB = (environment = "prod") => {
   const URI = `mongodb+srv://${DB_USER}:${DB_PASS}@cluster0.sd3mb.mongodb.net/${dbName}?retryWrites=true&w=majority`;
   const options = { useUnifiedTopology: true, useNewUrlParser: true };
   mongoose.connect(URI, options);
+  
+ 
+ 
+ 
+ 
 };
+ 
+function createMention(mentionBody, mentionTitle, mentionPlatform, mentionImage, mentionDate, mentionPopularity, mentionUrl){
+  const newMention = new mention({content: mentionBody, title: mentionTitle, platform: mentionPlatform, image: mentionImage,date: "hello", popularity:mentionPopularity, url: mentionUrl});
+  newMention.save(function (err) { if (err) return console.error(err);});
+}
+function getMention(){
+  mention.find(function (err, mention) {
+  if (err) return console.error(err);
+    console.log(mention);
+  })
+}
 
 /**
  * Closes the default mongoose connection.
@@ -25,4 +71,43 @@ const connectDB = (environment = "prod") => {
  */
 const disconnectDB = () => mongoose.connection.close();
 
-module.exports = { connectDB, disconnectDB };
+/**
+ * Given an error object, produce an error object to facilitate error handling
+ * through the application.
+ *
+ * @param {object} error - the database error.
+ * @returns {object} Error object with an 'ok' property (boolean).
+ */
+const databaseErrorHandler = (error) => {
+  const errorObject = { ok: false, error };
+  // validation error
+  if (error instanceof mongoose.Error.ValidationError) {
+    const errorMessages = Object.keys(error.errors).map(
+      (key) => `Validation Error: ${key}.`
+    );
+    errorObject.errorMessage = errorMessages;
+    // duplicate email
+  } else if (error.code === 11000) {
+    errorObject.errorMessage = `The email ${this.email} already exists.`;
+  }
+  return errorObject;
+};
+
+/**
+ * Given a plain text password, produce it's hashed equivalent.
+ *
+ * @param {string} plaintextPassword - a plain text password.
+ * @returns {string} A hashed version of the given password.
+ */
+function encryptPasswordWithSalt(plaintextPassword) {
+  return bcrypt.hash(plaintextPassword, saltRounds);
+}
+
+module.exports = {
+  connectDB,
+  disconnectDB,
+  databaseErrorHandler,
+  encryptPasswordWithSalt,
+  createMention,
+  getMention
+};

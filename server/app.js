@@ -8,6 +8,7 @@ require("dotenv").config({ path: join(__dirname, ".env") });
 
 const indexRouter = require("./routes/index");
 var snoowrap = require('snoowrap');
+const { createMention } = require("./utils/database");
 
 const { json, urlencoded } = express;
 
@@ -28,29 +29,17 @@ const r = new snoowrap({
   password: 'bot3424'
 });
 
-r.search({
-  query: 'burgerking',
-  subreddit: 'all',
-  sort: 'top'
-}).then((data) =>{
-  
+redditSearch('burgerking');
+function redditSearch(query){
+  r.search({query: query,subreddit: 'all',sort: 'top'}).then((data) =>{
   data.forEach(element=>{
-    console.log(element.title);
-    console.log(element.selftext);
+     //createMention(element.selftext, element.title, "reddit", "hello","Date", element.view_count, element.permalink);
+     createMention(data[0].selftext,data[0].title,"reddit", "media", "date", data[0].view_count, data[0].permalink);
   }
     )
-    
-   
-    //console.log(data[property].title);
-    //console.log(data[property].selftext);
-  
- 
-
 }
 )
-//r.search({query: 'burgerking',subreddit: 'all',sort: 'top'}).map(post => post.title).then(console.log);
-//r.search({query: 'burgerking',subreddit: 'all',sort: 'top'}).map(post => post.selftext).then(console.log);
-
+}
 
 //title = r.search({query: 'burgerking',subreddit: 'all',sort: 'top'}).map(post => post.title).then(console.log);
 // catch 404 and forward to error handler
