@@ -14,6 +14,7 @@ import "./App.css";
 import LoginPage from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage";
 import Dashboard from "./pages/Dashboard";
+import Settings from "./pages/Settings";
 
 export const UserContext = React.createContext();
 
@@ -32,6 +33,7 @@ function App() {
             {loggedIn ? <Redirect to="/dashboard" /> : <Redirect to="/login" />}
           </Route>
           <Route path="/dashboard" exact component={Dashboard} />
+          <Route path="/settings" exact component={Settings} />
           <Route path="/login" exact component={LoginPage} />
           <Route path="/signup" exact component={SignupPage} />
         </BrowserRouter>
