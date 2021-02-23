@@ -49,7 +49,7 @@ export default function Navbar() {
   const classes = useStyles();
   const history = useHistory();
 
-  const handleClickSettings = () => history.redirect("/settings");
+  const handleClickSettings = () => history.push("/settings");
 
   return (
     <AppBar position="fixed" className={classes.root}>
