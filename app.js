@@ -30,7 +30,7 @@ const r = new snoowrap({
   password: 'bot3424'
 });
 connectDB("test");
-redditSearch('burgerking');
+//redditSearch('burgerking');
 
 //getMention();
 function redditSearch(query){
