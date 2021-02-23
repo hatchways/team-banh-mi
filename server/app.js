@@ -20,8 +20,7 @@ const { json, urlencoded } = express;
 
 const app = express();
 
-//Connect to DB
-connectDB("test");
+
 
 app.use(logger("dev"));
 app.use(json());
