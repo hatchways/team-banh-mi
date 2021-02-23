@@ -9,6 +9,7 @@ require("dotenv").config({ path: join(__dirname, ".env") });
 const indexRouter = require("./routes/index");
 var snoowrap = require('snoowrap');
 const { createMention, connectDB } = require("./utils/database");
+const { NONAME } = require("dns");
 
 const { json, urlencoded } = express;
 
@@ -34,7 +35,8 @@ function redditSearch(query){
   r.search({query: query,subreddit: 'all',sort: 'top'}).then((data) =>{
   data.forEach(element=>{
     date = new Date(element.created_utc*1000);
-     createMention(element.selftext, element.title, "reddit", media(element.media_embed),date, element.ups, element.permalink);
+    
+     createMention(element.selftext, element.title, "reddit", media(element.media),date, element.ups, element.permalink);
   }
     )
 }
@@ -44,10 +46,16 @@ function redditSearch(query){
 function media(media){
   if(!media)
     return "none";
-  else if(media ="{}")
-    return "none"
+  key = Object.keys(media)[0];
+
+  if (key == 'oembed' && media[key]['provider_url'] == 'http://imgur.com'){
+    return media[key]['url'];
+  }
+  else if(key == 'reddit_video'){
+    return media[key]['fallback_url'];
+  }
   else
-    return media
+    return "none";
 }
 
 // catch 404 and forward to error handler
