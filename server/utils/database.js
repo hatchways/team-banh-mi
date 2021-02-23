@@ -3,7 +3,35 @@ const bcrypt = require("bcrypt");
 
 const { DB_USER, DB_PASS, DB_NAME, DB_TEST_NAME } = process.env;
 const saltRounds = 10;
+const mentionSchema = new mongoose.Schema({
+  content: {
+    type: String,
+    
+  },
+  title: {
+    type: String,
+    required: true,
+  },
+  platform: {
+    type: String,
+    required: true,
+  },
+  image: {
+    type: String,
+  },
+  date: {
+    type: String,
+    required: true,
+  },
+  popularity: {
+    type: String,
+  },
+  url: {
+    type:String,
+  }
 
+});
+const mention = mongoose.model('mention', mentionSchema);
 /**
  * Opens a connection to the MongoDB Atlas instance used, using the
  * individual login credentials created in the root environment file.
