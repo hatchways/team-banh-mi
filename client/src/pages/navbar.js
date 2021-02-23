@@ -1,10 +1,11 @@
-import { AppBar, Toolbar, Typography } from "@material-ui/core";
-
 import React from "react";
+import { AppBar, Toolbar, Typography } from "@material-ui/core";
 import { makeStyles, fade } from "@material-ui/core/styles";
+import { useHistory } from "react-router-dom";
 import InputBase from "@material-ui/core/InputBase";
 import SettingsIcon from "@material-ui/icons/Settings";
 import SearchIcon from "@material-ui/icons/Search";
+
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -55,6 +56,10 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Navbar() {
   const classes = useStyles();
+  const history = useHistory();
+
+  const handleClickSettings = () => history.push.redirect("/settings");
+
   return (
     <div className={classes.root}>
       <AppBar position="fixed">
@@ -75,7 +80,7 @@ export default function Navbar() {
               inputProps={{ "aria-label": "search" }}
             />
           </div>
-          <SettingsIcon />
+          <SettingsIcon onClick={handleClickSettings} />
         </Toolbar>
       </AppBar>
     </div>
