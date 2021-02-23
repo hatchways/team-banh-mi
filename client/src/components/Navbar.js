@@ -1,11 +1,11 @@
 import React from "react";
-import { useHistory } from 'react-router-dom';
+import { useHistory } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
-import AppBar from '@material-ui/core/AppBar';
-import InputAdornment from '@material-ui/core/InputAdornment';
-import OutlinedInput from '@material-ui/core/OutlinedInput';
-import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
+import AppBar from "@material-ui/core/AppBar";
+import InputAdornment from "@material-ui/core/InputAdornment";
+import OutlinedInput from "@material-ui/core/OutlinedInput";
+import IconButton from "@material-ui/core/IconButton";
+import Typography from "@material-ui/core/Typography";
 import SettingsIcon from "@material-ui/icons/Settings";
 import SearchIcon from "@material-ui/icons/Search";
 
@@ -14,22 +14,22 @@ const useStyles = makeStyles((theme) => ({
     height: 65,
     padding: 20,
     backgroundColor: theme.palette.primary.main,
-    boxShadow: 'none',
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+    boxShadow: "none",
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
   },
 
   titleSpan: {
-    color: theme.palette.primary.dark
+    color: theme.palette.primary.dark,
   },
 
   search: {
-    position: 'relative',
+    position: "relative",
     borderRadius: 100,
     height: 40,
-    outline: 'none',
+    outline: "none",
     backgroundColor: theme.palette.common.white,
     marginRight: theme.spacing(2),
     width: "40%",
@@ -37,40 +37,48 @@ const useStyles = makeStyles((theme) => ({
 
   searchIcon: {
     color: theme.palette.primary.main,
-    marginRight: -12
+    marginRight: -12,
   },
 
   settingsIcon: {
     color: theme.palette.primary.light,
-  }
+  },
 }));
 
 export default function Navbar() {
   const classes = useStyles();
   const history = useHistory();
 
-  const handleClickSettings = () => history.redirect('/settings');
+  const handleClickSettings = () => history.redirect("/settings");
 
   return (
-      <AppBar position="fixed" className={classes.root}>
-        <Typography variant="h6" className={classes.title}>
-          mentions<span className={classes.titleSpan}>crawler.</span>
-        </Typography>
-        <OutlinedInput
-          placeholder="Search…"
-          className={classes.search}
-          inputProps={{ "aria-label": "search" }}
-          endAdornment={
-            <InputAdornment position="end">
-              <IconButton type="submit" className={classes.searchIcon} aria-label="search">
-                <SearchIcon />
-              </IconButton>
-            </InputAdornment>
-          }
-        />
-        <IconButton className={classes.settingsIcon} aria-label="settings" onClick={handleClickSettings}>
-          <SettingsIcon />
-        </IconButton>
-      </AppBar>
+    <AppBar position="fixed" className={classes.root}>
+      <Typography variant="h6" className={classes.title}>
+        mentions<span className={classes.titleSpan}>crawler.</span>
+      </Typography>
+      <OutlinedInput
+        placeholder="Search…"
+        className={classes.search}
+        inputProps={{ "aria-label": "search" }}
+        endAdornment={
+          <InputAdornment position="end">
+            <IconButton
+              type="submit"
+              className={classes.searchIcon}
+              aria-label="search"
+            >
+              <SearchIcon />
+            </IconButton>
+          </InputAdornment>
+        }
+      />
+      <IconButton
+        className={classes.settingsIcon}
+        aria-label="settings"
+        onClick={handleClickSettings}
+      >
+        <SettingsIcon />
+      </IconButton>
+    </AppBar>
   );
 }
