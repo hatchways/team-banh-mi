@@ -1,4 +1,5 @@
 import React from "react";
+import { useHistory } from 'react-router-dom';
 import { makeStyles } from "@material-ui/core/styles";
 import AppBar from '@material-ui/core/AppBar';
 import InputAdornment from '@material-ui/core/InputAdornment';
@@ -46,6 +47,10 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Navbar() {
   const classes = useStyles();
+  const history = useHistory();
+
+  const handleClickSettings = () => history.redirect('/settings');
+
   return (
       <AppBar position="fixed" className={classes.root}>
         <Typography variant="h6" className={classes.title}>
@@ -63,7 +68,7 @@ export default function Navbar() {
             </InputAdornment>
           }
         />
-        <IconButton className={classes.settingsIcon} aria-label="settings">
+        <IconButton className={classes.settingsIcon} aria-label="settings" onClick={handleClickSettings}>
           <SettingsIcon />
         </IconButton>
       </AppBar>
