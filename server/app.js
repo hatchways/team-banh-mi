@@ -3,8 +3,9 @@ const express = require("express");
 const { join } = require("path");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
-const cors = require("cors");
 const indexRouter = require("./routes/index");
+const mentionRouter = require("./routes/mention");
+const cors = require("cors");
 const authRouter = require("./routes/auth");
 const { connectDB, disconnectDB } = require("./utils/database");
 const { corsOptions } = require("./middlewares/cors");
@@ -12,6 +13,9 @@ const { corsOptions } = require("./middlewares/cors");
 const { json, urlencoded } = express;
 
 const app = express();
+
+//Connect to DB
+connectDB("test");
 
 app.use(logger("dev"));
 app.use(json());
