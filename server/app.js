@@ -4,22 +4,28 @@ const { join } = require("path");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 const indexRouter = require("./routes/index");
+const mentionRouter = require("./routes/mention");
+const cors = require("cors");
 const authRouter = require("./routes/auth");
 const taskRouter = require("./routes/jobs");
 const allowCors = require("./middlewares/cors");
 const { connectDB, disconnectDB } = require("./utils/database");
 const  { createTaskQueue } = require("./utils/taskqueues");
+const { corsOptions } = require("./middlewares/cors");
 
 const { json, urlencoded } = express;
 
 const app = express();
 
+//Connect to DB
+connectDB("test");
+
 app.use(logger("dev"));
 app.use(json());
 app.use(urlencoded({ extended: false }));
-app.use(cookieParser());
 app.use(express.static(join(__dirname, "public")));
-app.use(allowCors);
+app.use(cors(corsOptions));
+app.use(cookieParser());
 
 // TODO: Change this in production. Remove the argument.
 connectDB("test");

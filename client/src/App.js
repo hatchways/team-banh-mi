@@ -1,41 +1,27 @@
-import React, { useReducer } from "react";
+import React from "react";
 import { MuiThemeProvider } from "@material-ui/core";
-import { BrowserRouter, Route, Redirect } from "react-router-dom";
-import { makeStyles } from "@material-ui/core/styles";
+import { BrowserRouter, Route } from "react-router-dom";
 
 import { theme } from "./themes/theme";
-
-import {
-  reducer as userReducer,
-  initialState as userInitialState,
-} from "./store/UserReducer";
 
 import "./App.css";
 import LoginPage from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage";
 import Dashboard from "./pages/Dashboard";
-
-export const UserContext = React.createContext();
+import ProtectedRoute from "./components/ProtectedRoute";
+import AuthContextProvider from "./context/authContext";
 
 function App() {
-  const [userState, userDispatch] = useReducer(userReducer, userInitialState);
-
-  const loggedIn = userState.loggedIn;
-
   return (
     <MuiThemeProvider theme={theme}>
-      <UserContext.Provider
-        value={{ state: userState, dispatch: userDispatch }}
-      >
+      <AuthContextProvider>
         <BrowserRouter>
-          <Route exact path="/">
-            {loggedIn ? <Redirect to="/dashboard" /> : <Redirect to="/login" />}
-          </Route>
-          <Route path="/dashboard" exact component={Dashboard} />
+          <ProtectedRoute path="/" exact component={Dashboard} />
+          <ProtectedRoute path="/dashboard" exact component={Dashboard} />
           <Route path="/login" exact component={LoginPage} />
           <Route path="/signup" exact component={SignupPage} />
         </BrowserRouter>
-      </UserContext.Provider> 
+      </AuthContextProvider>
     </MuiThemeProvider>
   );
 }

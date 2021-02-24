@@ -1,4 +1,5 @@
-import React, { useContext } from "react";
+import React, { useContext, useReducer } from "react";
+import Cookies from "js-cookie";
 import Grid from "@material-ui/core/Grid";
 import { Card, TextField, Snackbar } from "@material-ui/core";
 import { Button } from "@material-ui/core";
@@ -8,7 +9,8 @@ import { Link, Redirect } from "react-router-dom";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import Alert from "../components/Alert";
-import { UserContext } from "../App";
+import { AuthContext } from "../context/authContext";
+import { reducer, initialState } from "../store/authUIReducer";
 
 const validationSchema = yup.object({
   email: yup
@@ -54,7 +56,9 @@ const useStyles = makeStyles((theme) => ({
 export default function SignupPage() {
   const { vertical, horizontal } = { vertical: "bottom", horizontal: "center" };
 
-  const { state, dispatch } = useContext(UserContext);
+  const [state, dispatch] = useReducer(reducer, initialState);
+
+  const userContext = useContext(AuthContext);
 
   const signup = async (user) => {
     dispatch({ type: "SIGNUP_ACTION" });
@@ -79,16 +83,18 @@ export default function SignupPage() {
         "http://localhost:3001/auth/register",
         requestOptions
       );
+      const data = await response.json();
       if (response.ok) {
-        dispatch({
-          type: "SIGNUP_SUCCESS",
-          payload: { email: user.email },
-        });
+        Cookies.set("x-auth-token", data.accessToken, { expires: 30 });
+        dispatch({ type: "SIGNUP_SUCCESS" });
+        userContext.login();
       } else {
+        userContext.logout();
         throw new Error("Error registering user");
       }
     } catch (e) {
       dispatch({ type: "SIGNUP_ERROR", payload: e.message });
+      userContext.logout();
     }
   };
 
@@ -108,7 +114,7 @@ export default function SignupPage() {
     console.log("Snackbar gone");
   };
 
-  if (state.user.loggedIn) return <Redirect to="/dashboard" />;
+  if (userContext.isAuthenticated) return <Redirect to="/dashboard" />;
 
   return (
     <Grid
