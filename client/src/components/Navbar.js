@@ -57,7 +57,7 @@ export default function Navbar() {
   const classes = useStyles();
 
   return (
-    <AppBar position="fixed" className={classes.root}>
+    <AppBar position="sticky" className={classes.root}>
       <Typography variant="h6" className={classes.title}>
         mentions<span className={classes.titleSpan}>crawler.</span>
       </Typography>
