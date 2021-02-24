@@ -6,6 +6,7 @@ const logger = require("morgan");
 const cors = require("cors");
 const indexRouter = require("./routes/index");
 const authRouter = require("./routes/auth");
+const socialMediaRouter = require("./routes/socialMedia");
 const { connectDB, disconnectDB } = require("./utils/database");
 const { corsOptions } = require("./middlewares/cors");
 

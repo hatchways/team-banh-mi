@@ -9,7 +9,9 @@ const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
   },
-
+  appBar: {
+    zIndex: theme.zIndex.drawer + 1,
+  },
   title: {
     flexGrow: 1,
   },
@@ -57,7 +59,7 @@ export default function Navbar() {
   const classes = useStyles();
   return (
     <div className={classes.root}>
-      <AppBar position="fixed">
+      <AppBar position="fixed" className={classes.appBar}>
         <Toolbar>
           <Typography variant="h6" className={classes.title}>
             mentions<span style={{ color: "black" }}>Crawler</span>
