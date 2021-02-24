@@ -1,4 +1,5 @@
 import React, { createContext, useState } from "react";
+import { Redirect } from "react-router-dom";
 
 export const AuthContext = createContext({
   isAuthenticated: false,
@@ -11,7 +12,11 @@ const AuthContextProvider = ({ children }) => {
 
   const loginHandler = () => setIsAuth(true);
 
-  const logoutHandler = () => setIsAuth(false);
+  const logoutHandler = async () => {
+    await fetch("/auth/logout", { method: "POST" });
+    setIsAuth(false);
+    return <Redirect to="/login" />;
+  };
 
   return (
     <AuthContext.Provider
