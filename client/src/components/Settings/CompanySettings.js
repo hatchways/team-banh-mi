@@ -1,13 +1,8 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
-import {
-  Typography,
-  OutlinedInput,
-  InputAdornment,
-  Button,
-} from "@material-ui/core";
-// import { theme } from "../../themes/theme";
+import { Typography, Button } from "@material-ui/core";
+import Input from "../Input";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -80,37 +75,24 @@ function CompanySettings(props) {
           <Typography className={classes.label}>Your company</Typography>
         </Grid>
         <Grid item container xs={6} justify="flex-start">
-          <OutlinedInput
-            placeholder="Company name"
-            className={classes.search}
-            value="Company ABC"
-            endAdornment={
-              <InputAdornment position="end">
-                <Button
-                  variant="contained"
-                  disableElevation
-                  className={`${classes.buttonSmall} ${classes.buttonRemove}`}
-                >
-                  Remove
-                </Button>
-              </InputAdornment>
-            }
-          />
-          <OutlinedInput
-            placeholder="Company name"
-            className={classes.search}
-            endAdornment={
-              <InputAdornment position="end">
-                <Button
-                  variant="contained"
-                  disableElevation
-                  className={`${classes.buttonSmall} ${classes.buttonAdd}`}
-                >
-                  Add
-                </Button>
-              </InputAdornment>
-            }
-          />
+          <Input width={500} value="CompanyABC">
+            <Button
+              variant="contained"
+              disableElevation
+              className={`${classes.buttonSmall} ${classes.buttonRemove}`}
+            >
+              Remove
+            </Button>
+          </Input>
+          <Input width={500} placeholder="Company name">
+            <Button
+              variant="contained"
+              disableElevation
+              className={`${classes.buttonSmall} ${classes.buttonAdd}`}
+            >
+              Add
+            </Button>
+          </Input>
         </Grid>
       </Grid>
       <Grid item container className={classes.subContainer}>
@@ -118,11 +100,7 @@ function CompanySettings(props) {
           <Typography className={classes.label}>Weekly report</Typography>
         </Grid>
         <Grid item container xs={6} justify="flex-start">
-          <OutlinedInput
-            placeholder="Company name"
-            className={classes.search}
-            value="companyabc@gmail.com"
-          />
+          <Input width={500} value="yourcompany@email.com" />
         </Grid>
       </Grid>
       <Grid
