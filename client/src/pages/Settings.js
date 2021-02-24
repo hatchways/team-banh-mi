@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import { BrowserRouter, Route, Link, Switch } from "react-router-dom";
+import React, { useState, useContext } from "react";
 import Navbar from "./navbar";
 import CompanySettings from "../components/Settings/CompanySettings";
 import Grid from "@material-ui/core/Grid";
@@ -9,6 +8,7 @@ import Typography from "@material-ui/core/Typography";
 import SettingsIcon from "@material-ui/icons/Settings";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import { theme } from "../themes/theme";
+import { AuthContext } from "../context/authContext";
 
 const useStyles = makeStyles((theme) => ({
   sidebarContainer: {
@@ -72,9 +72,15 @@ const ListItem = withStyles({
 function Settings() {
   const styles = useStyles();
   const [selectedListItem, setSelectedListItem] = useState(0);
+  const { logout } = useContext(AuthContext);
+
   const handleListItemClick = (event, listItemIndex) => {
     setSelectedListItem(listItemIndex);
+    if (event.target.innerText === "Log out") {
+      logout();
+    }
   };
+
   return (
     <Grid container className={styles.root}>
       {/* <Navbar /> */}
