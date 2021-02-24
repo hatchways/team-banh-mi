@@ -6,8 +6,9 @@ import OutlinedInput from "@material-ui/core/OutlinedInput";
 import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
 import SettingsIcon from "@material-ui/icons/Settings";
+import HomeRoundedIcon from "@material-ui/icons/HomeRounded";
 import SearchIcon from "@material-ui/icons/Search";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -56,6 +57,26 @@ const useStyles = makeStyles((theme) => ({
 export default function Navbar() {
   const classes = useStyles();
 
+  const location = useLocation();
+
+  let navBarIcon = null;
+  if (location.pathname === "/settings") {
+    navBarIcon = (
+      <Link to="/dashboard">
+        <IconButton aria-label="home">
+          <HomeRoundedIcon className={classes.settingsIcon} />
+        </IconButton>
+      </Link>
+    );
+  } else {
+    navBarIcon = (
+      <Link to="/settings">
+        <IconButton aria-label="settings">
+          <SettingsIcon className={classes.settingsIcon} />
+        </IconButton>
+      </Link>
+    );
+  }
   return (
     <AppBar position="sticky" className={classes.root}>
       <Typography variant="h6" className={classes.title}>
@@ -73,11 +94,7 @@ export default function Navbar() {
           </InputAdornment>
         }
       />
-      <Link to="/settings">
-        <IconButton aria-label="settings">
-          <SettingsIcon className={classes.settingsIcon} />
-        </IconButton>
-      </Link>
+      {navBarIcon}
     </AppBar>
   );
 }
