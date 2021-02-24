@@ -11,8 +11,8 @@ import { Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    height: 70,
-    padding: 30,
+    height: theme.spacing(11),
+    padding: theme.spacing(4),
     backgroundColor: theme.palette.primary.main,
     boxShadow: "none",
     display: "flex",
@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
   search: {
     position: "relative",
     borderRadius: 100,
-    height: 45,
+    height: theme.spacing(6),
     outline: "none",
     backgroundColor: theme.palette.common.white,
     fontSize: 16,
