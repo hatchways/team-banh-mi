@@ -45,6 +45,7 @@ const useStyles = makeStyles((theme) => ({
   searchIcon: {
     color: theme.palette.primary.main,
     marginRight: -12,
+    fontSize: 26,
   },
 
   settingsIcon: {
@@ -67,12 +68,8 @@ export default function Navbar() {
         inputProps={{ "aria-label": "search" }}
         endAdornment={
           <InputAdornment position="end">
-            <IconButton
-              type="submit"
-              className={classes.searchIcon}
-              aria-label="search"
-            >
-              <SearchIcon />
+            <IconButton type="submit" aria-label="search">
+              <SearchIcon className={classes.searchIcon} />
             </IconButton>
           </InputAdornment>
         }
