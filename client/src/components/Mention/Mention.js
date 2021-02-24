@@ -10,6 +10,7 @@ import MentionBody from "../Mention/MentionBody/MentionBody";
 
 const useStyles = makeStyles((theme) => ({
   root: {
+    position: "relative",
     padding: 10,
     maxHeight: 150,
     display: "flex",

@@ -5,15 +5,15 @@ import SentimentSatisfiedIcon from "@material-ui/icons/SentimentSatisfied";
 import SentimentDissatisfiedIcon from "@material-ui/icons/SentimentDissatisfied";
 import SentimentVeryDissatisfiedIcon from "@material-ui/icons/SentimentVeryDissatisfied";
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   icon: {
     position: "absolute",
-    right: 16,
-    top: 16,
+    right: theme.spacing(2),
+    top: theme.spacing(2),
     fontSize: "1.6rem",
-    color: "royalblue",
+    color: theme.palette.primary.main,
   },
-});
+}));
 
 export default function MoodIcon({ mood }) {
   const classes = useStyles();
