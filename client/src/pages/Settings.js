@@ -1,8 +1,9 @@
 import React, { useState } from "react";
+import { BrowserRouter, Route, Link, Switch } from "react-router-dom";
 import Navbar from "./navbar";
+import CompanySettings from "../components/Settings/CompanySettings";
 import Grid from "@material-ui/core/Grid";
 import List from "@material-ui/core/List";
-// import ListItem from "@material-ui/core/ListItem";
 import MuiListItem from "@material-ui/core/ListItem";
 import Typography from "@material-ui/core/Typography";
 import SettingsIcon from "@material-ui/icons/Settings";
@@ -13,23 +14,29 @@ const useStyles = makeStyles((theme) => ({
   sidebarContainer: {
     display: "flex",
     flexDirection: "column",
-    // backgroundColor: "blue",
-    height: "100vw",
+    height: "100vh",
   },
   titleContainer: {
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    // backgroundColor: "whitesmoke",
     padding: theme.spacing(5),
   },
   listContainer: {},
+  listLink: {
+    textDecoration: "none",
+    "&:visited": {
+      color: "inherit",
+    },
+  },
   title: {
+    fontSize: 28,
     fontWeight: theme.typography.fontWeightBold,
     marginRight: theme.spacing(1),
   },
   settingsIcon: {
+    fontSize: 28,
     color: theme.palette.primary.main,
     marginRight: theme.spacing(8),
   },
@@ -37,18 +44,20 @@ const useStyles = makeStyles((theme) => ({
 
 const ListItem = withStyles({
   root: {
-    marginLeft: theme.spacing(5),
+    marginLeft: theme.spacing(6),
     marginBottom: theme.spacing(2),
     paddingTop: theme.spacing(1),
     paddingBottom: theme.spacing(1),
-    paddingLeft: theme.spacing(4),
+    paddingLeft: theme.spacing(2),
     borderLeft: `2px solid transparent`,
     backgroundColor: theme.palette.background,
-    fontSize: theme.typography.fontSize, // defaults to 14px
+    fontSize: 16,
+    fontWeight: theme.typography.fontWeightMedium,
     "&$selected": {
       color: theme.palette.primary.main,
       backgroundColor: "white",
       borderLeft: `2px solid ${theme.palette.primary.main}`,
+      width: "max-content",
     },
     "&$selected:hover": {
       backgroundColor: "white",
@@ -101,7 +110,7 @@ function Settings() {
           </Grid>
         </Grid>
         <Grid item xs={9}>
-          This is the body
+          <CompanySettings />
         </Grid>
       </Grid>
     </Grid>
