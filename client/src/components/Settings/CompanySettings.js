@@ -25,19 +25,6 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(2),
   },
 
-  search: {
-    position: "relative",
-    borderRadius: 100,
-    height: theme.spacing(7),
-    paddingLeft: theme.spacing(1),
-    paddingRight: 20,
-    outline: "none",
-    backgroundColor: theme.palette.background.white,
-    marginBottom: theme.spacing(1),
-    width: 500,
-    fontWeight: theme.typography.fontWeightMedium,
-  },
-
   buttonSmall: {
     fontWeight: theme.typography.fontWeightBold,
     borderRadius: 100,
