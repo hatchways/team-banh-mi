@@ -8,17 +8,23 @@ import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
 import SettingsIcon from "@material-ui/icons/Settings";
 import SearchIcon from "@material-ui/icons/Search";
+import { Link } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    height: 65,
-    padding: 20,
+    height: 70,
+    padding: 30,
     backgroundColor: theme.palette.primary.main,
     boxShadow: "none",
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
+  },
+
+  title: {
+    fontWeight: theme.typography.fontWeightBold,
+    fontSize: 22,
   },
 
   titleSpan: {
@@ -28,9 +34,10 @@ const useStyles = makeStyles((theme) => ({
   search: {
     position: "relative",
     borderRadius: 100,
-    height: 40,
+    height: 45,
     outline: "none",
     backgroundColor: theme.palette.common.white,
+    fontSize: 16,
     marginRight: theme.spacing(2),
     width: "40%",
   },
@@ -42,14 +49,12 @@ const useStyles = makeStyles((theme) => ({
 
   settingsIcon: {
     color: theme.palette.primary.light,
+    fontSize: 32,
   },
 }));
 
 export default function Navbar() {
   const classes = useStyles();
-  const history = useHistory();
-
-  const handleClickSettings = () => history.push("/settings");
 
   return (
     <AppBar position="fixed" className={classes.root}>
@@ -72,13 +77,11 @@ export default function Navbar() {
           </InputAdornment>
         }
       />
-      <IconButton
-        className={classes.settingsIcon}
-        aria-label="settings"
-        onClick={handleClickSettings}
-      >
-        <SettingsIcon />
-      </IconButton>
+      <Link to="/settings">
+        <IconButton aria-label="settings">
+          <SettingsIcon className={classes.settingsIcon} />
+        </IconButton>
+      </Link>
     </AppBar>
   );
 }
