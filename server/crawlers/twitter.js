@@ -18,7 +18,7 @@ const client = new Twitter({
  * @param {string} query - The query.
  * @returns {Object[]} An array of objects with the following properties:
  * @property {string} title - "Tweet"
- * @property {string} source - "Twitter"
+ * @property {string} platform - "Twitter"
  * @property {string} content - The body of the tweet.
  * @property {string|null} image - The URL of the image in the tweet or null.
  * @property {string} date - The date in ISO string.
@@ -36,7 +36,7 @@ const getTwitterData = async (query) => {
       const { text, created_at, public_metrics, id } = tweet;
       return {
         title: "Tweet",
-        source: "Twitter",
+        platform: "Twitter",
         content: text,
         image: null,
         date: created_at,
