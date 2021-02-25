@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from "react";
+import React, { useContext, useReducer } from "react";
 import Cookies from "js-cookie";
 import Grid from "@material-ui/core/Grid";
 import { Card, Snackbar, TextField } from "@material-ui/core";
@@ -9,7 +9,8 @@ import { Link, Redirect } from "react-router-dom";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import Alert from "../components/Alert";
-import { UserContext } from "../App";
+import { AuthContext } from "../context/authContext";
+import { reducer, initialState } from "../store/authUIReducer";
 
 const validationSchema = yup.object({
   email: yup
@@ -51,7 +52,9 @@ const useStyles = makeStyles((theme) => ({
 export default function LoginPage() {
   const { vertical, horizontal } = { vertical: "bottom", horizontal: "center" };
 
-  const { state, dispatch } = useContext(UserContext);
+  const userContext = useContext(AuthContext);
+
+  const [state, dispatch] = useReducer(reducer, initialState);
 
   const login = async (user) => {
     dispatch({ type: "LOGIN_ACTION" });
@@ -76,15 +79,15 @@ export default function LoginPage() {
       );
       const data = await response.json();
       if (response.ok) {
-        Cookies.set("x-auth-token", data.accessToken);
-        dispatch({
-          type: "LOGIN_SUCCESS",
-          payload: { email: user.email },
-        });
+        Cookies.set("x-auth-token", data.accessToken, { expires: 30 });
+        dispatch({ type: "LOGIN_SUCCESS" });
+        userContext.login();
       } else {
+        userContext.logout();
         throw new Error("Error logging user");
       }
     } catch (e) {
+      userContext.logout();
       dispatch({ type: "LOGIN_ERROR", payload: e.message });
     }
   };
@@ -104,7 +107,7 @@ export default function LoginPage() {
     console.log("Snackbar gone");
   };
 
-  if (state.user.loggedIn) return <Redirect to="/dashboard" />;
+  if (userContext.isAuthenticated) return <Redirect to="/dashboard" />;
 
   return (
     <Grid
