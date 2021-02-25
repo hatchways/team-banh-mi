@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+mongoose.set('useFindAndModify',false);
 const mentionSchema = new mongoose.Schema({
   content: {
     type: String,
@@ -31,9 +32,11 @@ const mentionSchema = new mongoose.Schema({
 const mention = mongoose.model('mention', mentionSchema)
 
 
-function createMention(data){
+async function createMention(data){
   const newMention = new mention({content: data.content, title: data.title, platform: data.platform, image: data.image,date: data.date, popularity:data.popularity, url: data.url});
-  newMention.save(function (err) { if (err) return console.error(err);});
+  let ans = await mention.findOneAndUpdate({url: data.url}, {content: data.content, title: data.title, platform: data.platform, image: data.image,date: data.date, popularity:data.popularity});
+  if(!ans)
+    newMention.save(function (err) { if (err) return console.error(err);});
 }
 
 function getMention(companyName, platformSearch){

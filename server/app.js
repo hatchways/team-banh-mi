@@ -23,11 +23,11 @@ app.use(cookieParser());
 app.use(express.static(join(__dirname, "public")));
 
 app.use("/", indexRouter);
-getReddit('burgerking').then(value=>console.log(value));
+
 connectDB("test");
 
-//redditSearch('burgerking');
-
+redditSearch('burgerking');
+getReddit('burgerking').then(value=>console.log(value[1]));
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   

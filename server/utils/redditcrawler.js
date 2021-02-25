@@ -14,13 +14,15 @@ function redditSearch(query){
   r.search({query: query,subreddit: 'all',sort: 'top'}).then((data) =>{
   data.forEach(element=>{
     date = new Date(element.created_utc*1000);
-    mention = {content: element.selftext,title: element.title,platform: "reddit", image: parseMedia(element.media),date: date,popularity: element.ups,url: element.permalink};
+    link = 'https://www.reddit.com/'+ element.permalink;
+    mention = {content: element.selftext,title: element.title,platform: "reddit", image: parseMedia(element.media),date: date,popularity: element.ups,url: link};
     createMention(mention);
   }
     )
 }
 )
 }
+
 function parseMedia(media){
   if(!media)
     return "none";
