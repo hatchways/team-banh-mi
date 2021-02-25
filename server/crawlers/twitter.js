@@ -29,16 +29,21 @@ const getTwitterData = async (query) => {
   try {
     const { data } = await client.get("tweets/search/recent", {
       query,
-      "tweet.fields": "created_at,public_metrics",
+      "tweet.fields": "entities,created_at,public_metrics",
       expansions: "author_id",
     });
+
     const result = data.map((tweet) => {
-      const { text, created_at, public_metrics, id } = tweet;
+      const { text, created_at, public_metrics, id, entities } = tweet;
+
+      let image = null;
+      if (entities["media"]) image = entities["media"][0]["media_url"];
+
       return {
         title: "Tweet",
         platform: "Twitter",
         content: text,
-        image: null,
+        image,
         date: created_at,
         popularity: public_metrics.like_count,
         url: `https://twitter.com/anyUser/status/${id}`,
