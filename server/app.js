@@ -7,9 +7,10 @@ const logger = require("morgan");
 require("dotenv").config({ path: join(__dirname, ".env") });
 
 const indexRouter = require("./routes/index");
-var snoowrap = require('snoowrap');
-const { createMention, connectDB, getMention } = require("./utils/database");
-const { NONAME } = require("dns");
+
+const { connectDB } = require("./utils/database");
+
+const { redditSearch,getReddit } = require("./utils/redditcrawler");
 
 const { json, urlencoded } = express;
 
@@ -22,43 +23,10 @@ app.use(cookieParser());
 app.use(express.static(join(__dirname, "public")));
 
 app.use("/", indexRouter);
-const r = new snoowrap({
-  userAgent: 'webcrawler',
-  clientId: 'rwl4j4FrYnxqPA',
-  clientSecret: 'qZ1p1Cp8q2Va6gBv8A18oI2KZGrK0Q',
-  username: 'bot3424',
-  password: 'bot3424'
-});
+getReddit('burgerking').then(value=>console.log(value));
 connectDB("test");
-redditSearch('burgerking');
 
-//getMention();
-function redditSearch(query){
-  r.search({query: query,subreddit: 'all',sort: 'top'}).then((data) =>{
-  data.forEach(element=>{
-    date = new Date(element.created_utc*1000);
-    
-     createMention(element.selftext, element.title, "reddit", media(element.media),date, element.ups, element.permalink);
-  }
-    )
-}
-)
-}
-
-function media(media){
-  if(!media)
-    return "none";
-  key = Object.keys(media)[0];
-
-  if (key == 'oembed' && media[key]['provider_url'] == 'http://imgur.com'){
-    return media[key]['url'];
-  }
-  else if(key == 'reddit_video'){
-    return media[key]['fallback_url'];
-  }
-  else
-    return "none";
-}
+//redditSearch('burgerking');
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
