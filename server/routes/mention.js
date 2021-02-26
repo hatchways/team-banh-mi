@@ -3,6 +3,10 @@ const router = express.Router();
 const Mention = require("../models/Mention");
 const { mentionValidation } = require("../utils/validation");
 
+router.get("/ping", (req, res) => {
+  res.status(200).send("/mention route was pinged.");
+});
+
 router.get("/", async (req, res) => {
   try {
     const result = await Mention.find();
@@ -21,10 +25,16 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-router.get("/:companyName", async (req, res) => {
+router.get("/company/:companyName", async (req, res) => {
   try {
     const { companyName } = req.params;
-    const result = await Mention.find({ companyName });
+    const contentResult = await Mention.find({
+      content: new RegExp(companyName, "i"),
+    });
+    const titleResult = await Mention.find({
+      title: new RegExp(companyName, "i"),
+    });
+    const result = contentResult.concat(titleResult);
     res.status(200).send(result);
   } catch (e) {
     res.status(400).send(e.message);

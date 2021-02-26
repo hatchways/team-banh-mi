@@ -1,4 +1,5 @@
 import React from "react";
+import MentionContainer from "../components/MentionContainer";
 import Navbar from "../components/Navbar";
 import Sidebar from "./Sidebar";
 import Button from "@material-ui/core/Button";
@@ -64,7 +65,7 @@ function DashBoard() {
                 <Button>Most popular</Button>
               </ButtonGroup>
             </div>
-            <ResultCard />
+            <MentionContainer companyName="tesla" />
           </div>
         </div>
       </div>
@@ -72,12 +73,4 @@ function DashBoard() {
   );
 }
 
-const ResultCard = () => {
-  return (
-    <CardContent className="card">
-      <Typography> Company Name Title Holder</Typography>
-      <Typography> The company discriptions lalalalalalalallalala</Typography>
-    </CardContent>
-  );
-};
 export default DashBoard;
