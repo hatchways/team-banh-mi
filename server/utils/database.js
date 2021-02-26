@@ -20,6 +20,7 @@ const connectDB = (environment = "prod") => {
   mongoose.connect(URI, options);
 };
 
+
 /**
  * Closes the default mongoose connection.
  *
@@ -63,5 +64,6 @@ module.exports = {
   connectDB,
   disconnectDB,
   databaseErrorHandler,
-  encryptPasswordWithSalt,
+  encryptPasswordWithSalt
+
 };
