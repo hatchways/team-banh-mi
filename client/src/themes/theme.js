@@ -4,19 +4,17 @@ export const theme = createMuiTheme({
   typography: {
     fontFamily: '"Roboto"',
     fontSize: 12,
-    h1: {
-      // could customize the h1 variant as well
-    },
     label: 16,
   },
   palette: {
-    primary: { main: "#FF3963" },
+    primary: {
+      main: "#6583F2",
+      dark: "#284097",
+      light: "#94A8F5",
+    },
     background: {
       white: "#FFF",
       lightGray: "whitesmoke",
-    },
-    secondary: {
-      main: "#FF9400",
     },
   },
 });
