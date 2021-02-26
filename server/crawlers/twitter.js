@@ -37,10 +37,13 @@ const getTwitterData = async (query) => {
       const { text, created_at, public_metrics, id, entities } = tweet;
 
       let image = null;
-      if (entities["media"]) image = entities["media"][0]["media_url"];
+      if (entities && entities["media"])
+        image = entities["media"][0]["media_url"];
+
+      const title = `${text.substring(0, 100)}...`;
 
       return {
-        title: "Tweet",
+        title,
         platform: "Twitter",
         content: text,
         image,
