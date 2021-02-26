@@ -7,7 +7,7 @@ const {
 /**
  * User Schema.
  * @property {string} email - email of the user.
- * @property {string} companyName - company name of the user.
+ * @property {string[]} companyName - company name of the user.
  * @property {string} password - password of the user.
  */
 const userSchema = new mongoose.Schema({
@@ -17,7 +17,7 @@ const userSchema = new mongoose.Schema({
     required: [true, "Email is required"],
   },
   companyName: {
-    type: String,
+    type: [String],
     required: [true, "Company name is required"],
   },
   password: {
@@ -137,26 +137,40 @@ userSchema.methods.softRecover = function () {
 /**
  * Get the company name of the current user's insance.
  *
- * @returns {mongoose.Query} - the company name of the current user's instance.
+ * @returns {string[]} - an array with the current user's company names.
  * @method
  */
-userSchema.methods.getCompanyName = function () {
-  return User.find({ email: this.email }).select("companyName -_id");
+userSchema.methods.getCompanyName = async function () {
+  const result = await  User.find({ email: this.email }).select("companyName -_id");
+  return result[0].companyName;
 };
 
 /**
- * Given a company name, set the current user's instance company to be the
- * given company name.
+ * Given a company name, add the current user's instance company to it's
+ * company name array.
  *
  * @param {string} companyName - the new company name.
- * @returns {boolean|mongoose.Query} false if operation failed.
+ * @returns {boolean} false if operation failed, else true.
  * @method
  */
-userSchema.methods.setCompanyName = function (companyName) {
-  return User.updateOne({ email: this.email }, { companyName }, (err, res) => {
-    if (err) return databaseErrorHandler(err);
-    return res;
-  });
+userSchema.methods.addCompanyName = async function (companyName) {
+  const { ok } = await User.updateOne({ email: this.email }, { $push: { companyName }})
+  if (!ok) return false;
+  return true;
+};
+
+/**
+ * Given a company name, delete the current user's instance company from it's
+ * company name array.
+ *
+ * @param {string} companyName - the new company name.
+ * @returns {boolean} false if operation failed, else true.
+ * @method
+ */
+userSchema.methods.deleteCompanyName = async function (companyName) {
+  const { ok } = await User.updateOne({ email: this.email }, { $pull: { companyName }});
+  if (!ok) return false;
+  return true;
 };
 
 /**

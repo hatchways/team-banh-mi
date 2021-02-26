@@ -1,43 +1,64 @@
-
 const createError = require("http-errors");
 const express = require("express");
 const { join } = require("path");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
-require("dotenv").config({ path: join(__dirname, ".env") });
-
 const indexRouter = require("./routes/index");
 
 const { connectDB } = require("./utils/database");
 
 const { redditSearch,getReddit } = require("./utils/redditcrawler");
 
+const mentionRouter = require("./routes/mention");
+const cors = require("cors");
+const authRouter = require("./routes/auth");
+const taskRouter = require("./routes/jobs");
+const allowCors = require("./middlewares/cors");
+const { connectDB, disconnectDB } = require("./utils/database");
+const  { createTaskQueue } = require("./utils/taskqueues");
+const { corsOptions } = require("./middlewares/cors");
+
+
 const { json, urlencoded } = express;
 
 const app = express();
 
+//Connect to DB
+connectDB("test");
+
 app.use(logger("dev"));
 app.use(json());
 app.use(urlencoded({ extended: false }));
-app.use(cookieParser());
 app.use(express.static(join(__dirname, "public")));
+app.use(cors(corsOptions));
+app.use(cookieParser());
+
 
 app.use("/", indexRouter);
 
 connectDB("test");
 
+// TODO: Change this in production. Remove the argument.
+connectDB("test");
+
+createTaskQueue();
+
+app.use("/", indexRouter);
+app.use("/auth", authRouter);
+app.use("/task", taskRouter);
+
+
 redditSearch('burgerking');
 getReddit('burgerking').then(value=>console.log(value[1]));
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
-  
   next(createError(404));
-  
 });
 
 // error handler
 app.use(function (err, req, res, next) {
   // set locals, only providing error in development
+
   res.locals.message = err.message;
   res.locals.error = req.app.get("env") === "development" ? err : {};
 

@@ -49,6 +49,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 function DashBoard() {
   const classes = useStyles();
+
   return (
     <div className={classes.root}>
       <Navbar className={classes.navBar} />

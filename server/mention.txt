@@ -1,0 +1,8 @@
+{
+    "content":"A good day",
+    "title":"Today",
+    "platform":"reddit",
+    "date":"2021-02-12",
+    "popularity":"5",
+    "image":""
+}

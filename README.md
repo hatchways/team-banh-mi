@@ -27,11 +27,24 @@ DB_PASS=my-database-password
 JWT_SECRET=secret-key
 COOKIES_EXPIRES_MS=cookies-expires-ms
 JWT_EXPIRES_MS=jwt-expires-ms
+REDIS_URL = redis-url
 ```
 
 You can then use the `connectDB` and `disconnectDB` functions provided in the
 `/server/utils/database.js` to both connect and disconnect from the database
 using your personal login information from the `.env` file.
+
+### Redis
+
+### Setup
+
+To set-up the redis locally, you need to follow the below link.
+https://www.devglan.com/blog/install-redis-windows-and-mac
+
+And if you have windows machine and "Enable commond doesn't work" Please follow below youtube video
+https://www.youtube.com/watch?v=ijL2LHsoA-Q&ab_channel=VICTORYVISUALS
+
+Please follow above link to run redis locally and check with ping command.
 
 #### Usage
 

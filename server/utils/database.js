@@ -19,7 +19,7 @@ const connectDB = (environment = "prod") => {
   const options = { useUnifiedTopology: true, useNewUrlParser: true };
   mongoose.connect(URI, options);
 };
- 
+
 
 /**
  * Closes the default mongoose connection.
