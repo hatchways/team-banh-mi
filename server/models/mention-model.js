@@ -42,16 +42,7 @@ const mentionSchema = new mongoose.Schema({
 const Mention = mongoose.model("mention", mentionSchema);
 
 async function createMention(data) {
-  const newMention = new Mention({
-    content: data.content,
-    title: data.title,
-    platform: data.platform,
-    image: data.image,
-    date: data.date,
-    popularity: data.popularity,
-    url: data.url,
-  });
-  let ans = await Mention.findOneAndUpdate(
+  await Mention.findOneAndUpdate(
     { url: data.url },
     {
       content: data.content,
@@ -68,10 +59,6 @@ async function createMention(data) {
       runValidators: true,
     }
   );
-  if (!ans)
-    newMention.save(function (err) {
-      if (err) return console.error(err);
-    });
 }
 
 async function getMention(companyName, platformSearch) {
