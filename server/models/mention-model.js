@@ -61,6 +61,22 @@ async function createMention(data) {
   );
 }
 
+/**
+ * Given an array of objects with mention data, create mentions for each object
+ * and store them in the database.
+ *
+ * @param {object[]} mentionsArr - an array of objects with all the properties
+ * of Mentions, see {@link mentionSchema}.
+ * @returns {void}
+ */
+async function storeArrayOfMentions(mentionsArr) {
+  try {
+    mentionsArr.forEach((mention) => createMention(mention));
+  } catch (error) {
+    console.error(error);
+  }
+}
+
 async function getMention(companyName, platformSearch) {
   const result = await Mention.find({
     title: new RegExp(companyName, "i"),
@@ -72,5 +88,6 @@ async function getMention(companyName, platformSearch) {
 module.exports = {
   createMention,
   getMention,
+  storeArrayOfMentions,
   Mention,
 };

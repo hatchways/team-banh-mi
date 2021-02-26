@@ -12,6 +12,7 @@ const r = new snoowrap({
 function getReddit(companyName) {
   return getMention(companyName, "reddit");
 }
+
 function redditSearch(query) {
   r.search({ query: query, subreddit: "all", sort: "top" }).then((data) => {
     data.forEach((element) => {
