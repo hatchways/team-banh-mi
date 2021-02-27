@@ -6,7 +6,7 @@ import Input from "../Input";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    backgroundColor: "whitesmoke",
+    backgroundColor: theme.palette.background.light,
     height: "100vh",
     width: "auto",
     padding: theme.spacing(6),
@@ -39,14 +39,14 @@ const useStyles = makeStyles((theme) => ({
   },
 
   buttonRemove: {
-    backgroundColor: theme.palette.background.lighGray,
+    backgroundColor: theme.palette.background.light,
     color: theme.palette.primary.light,
   },
 
   buttonSave: {
     backgroundColor: theme.palette.primary.main,
     fontSize: 16,
-    color: theme.palette.background.white,
+    color: theme.palette.background.light,
     width: theme.spacing(20),
     height: theme.spacing(8),
     borderRadius: 100,

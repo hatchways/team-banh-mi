@@ -17,6 +17,8 @@ const useStyles = makeStyles((theme) => ({
     position: "relative",
     marginBottom: 10,
     borderRadius: 10,
+    border: "none",
+    boxShadow: "0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.20)",
   },
   image: {
     height: 150,
