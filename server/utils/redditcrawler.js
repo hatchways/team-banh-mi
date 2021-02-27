@@ -34,17 +34,6 @@ function redditSearch(query) {
 function parseMedia(media) {
   if (media) return media;
   return "https://cdn3.iconfinder.com/data/icons/2018-social-media-logotypes/1000/2018_social_media_popular_app_logo_reddit-512.png";
-<<<<<<< HEAD
-=======
-  // if (!media) return "none";
-  // key = Object.keys(media)[0];
-
-  // if (key == "oembed" && media[key]["provider_url"] == "http://imgur.com") {
-  //   return media[key]["url"];
-  // } else if (key == "reddit_video") {
-  //   return media[key]["fallback_url"];
-  // } else return "none";
->>>>>>> 9a56b518b9043a1941ef0d154011cecaff3f252f
 }
 
 module.exports = {
