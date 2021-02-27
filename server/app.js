@@ -5,7 +5,6 @@ const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 const indexRouter = require("./routes/index");
 
-const { redditSearch, getReddit } = require("./utils/redditcrawler");
 
 const mentionRouter = require("./routes/mention");
 const cors = require("cors");
@@ -38,6 +37,7 @@ app.use("/task", taskRouter);
 app.use("/mention", mentionRouter);
 
 redditSearch("tesla");
+getAndStoreTwitterData("tesla");
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

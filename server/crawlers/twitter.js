@@ -1,4 +1,5 @@
 const Twitter = require("twitter-v2");
+const { storeArrayOfMentions } = require("../models/mention-model");
 
 const { TWITTER_API_KEY, TWITTER_API_SECRET_KEY } = process.env;
 
@@ -59,4 +60,24 @@ const getTwitterData = async (query) => {
   }
 };
 
-module.exports = { getTwitterData };
+/**
+ * Given a company name, search for twitter data that mentions that company
+ * (see {@link getTwitterData}), and store it in the mentios collection in the
+ * database (see {@link storeArrayOfMentions}). If operation is successful,
+ * produce true, else log the error to the console and produce false.
+ *
+ * @param {string} companyName - the name of the company to search for.
+ * @returns {boolean} true if the operation was successful. Else, false.
+ */
+const getAndStoreTwitterData = async (companyName) => {
+  try {
+    const twitterDataArr = await getTwitterData(companyName);
+    await storeArrayOfMentions(twitterDataArr);
+    return true;
+  } catch (error) {
+    console.error(error);
+    return false;
+  }
+};
+
+module.exports = { getTwitterData, getAndStoreTwitterData };
