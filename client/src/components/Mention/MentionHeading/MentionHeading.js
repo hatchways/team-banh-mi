@@ -5,6 +5,7 @@ import { makeStyles } from "@material-ui/core/styles";
 const useStyles = makeStyles({
   root: {
     marginBottom: 5,
+    maxWidth: "95%",
   },
   title: {
     fontSize: "1rem",

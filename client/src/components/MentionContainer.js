@@ -4,9 +4,7 @@ import axios from "axios";
 import Mention from "../components/Mention/Mention";
 
 const useStyles = makeStyles((theme) => ({
-  mention: {
-    paddingBottom: 500,
-  },
+  root: {},
 }));
 
 const MentionContainer = (props) => {

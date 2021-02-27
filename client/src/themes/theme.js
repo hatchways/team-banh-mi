@@ -5,6 +5,7 @@ export const theme = createMuiTheme({
     fontFamily: '"Roboto"',
     fontSize: 12,
     label: 16,
+    title: 32,
   },
   palette: {
     primary: {
@@ -14,7 +15,7 @@ export const theme = createMuiTheme({
     },
     background: {
       white: "#FFF",
-      lightGray: "whitesmoke",
+      light: "#FAFBFF",
     },
   },
 });

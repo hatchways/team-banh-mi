@@ -15,6 +15,8 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexDirection: "row",
     position: "relative",
+    marginBottom: 10,
+    borderRadius: 10,
   },
   image: {
     height: 150,

@@ -18,30 +18,26 @@ const useStyles = makeStyles((theme) => ({
     height: "90vh",
     display: "flex",
   },
-
   mainScreen: {
     width: "100%",
-    height: "90vh",
-    backgroundColor: "white",
+    backgroundColor: theme.palette.background.light,
     flex: "1",
+    height: "100%",
+    display: "flex",
+    justifyContent: "center",
+  },
+  title: {
+    fontSize: theme.typography.title,
   },
   content: {
-    marginLeft: "40px",
-    marginRight: "40px",
-    marginTop: "100px",
+    marginTop: theme.spacing(9),
+    maxWidth: "60%",
+    marginRight: theme.spacing(12),
   },
   mainHeader: {
     display: "flex",
     justifyContent: "space-between",
-  },
-  card: {
-    backgroundColor: "red",
-    marginTop: "1vh",
-    marginBottom: "1vh",
-  },
-  navBar: {
-    position: "fixed",
-    top: "0",
+    marginBottom: theme.spacing(4),
   },
   sideBar: {
     position: "fixed",
@@ -59,7 +55,7 @@ function DashBoard() {
         <div className={classes.mainScreen}>
           <div className={classes.content}>
             <div className={classes.mainHeader}>
-              <Typography>My Mentions</Typography>
+              <Typography className={classes.title}>My mentions</Typography>
               <ButtonGroup color="primary" style={{ backgroundColor: "white" }}>
                 <Button>Most recent</Button>
                 <Button>Most popular</Button>
