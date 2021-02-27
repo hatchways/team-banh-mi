@@ -22,10 +22,10 @@ const MentionContainer = (props) => {
     makeCallToBackEnd(companyName);
   }, [setMentions, companyName]);
 
-  const mentionsRender = mentions.map((mention) => (
+  const mentionsRender = mentions.map((mention, key) => (
     <Mention
       className={styles.mention}
-      key={mention.title}
+      key={key}
       title={mention.title}
       source={mention.platform}
       body={mention.content}
