@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const Mention = require("../models/Mention");
+const { Mention } = require("../models/mention-model");
 const { mentionValidation } = require("../utils/validation");
 
 router.get("/", async (req, res) => {
@@ -41,6 +41,7 @@ router.post("/", async (req, res) => {
       image,
       date,
       popularity,
+      url
     });
     if (
       validationErrorsForMentionObject &&
@@ -57,6 +58,7 @@ router.post("/", async (req, res) => {
       image,
       date,
       popularity,
+      url
     });
     const result = await mention.save();
     res.status(200).send(result);
