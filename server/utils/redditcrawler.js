@@ -1,5 +1,6 @@
 var snoowrap = require("snoowrap");
 const { createMention, getMention } = require("../models/mention-model");
+
 const r = new snoowrap({
   userAgent: "webcrawler",
   clientId: "rwl4j4FrYnxqPA",

@@ -1,9 +1,19 @@
 const mongoose = require("mongoose");
-mongoose.set('useFindAndModify',false);
+mongoose.set("useFindAndModify", false);
+
+/**
+ * Mention Schema.
+ * @property {string} content - content of the Mention.
+ * @property {string} title - title of the Mention.
+ * @property {string} platform - platform of the Mention.
+ * @property {string} image - image of the Mention.
+ * @property {string} date - date of the Mention.
+ * @property {string} popularity - popularity of the Mention.
+ * @property {string} url - url of the Mention source.
+ */
 const mentionSchema = new mongoose.Schema({
   content: {
     type: String,
-    
   },
   title: {
     type: String,
@@ -13,7 +23,6 @@ const mentionSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
- 
   image: {
     type: String,
   },
@@ -25,26 +34,60 @@ const mentionSchema = new mongoose.Schema({
     type: String,
   },
   url: {
-    type:String,
-  }
-
+    type: String,
+    required: true,
+  },
 });
-const mention = mongoose.model('mention', mentionSchema)
 
+const Mention = mongoose.model("mention", mentionSchema);
 
-async function createMention(data){
-  const newMention = new mention({content: data.content, title: data.title, platform: data.platform, image: data.image,date: data.date, popularity:data.popularity, url: data.url});
-  let ans = await mention.findOneAndUpdate({url: data.url}, {content: data.content, title: data.title, platform: data.platform, image: data.image,date: data.date, popularity:data.popularity});
-  if(!ans)
-    newMention.save(function (err) { if (err) return console.error(err);});
+async function createMention(data) {
+  await Mention.findOneAndUpdate(
+    { url: data.url },
+    {
+      content: data.content,
+      title: data.title,
+      platform: data.platform,
+      image: data.image,
+      date: data.date,
+      popularity: data.popularity,
+      url: data.url,
+    },
+    {
+      upsert: true,
+      new: true,
+      runValidators: true,
+    }
+  );
 }
 
-function getMention(companyName, platformSearch){
-  return mention.find({ title: new RegExp(companyName, 'i'), platform: new RegExp(platformSearch, 'i')});
+/**
+ * Given an array of objects with mention data, create mentions for each object
+ * and store them in the database.
+ *
+ * @param {object[]} mentionsArr - an array of objects with all the properties
+ * of Mentions, see {@link mentionSchema}.
+ * @returns {void}
+ */
+async function storeArrayOfMentions(mentionsArr) {
+  try {
+    mentionsArr.forEach((mention) => createMention(mention));
+  } catch (error) {
+    console.error(error);
+  }
 }
 
-
+async function getMention(companyName, platformSearch) {
+  const result = await Mention.find({
+    title: new RegExp(companyName, "i"),
+    platform: new RegExp(platformSearch, "i"),
+  });
+  return result;
+}
 
 module.exports = {
-  createMention,getMention
+  createMention,
+  getMention,
+  storeArrayOfMentions,
+  Mention,
 };
