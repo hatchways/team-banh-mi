@@ -1,13 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import MentionContainer from "../components/MentionContainer";
 import Navbar from "../components/Navbar";
 import Sidebar from "./Sidebar";
-import Button from "@material-ui/core/Button";
-import ButtonGroup from "@material-ui/core/ButtonGroup";
+import ToggleButton from "@material-ui/lab/ToggleButton";
+import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
 // CSS
 
 import { CardContent, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
+import { blue } from "@material-ui/core/colors";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -27,6 +28,7 @@ const useStyles = makeStyles((theme) => ({
   title: {
     fontSize: theme.typography.title,
   },
+  toggleButtonsContainer: {},
   content: {
     marginTop: theme.spacing(9),
     maxWidth: "60%",
@@ -42,8 +44,14 @@ const useStyles = makeStyles((theme) => ({
     top: "0",
   },
 }));
+
 function DashBoard() {
+  const [order, setOrder] = useState("most recent");
   const classes = useStyles();
+
+  const handleOrderChange = (event, newOrder) => {
+    setOrder(newOrder);
+  };
 
   return (
     <div className={classes.root}>
@@ -54,10 +62,20 @@ function DashBoard() {
           <div className={classes.content}>
             <div className={classes.mainHeader}>
               <Typography className={classes.title}>My mentions</Typography>
-              <ButtonGroup color="primary" style={{ backgroundColor: "white" }}>
-                <Button>Most recent</Button>
-                <Button>Most popular</Button>
-              </ButtonGroup>
+              <ToggleButtonGroup
+                className={classes.toggleButtonsContainer}
+                exclusive
+                value={order}
+                onChange={handleOrderChange}
+                aria-label="order mentions"
+              >
+                <ToggleButton value="most recent" aria-label="most recent">
+                  Most recent
+                </ToggleButton>
+                <ToggleButton value="most popular" aria-label="most popular">
+                  Most popular
+                </ToggleButton>
+              </ToggleButtonGroup>
             </div>
             <MentionContainer companyName="tesla" />
           </div>
