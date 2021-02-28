@@ -22,7 +22,7 @@ function redditSearch(query) {
         content: element.selftext || element.title,
         title: element.title,
         platform: "reddit",
-        image: parseMedia(element.thumbnail),
+        image: element.thumbnail,
         date: date,
         popularity: element.ups,
         url: link,
@@ -30,11 +30,6 @@ function redditSearch(query) {
       createMention(mention);
     });
   });
-}
-
-function parseMedia(media) {
-  if (media) return media;
-  return "https://cdn3.iconfinder.com/data/icons/2018-social-media-logotypes/1000/2018_social_media_popular_app_logo_reddit-512.png";
 }
 
 module.exports = {
