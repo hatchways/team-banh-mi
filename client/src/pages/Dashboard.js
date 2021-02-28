@@ -28,7 +28,24 @@ const useStyles = makeStyles((theme) => ({
   title: {
     fontSize: theme.typography.title,
   },
-  toggleButtonsContainer: {},
+  toggleButtonsContainer: {
+    backgroundColor: theme.palette.background.toggles,
+    display: "flex",
+    padding: theme.spacing(0.5),
+    height: theme.spacing(4),
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 100,
+    border: "none",
+  },
+  toggleButtons: {
+    borderRadius: 100,
+    border: "none",
+    color: theme.palette.primary.main,
+    fontSize: theme.typography.h6,
+    padding: theme.spacing(1),
+    height: theme.spacing(4),
+  },
   content: {
     marginTop: theme.spacing(9),
     maxWidth: "60%",
@@ -65,14 +82,23 @@ function DashBoard() {
               <ToggleButtonGroup
                 className={classes.toggleButtonsContainer}
                 exclusive
+                size="small"
                 value={order}
                 onChange={handleOrderChange}
-                aria-label="order mentions"
+                aria-label="mentions order"
               >
-                <ToggleButton value="most recent" aria-label="most recent">
+                <ToggleButton
+                  className={classes.toggleButtons}
+                  value="most recent"
+                  aria-label="most recent"
+                >
                   Most recent
                 </ToggleButton>
-                <ToggleButton value="most popular" aria-label="most popular">
+                <ToggleButton
+                  className={classes.toggleButtons}
+                  value="most popular"
+                  aria-label="most popular"
+                >
                   Most popular
                 </ToggleButton>
               </ToggleButtonGroup>
