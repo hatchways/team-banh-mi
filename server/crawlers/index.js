@@ -1,5 +1,5 @@
-const { redditSearch } = require("./utils/redditcrawler");
-const { getAndStoreTwitterData } = require("./crawlers/twitter");
+const { redditSearch } = require("./reddit");
+const { getAndStoreTwitterData } = require("./twitter");
 
 /**
  * Given a company name, crawl all the available platforms for that company
