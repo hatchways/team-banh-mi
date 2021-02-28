@@ -14,8 +14,6 @@ const useStyles = makeStyles((theme) => ({
     position: "relative",
   },
   screenContainer: {
-    width: "100%",
-    height: "90vh",
     display: "flex",
   },
   mainScreen: {
