@@ -51,7 +51,7 @@ router.post("/", async (req, res) => {
       image,
       date,
       popularity,
-      url
+      url,
     });
     if (
       validationErrorsForMentionObject &&
@@ -68,7 +68,7 @@ router.post("/", async (req, res) => {
       image,
       date,
       popularity,
-      url
+      url,
     });
     const result = await mention.save();
     res.status(200).send(result);

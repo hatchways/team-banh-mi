@@ -1,41 +1,73 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
+import Pagination from "@material-ui/lab/Pagination";
 import { makeStyles } from "@material-ui/core";
 import axios from "axios";
 import Mention from "../components/Mention/Mention";
 
 const useStyles = makeStyles((theme) => ({
-  root: {},
+  pagination: {
+    padding: theme.spacing(2),
+    display: "flex",
+    justifyContent: "center",
+  },
 }));
 
 const MentionContainer = (props) => {
   const { companyName } = props;
+  const itemsPerPage = 10;
   const [mentions, setMentions] = useState([]);
+  const [page, setPage] = useState(1);
+  const [numberOfPages, setNumberOfPages] = useState(1);
   const styles = useStyles();
 
   useEffect(() => {
     const makeCallToBackEnd = async (companyName) => {
       try {
-        const { data } = await axios(`/mention/company/${companyName}`);
+        const { data, status } = await axios(`/mention/company/${companyName}`);
         setMentions(data);
       } catch (error) {}
     };
     makeCallToBackEnd(companyName);
-  }, [setMentions, companyName]);
+    setNumberOfPages(() => {
+      return Math.ceil(mentions.length / itemsPerPage);
+    });
+  }, [companyName, mentions.length, itemsPerPage]);
 
-  const mentionsRender = mentions.map((mention, key) => (
-    <Mention
-      className={styles.mention}
-      key={key}
-      title={mention.title}
-      source={mention.platform}
-      body={mention.content}
-      imgSrc={mention.image}
-      imgAlt={mention.platform}
-      mood="good"
-    />
-  ));
+  const handlePageChange = (event, value) => {
+    setPage(value);
+  };
 
-  return <div className={styles.root}>{mentionsRender}</div>;
+  const mentionsRender = mentions
+    .slice((page - 1) * itemsPerPage, page * itemsPerPage)
+    .map((mention, key) => (
+      <Mention
+        className={styles.mention}
+        key={key}
+        title={mention.title}
+        source={mention.platform}
+        body={mention.content}
+        imgSrc={mention.image}
+        imgAlt={mention.platform}
+        mood="good"
+      />
+    ));
+
+  return (
+    <div className={styles.root}>
+      <div className={styles.mentions}>{mentionsRender}</div>
+      {/* <div className={styles.paginationContainer}> */}
+      <Pagination
+        count={numberOfPages}
+        page={page}
+        onChange={handlePageChange}
+        defaultPage={1}
+        size="large"
+        color="primary"
+        className={styles.pagination}
+      />
+      {/* </div> */}
+    </div>
+  );
 };
 
 export default MentionContainer;
