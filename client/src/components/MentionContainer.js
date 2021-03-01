@@ -3,6 +3,7 @@ import Pagination from "@material-ui/lab/Pagination";
 import { makeStyles } from "@material-ui/core";
 import axios from "axios";
 import Mention from "../components/Mention/Mention";
+import Spinner from "../components/Spinner";
 
 const useStyles = makeStyles((theme) => ({
   pagination: {
@@ -15,6 +16,7 @@ const useStyles = makeStyles((theme) => ({
 const MentionContainer = (props) => {
   const { companyName } = props;
   const itemsPerPage = 10;
+  const [isLoading, setIsLoading] = useState(true);
   const [mentions, setMentions] = useState([]);
   const [page, setPage] = useState(1);
   const [numberOfPages, setNumberOfPages] = useState(1);
@@ -25,7 +27,11 @@ const MentionContainer = (props) => {
       try {
         const { data, status } = await axios(`/mention/company/${companyName}`);
         setMentions(data);
-      } catch (error) {}
+        setIsLoading(false);
+      } catch (error) {
+        console.error(error);
+        setIsLoading(false);
+      }
     };
     makeCallToBackEnd(companyName);
     setNumberOfPages(() => {
@@ -51,6 +57,8 @@ const MentionContainer = (props) => {
         mood="good"
       />
     ));
+
+  if (isLoading) return <Spinner />;
 
   return (
     <div className={styles.root}>
