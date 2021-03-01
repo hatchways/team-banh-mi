@@ -1,7 +1,7 @@
 const Joi = require("joi");
 
 const schema = Joi.object({
-  title: Joi.string().min(6).required(),
+  title: Joi.string().min(3).required(),
   content: Joi.string().min(10).required(),
   platform: Joi.string().required(),
   date: Joi.date().required(),

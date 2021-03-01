@@ -4,18 +4,21 @@ const { join } = require("path");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 const indexRouter = require("./routes/index");
+
 const mentionRouter = require("./routes/mention");
 const cors = require("cors");
 const authRouter = require("./routes/auth");
+const socialMediaRouter = require("./routes/socialMedia");
+const taskRouter = require("./routes/jobs");
+const allowCors = require("./middlewares/cors");
 const { connectDB, disconnectDB } = require("./utils/database");
+const { createTaskQueue } = require("./utils/taskqueues");
 const { corsOptions } = require("./middlewares/cors");
+const { crawlAllPlatformsAndStoreResults } = require("./crawlers/index");
 
 const { json, urlencoded } = express;
 
 const app = express();
-
-//Connect to DB
-connectDB("test");
 
 app.use(logger("dev"));
 app.use(json());
@@ -27,8 +30,14 @@ app.use(cookieParser());
 // TODO: Change this in production. Remove the argument.
 connectDB("test");
 
+createTaskQueue();
+
 app.use("/", indexRouter);
 app.use("/auth", authRouter);
+app.use("/task", taskRouter);
+app.use("/mention", mentionRouter);
+
+crawlAllPlatformsAndStoreResults("tesla");
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

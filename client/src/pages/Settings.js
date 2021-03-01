@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import Navbar from "./navbar";
+import Navbar from "../components/Navbar";
 import CompanySettings from "../components/Settings/CompanySettings";
 import Grid from "@material-ui/core/Grid";
 import List from "@material-ui/core/List";
@@ -83,7 +83,7 @@ function Settings() {
 
   return (
     <Grid container className={styles.root}>
-      {/* <Navbar /> */}
+      <Navbar />
       <Grid container item>
         <Grid item container xs={3} className={styles.sidebarContainer}>
           <Grid item className={styles.titleContainer}>

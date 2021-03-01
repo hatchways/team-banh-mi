@@ -16,7 +16,7 @@ To set-up the database locally, you need to add the database name, testing
 database name, user-name and password to variables named DB_NAME,
 DB_TEST_NAME, DB_USER and DB_PASS respectively to your local `.env` files.
 You will also need to add the JWT_SECRET variable to store the secret key
-used to encrypt and decrypt the authentication tokens.
+used to encrypt and decrypt the authentication tokens, as well as other environment variables to authenticate tha application with different services that the application uses.
 For example:
 
 ```bash
@@ -27,11 +27,26 @@ DB_PASS=my-database-password
 JWT_SECRET=secret-key
 COOKIES_EXPIRES_MS=cookies-expires-ms
 JWT_EXPIRES_MS=jwt-expires-ms
+REDIS_URL=redis-url
+TWITTER_API_KEY=twitter-api-key
+TWITTER_API_SECRET_KEY=twitter-secret-key
 ```
 
 You can then use the `connectDB` and `disconnectDB` functions provided in the
 `/server/utils/database.js` to both connect and disconnect from the database
 using your personal login information from the `.env` file.
+
+### Redis
+
+### Setup
+
+To set-up the redis locally, you need to follow the below link.
+https://www.devglan.com/blog/install-redis-windows-and-mac
+
+And if you have windows machine and "Enable commond doesn't work" Please follow below youtube video
+https://www.youtube.com/watch?v=ijL2LHsoA-Q&ab_channel=VICTORYVISUALS
+
+Please follow above link to run redis locally and check with ping command.
 
 #### Usage
 
