@@ -8,6 +8,7 @@ const indexRouter = require("./routes/index");
 const mentionRouter = require("./routes/mention");
 const cors = require("cors");
 const authRouter = require("./routes/auth");
+const socialMediaRouter = require("./routes/socialMedia");
 const taskRouter = require("./routes/jobs");
 const allowCors = require("./middlewares/cors");
 const { connectDB, disconnectDB } = require("./utils/database");

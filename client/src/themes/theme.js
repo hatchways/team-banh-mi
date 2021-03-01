@@ -13,6 +13,9 @@ export const theme = createMuiTheme({
       dark: "#284097",
       light: "#94A8F5",
     },
+    secondary: {
+      main: "#FF9400",
+    },
     background: {
       white: "#FFF",
       toggles: "#EAEEFD",
