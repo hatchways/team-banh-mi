@@ -31,7 +31,10 @@ const useStyles = makeStyles((theme) => ({
 const parseDefaultImages = (source, imgUrl) => {
   switch (source) {
     case "reddit":
-      return imgUrl === "default" ? "/images/reddit-logo.png" : imgUrl;
+      console.log(`Reddit executed: ${imgUrl}`);
+      return imgUrl === "default" || imgUrl === "none"
+        ? "/images/reddit-logo.png"
+        : imgUrl;
     case "Twitter":
       return imgUrl ? imgUrl : "/images/twitter-logo.png";
     default:
