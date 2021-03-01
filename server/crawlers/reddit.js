@@ -19,10 +19,10 @@ function redditSearch(query) {
       date = new Date(element.created_utc * 1000);
       link = "https://www.reddit.com/" + element.permalink;
       mention = {
-        content: element.selftext,
+        content: element.selftext || element.title,
         title: element.title,
         platform: "reddit",
-        image: parseMedia(element.media),
+        image: element.thumbnail,
         date: date,
         popularity: element.ups,
         url: link,
@@ -30,17 +30,6 @@ function redditSearch(query) {
       createMention(mention);
     });
   });
-}
-
-function parseMedia(media) {
-  if (!media) return "none";
-  key = Object.keys(media)[0];
-
-  if (key == "oembed" && media[key]["provider_url"] == "http://imgur.com") {
-    return media[key]["url"];
-  } else if (key == "reddit_video") {
-    return media[key]["fallback_url"];
-  } else return "none";
 }
 
 module.exports = {

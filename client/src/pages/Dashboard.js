@@ -1,54 +1,74 @@
-import React from "react";
+import React, { useState } from "react";
+import MentionContainer from "../components/MentionContainer";
 import Navbar from "../components/Navbar";
 import Sidebar from "./Sidebar";
-import Button from "@material-ui/core/Button";
-import ButtonGroup from "@material-ui/core/ButtonGroup";
+import ToggleButton from "@material-ui/lab/ToggleButton";
+import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
 // CSS
 
 import { CardContent, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
+import { blue } from "@material-ui/core/colors";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     position: "relative",
   },
   screenContainer: {
-    width: "100%",
-    height: "90vh",
     display: "flex",
   },
-
   mainScreen: {
     width: "100%",
-    height: "90vh",
-    backgroundColor: "white",
+    backgroundColor: theme.palette.background.light,
     flex: "1",
+    height: "100%",
+    display: "flex",
+    justifyContent: "center",
+  },
+  title: {
+    fontSize: theme.typography.title,
+  },
+  toggleButtonsContainer: {
+    backgroundColor: theme.palette.background.toggles,
+    display: "flex",
+    padding: theme.spacing(0.5),
+    height: theme.spacing(4),
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 100,
+    border: "none",
+  },
+  toggleButtons: {
+    borderRadius: 100,
+    border: "none",
+    color: theme.palette.primary.main,
+    fontSize: theme.typography.h6,
+    padding: theme.spacing(1),
+    height: theme.spacing(4),
   },
   content: {
-    marginLeft: "40px",
-    marginRight: "40px",
-    marginTop: "100px",
+    marginTop: theme.spacing(9),
+    maxWidth: "60%",
+    marginRight: theme.spacing(12),
   },
   mainHeader: {
     display: "flex",
     justifyContent: "space-between",
-  },
-  card: {
-    backgroundColor: "red",
-    marginTop: "1vh",
-    marginBottom: "1vh",
-  },
-  navBar: {
-    position: "fixed",
-    top: "0",
+    marginBottom: theme.spacing(4),
   },
   sideBar: {
     position: "fixed",
     top: "0",
   },
 }));
+
 function DashBoard() {
+  const [order, setOrder] = useState("most recent");
   const classes = useStyles();
+
+  const handleOrderChange = (event, newOrder) => {
+    setOrder(newOrder);
+  };
 
   return (
     <div className={classes.root}>
@@ -58,13 +78,32 @@ function DashBoard() {
         <div className={classes.mainScreen}>
           <div className={classes.content}>
             <div className={classes.mainHeader}>
-              <Typography>My Mentions</Typography>
-              <ButtonGroup color="primary" style={{ backgroundColor: "white" }}>
-                <Button>Most recent</Button>
-                <Button>Most popular</Button>
-              </ButtonGroup>
+              <Typography className={classes.title}>My mentions</Typography>
+              <ToggleButtonGroup
+                className={classes.toggleButtonsContainer}
+                exclusive
+                size="small"
+                value={order}
+                onChange={handleOrderChange}
+                aria-label="mentions order"
+              >
+                <ToggleButton
+                  className={classes.toggleButtons}
+                  value="most recent"
+                  aria-label="most recent"
+                >
+                  Most recent
+                </ToggleButton>
+                <ToggleButton
+                  className={classes.toggleButtons}
+                  value="most popular"
+                  aria-label="most popular"
+                >
+                  Most popular
+                </ToggleButton>
+              </ToggleButtonGroup>
             </div>
-            <ResultCard />
+            <MentionContainer companyName="tesla" />
           </div>
         </div>
       </div>
@@ -72,12 +111,4 @@ function DashBoard() {
   );
 }
 
-const ResultCard = () => {
-  return (
-    <CardContent className="card">
-      <Typography> Company Name Title Holder</Typography>
-      <Typography> The company discriptions lalalalalalalallalala</Typography>
-    </CardContent>
-  );
-};
 export default DashBoard;
