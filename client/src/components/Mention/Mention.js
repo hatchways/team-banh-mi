@@ -14,6 +14,11 @@ const useStyles = makeStyles((theme) => ({
     maxHeight: 150,
     display: "flex",
     flexDirection: "row",
+    position: "relative",
+    marginBottom: 10,
+    borderRadius: 10,
+    border: "none",
+    boxShadow: "0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.20)",
   },
   image: {
     height: 150,
@@ -23,12 +28,28 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const parseDefaultImages = (source, imgUrl) => {
+  switch (source) {
+    case "reddit":
+      console.log(`Reddit executed: ${imgUrl}`);
+      return imgUrl === "default" || imgUrl === "none"
+        ? "/images/reddit-logo.png"
+        : imgUrl;
+    case "Twitter":
+      return imgUrl ? imgUrl : "/images/twitter-logo.png";
+    default:
+      return imgUrl;
+  }
+};
+
 function Mention({ title, source, body, mood, imgSrc, imgAlt }) {
   const classes = useStyles();
 
+  const img = parseDefaultImages(source, imgSrc);
+
   return (
     <Card className={classes.root} variant="outlined">
-      <CardMedia className={classes.image} image={imgSrc} title={imgAlt} />
+      <CardMedia className={classes.image} image={img} title={imgAlt} />
       <CardContent>
         <MoodIcon mood={mood} />
         <MentionHeading title={title} source={source} />
