@@ -225,6 +225,10 @@ userSchema.methods.registerUser = async function () {
  * @property {string} companyName - company name of the user.
  * @property {string} password - password of the user.
  */
+async function getAllCompanyName(){
+ return(await User.distinct('companyName'));
+}
 const User = mongoose.model("User", userSchema);
 
 module.exports = User;
+module.exports = {getAllCompanyName};

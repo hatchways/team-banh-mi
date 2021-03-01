@@ -35,6 +35,7 @@ const mention = mongoose.model('mention', mentionSchema)
 async function createMention(data){
   const newMention = new mention({content: data.content, title: data.title, platform: data.platform, image: data.image,date: data.date, popularity:data.popularity, url: data.url});
   let ans = await mention.findOneAndUpdate({url: data.url}, {content: data.content, title: data.title, platform: data.platform, image: data.image,date: data.date, popularity:data.popularity});
+  
   if(!ans)
     newMention.save(function (err) { if (err) return console.error(err);});
 }
