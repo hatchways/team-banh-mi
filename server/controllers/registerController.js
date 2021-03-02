@@ -7,7 +7,7 @@ async function registerUser(req, res) {
     const { error } = validateRequest(req.body);
     if (error) return res.status(400).send(error);
     const newUser = new User(req.body);
-    const { err, save } = await newUser.registerUser();
+    const { err, userData } = await newUser.registerUser();
     if (err) {
       return res.status(500).send(err);
     } else {
@@ -23,8 +23,11 @@ async function registerUser(req, res) {
         cookie.generateCookiesObject()
       );
       return res.status(201).send({
-        email: req.body.email,
-        companyName: req.body.companyName,
+        email: userData.email,
+        companyName: userData.companyName,
+        platforms: userData.platforms,
+        favoriteMentions: userData.favoriteMentions,
+        id: userData.id,
         accessToken: token,
       });
     }

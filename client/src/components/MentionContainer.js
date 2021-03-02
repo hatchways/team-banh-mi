@@ -1,4 +1,5 @@
-import React, { useEffect, useState, useMemo } from "react";
+import React, { useEffect, useState, useReducer } from "react";
+import { userReducer, userInitialState } from "../store/userReducer";
 import Pagination from "@material-ui/lab/Pagination";
 import { makeStyles } from "@material-ui/core";
 import axios from "axios";
@@ -13,8 +14,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const MentionContainer = (props) => {
-  const { companyName } = props;
+const MentionContainer = () => {
+  const [userState] = useReducer(userReducer, userInitialState);
   const itemsPerPage = 10;
   const [isLoading, setIsLoading] = useState(true);
   const [mentions, setMentions] = useState([]);
@@ -25,7 +26,11 @@ const MentionContainer = (props) => {
   useEffect(() => {
     const makeCallToBackEnd = async (companyName) => {
       try {
+        // const mentions = [];
+        // for (let company of companyName) {
         const { data, status } = await axios(`/mention/company/${companyName}`);
+        // mentions.concat(data);
+        // }
         setMentions(data);
         setIsLoading(false);
       } catch (error) {
@@ -33,11 +38,11 @@ const MentionContainer = (props) => {
         setIsLoading(false);
       }
     };
-    makeCallToBackEnd(companyName);
+    makeCallToBackEnd(userState.comapnyName);
     setNumberOfPages(() => {
       return Math.ceil(mentions.length / itemsPerPage);
     });
-  }, [companyName, mentions.length, itemsPerPage]);
+  }, [userState.companyName, mentions.length, itemsPerPage]);
 
   const handlePageChange = (event, value) => {
     setPage(value);

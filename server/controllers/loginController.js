@@ -27,8 +27,11 @@ async function loginUser(req, res) {
   if (token) {
     res.cookie(cookie.getCookiesName(), token, cookie.generateCookiesObject());
     return res.status(200).send({
+      id: user._id,
       email: user.email,
       companyName: user.companyName,
+      platforms: user.platforms,
+      favoriteMentions: user.favoriteMentions,
       accessToken: token,
     });
   } else {

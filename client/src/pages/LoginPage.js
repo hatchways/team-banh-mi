@@ -10,7 +10,10 @@ import { useFormik } from "formik";
 import * as yup from "yup";
 import Alert from "../components/Alert";
 import { AuthContext } from "../context/authContext";
-import { reducer, initialState } from "../store/authUIReducer";
+import { UserContext } from "../context/userContext";
+import { UIReducer, UIInitialState } from "../store/authUIReducer";
+import { userReducer, userInitialState } from "../store/userReducer";
+import * as actionTypes from "../store/actionTypes";
 
 const validationSchema = yup.object({
   email: yup
@@ -52,12 +55,13 @@ const useStyles = makeStyles((theme) => ({
 export default function LoginPage() {
   const { vertical, horizontal } = { vertical: "bottom", horizontal: "center" };
 
-  const userContext = useContext(AuthContext);
+  const authContext = useContext(AuthContext);
+  const { userDispatch, setId } = useContext(UserContext);
 
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const [UIState, UIDispatch] = useReducer(UIReducer, UIInitialState);
 
   const login = async (user) => {
-    dispatch({ type: "LOGIN_ACTION" });
+    UIDispatch({ type: "LOGIN_ACTION" });
     try {
       const myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
@@ -80,15 +84,17 @@ export default function LoginPage() {
       const data = await response.json();
       if (response.ok) {
         Cookies.set("x-auth-token", data.accessToken, { expires: 30 });
-        dispatch({ type: "LOGIN_SUCCESS" });
-        userContext.login();
+        UIDispatch({ type: actionTypes.LOGIN_SUCCESS });
+        setId(data.id);
+        userDispatch({ type: actionTypes.UPDATE_USER_DATA, user: data });
+        authContext.login();
       } else {
-        userContext.logout();
+        authContext.logout();
         throw new Error("Error logging user");
       }
     } catch (e) {
-      userContext.logout();
-      dispatch({ type: "LOGIN_ERROR", payload: e.message });
+      authContext.logout();
+      UIDispatch({ type: "LOGIN_ERROR", payload: e.message });
     }
   };
 
@@ -107,7 +113,7 @@ export default function LoginPage() {
     console.log("Snackbar gone");
   };
 
-  if (userContext.isAuthenticated) return <Redirect to="/dashboard" />;
+  if (authContext.isAuthenticated) return <Redirect to="/dashboard" />;
 
   return (
     <Grid
@@ -192,15 +198,15 @@ export default function LoginPage() {
 
       <Snackbar
         anchorOrigin={{ vertical, horizontal }}
-        open={state.showSnack}
+        open={UIState.showSnack}
         onClose={handleClose}
         key={vertical + horizontal}
       >
         <Alert
           onClose={handleClose}
-          severity={state.error ? "error" : "success"}
+          severity={UIState.error ? "error" : "success"}
         >
-          {state.message}
+          {UIState.message}
         </Alert>
       </Snackbar>
     </Grid>

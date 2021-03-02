@@ -1,6 +1,6 @@
 import * as actionTypes from "./actionTypes";
 
-const initialState = {
+const UIInitialState = {
   loading: true,
   message: "",
   showSnack: false,
@@ -49,7 +49,7 @@ const loginError = (message) => ({
   error: true,
 });
 
-const reducer = (state = initialState, action) => {
+const UIReducer = (state = UIInitialState, action) => {
   switch (action.type) {
     case actionTypes.SIGNUP_ACTION:
       return signupAction();
@@ -68,4 +68,4 @@ const reducer = (state = initialState, action) => {
   }
 };
 
-export { reducer, initialState };
+export { UIReducer, UIInitialState };

@@ -10,6 +10,7 @@ const cors = require("cors");
 const authRouter = require("./routes/auth");
 const socialMediaRouter = require("./routes/socialMedia");
 const taskRouter = require("./routes/jobs");
+const userRouter = require('./routes/user');
 const allowCors = require("./middlewares/cors");
 const { connectDB, disconnectDB } = require("./utils/database");
 const { createTaskQueue } = require("./utils/taskqueues");
@@ -36,6 +37,7 @@ app.use("/", indexRouter);
 app.use("/auth", authRouter);
 app.use("/task", taskRouter);
 app.use("/mention", mentionRouter);
+app.use("/user", userRouter);
 
 crawlAllPlatformsAndStoreResults("tesla");
 

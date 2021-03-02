@@ -1,14 +1,18 @@
-import React, { useState } from "react";
+import React, { useState, useContext, useReducer, useEffect } from "react";
 import MentionContainer from "../components/MentionContainer";
 import Navbar from "../components/Navbar";
 import Sidebar from "./Sidebar";
 import ToggleButton from "@material-ui/lab/ToggleButton";
 import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
-// CSS
+import { userReducer, userInitialState } from "../store/userReducer";
+import { AuthContext } from "../context/authContext";
+import { UserContext } from "../context/userContext";
+import * as actionTypes from "../store/actionTypes";
 
+// CSS
 import { CardContent, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import { blue } from "@material-ui/core/colors";
+import axios from "axios";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -64,11 +68,22 @@ const useStyles = makeStyles((theme) => ({
 
 function DashBoard() {
   const [order, setOrder] = useState("most recent");
+  // const authContext = useContext(AuthContext);
+  const { userDispatch, id } = useContext(UserContext);
+  // const [userState] = useReducer(userReducer, userInitialState);
   const classes = useStyles();
 
   const handleOrderChange = (event, newOrder) => {
     setOrder(newOrder);
   };
+
+  useEffect(() => {
+    const populateUserReducer = async (id) => {
+      const { data } = await axios(`http://localhost:3001/user/${id}`);
+      userDispatch({ type: actionTypes.UPDATE_USER_DATA, user: data });
+    };
+    populateUserReducer(id);
+  }, [id, userDispatch]);
 
   return (
     <div className={classes.root}>
@@ -103,7 +118,7 @@ function DashBoard() {
                 </ToggleButton>
               </ToggleButtonGroup>
             </div>
-            <MentionContainer companyName="tesla" />
+            <MentionContainer />
           </div>
         </div>
       </div>

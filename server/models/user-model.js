@@ -25,6 +25,12 @@ const userSchema = new mongoose.Schema({
     required: true,
     min: [6, "Password must be at least 6 characters"],
   },
+  favoriteMentions: {
+    type: [{ type: mongoose.Schema.Types.ObjectId, ref: "mention" }],
+  },
+  platforms: {
+    type: [String],
+  },
 });
 
 /**
@@ -141,7 +147,9 @@ userSchema.methods.softRecover = function () {
  * @method
  */
 userSchema.methods.getCompanyName = async function () {
-  const result = await  User.find({ email: this.email }).select("companyName -_id");
+  const result = await User.find({ email: this.email }).select(
+    "companyName -_id"
+  );
   return result[0].companyName;
 };
 
@@ -154,7 +162,10 @@ userSchema.methods.getCompanyName = async function () {
  * @method
  */
 userSchema.methods.addCompanyName = async function (companyName) {
-  const { ok } = await User.updateOne({ email: this.email }, { $push: { companyName }})
+  const { ok } = await User.updateOne(
+    { email: this.email },
+    { $push: { companyName } }
+  );
   if (!ok) return false;
   return true;
 };
@@ -168,7 +179,10 @@ userSchema.methods.addCompanyName = async function (companyName) {
  * @method
  */
 userSchema.methods.deleteCompanyName = async function (companyName) {
-  const { ok } = await User.updateOne({ email: this.email }, { $pull: { companyName }});
+  const { ok } = await User.updateOne(
+    { email: this.email },
+    { $pull: { companyName } }
+  );
   if (!ok) return false;
   return true;
 };
@@ -226,9 +240,114 @@ userSchema.methods.registerUser = async function () {
   try {
     await this._encryptPassword();
     await this.save();
-    return { save: true };
+    const userData = {
+      email: this.email,
+      id: this._id,
+      companyName: this.companyName,
+      platforms: this.platforms,
+      favoriteMentions: this.favoriteMentions,
+    };
+    return { save: true, userData };
   } catch (err) {
     return { err: databaseErrorHandler(err) };
+  }
+};
+
+/**
+ * Produce an array of all the favorite mentions of a user.
+ *
+ * @returns {Object[]} an array of mentions.
+ */
+userSchema.methods.getFavoriteMentions = async function () {
+  try {
+    const user = await User.findById(this._id).populate("favoriteMentions");
+    return user.favoriteMentions;
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+/**
+ * Given the id of a mention, add the mention to the userSchema's
+ * favoriteMentions array.
+ *
+ * @param {ObjectId} id
+ * @returns {boolean} produce true if the operation was successful, else false.
+ */
+userSchema.methods.addFavoriteMentions = async function (id) {
+  try {
+    const { ok } = await User.updateOne(
+      { email: this.email },
+      { $push: { favoriteMentions: id } }
+    );
+    if (!ok) return false;
+    return true;
+  } catch (err) {
+    console.error(err);
+    return false;
+  }
+};
+
+/**
+ * Given the id of a mention, remove the mention from the userSchema's
+ * favoriteMentions array.
+ *
+ * @param {ObjectId} id
+ * @returns {boolean} produce true if the operation was successful, else false.
+ */
+userSchema.methods.deleteFavoriteMentions = async function (id) {
+  try {
+    const { ok } = await User.updateOne(
+      { email: this.email },
+      { $pull: { favoriteMentions: id } }
+    );
+    if (!ok) return false;
+    return true;
+  } catch (err) {
+    console.error(err);
+    return false;
+  }
+};
+
+/**
+ * Given a platform, add the platform to the array of active platforms for the
+ * user.
+ *
+ * @param {string} platform
+ * @returns {boolean} produce true if the operation was successful, else false.
+ */
+userSchema.methods.addPlatform = async function (platform) {
+  try {
+    const { ok } = await User.updateOne(
+      { email: this.email },
+      { $push: { platforms: platform } }
+    );
+    if (!ok) return false;
+    return true;
+  } catch (err) {
+    console.error(err);
+    return false;
+  }
+};
+
+/**
+ * Given a platform, delete the platform from the array of active platforms for
+ * the user.
+ *
+ * @param {string} platform
+ * @returns {boolean} produce true if the operation was successful, else false.
+ */
+userSchema.methods.deletePlatform = async function (platform) {
+  try {
+    const { ok } = await User.updateOne(
+      { email: this.email },
+      { $pull: { platforms: platform } }
+    );
+    if (!ok) return false;
+    return true;
+  } catch (err) {
+    console.error(err);
+    return false;
   }
 };
 
