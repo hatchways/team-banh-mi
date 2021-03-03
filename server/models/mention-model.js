@@ -86,9 +86,7 @@ function displaySentiment(text) {
  */
 async function storeArrayOfMentions(mentionsArr) {
   try {
-    mentionsArr.forEach((mention) => {
-      createMention(mention);
-    });
+    mentionsArr.forEach((mention) => createMention(mention));
   } catch (error) {
     console.error(error);
   }

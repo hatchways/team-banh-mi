@@ -15,8 +15,7 @@ const r = new snoowrap({
 });
 
 function getReddit(companyName) {
-  const result = getMention(companyName, "reddit");
-  return result;
+  return getMention(companyName, "reddit");
 }
 
 function redditSearch(query) {
