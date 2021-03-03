@@ -4,7 +4,6 @@ const {
   getMention,
   displaySentiment,
 } = require("../models/mention-model");
-const sentimentAnalysis = require("sentiment-analysis");
 
 const r = new snoowrap({
   userAgent: "webcrawler",
