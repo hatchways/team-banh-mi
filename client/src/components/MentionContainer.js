@@ -26,7 +26,6 @@ const MentionContainer = (props) => {
     const makeCallToBackEnd = async (companyName) => {
       try {
         const { data, status } = await axios(`/mention/company/${companyName}`);
-        console.log(data[0]);
         setMentions(data);
         setIsLoading(false);
       } catch (error) {
