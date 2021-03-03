@@ -1,5 +1,9 @@
 var snoowrap = require("snoowrap");
-const { createMention, getMention } = require("../models/mention-model");
+const {
+  createMention,
+  getMention,
+  displaySentiment,
+} = require("../models/mention-model");
 const sentimentAnalysis = require("sentiment-analysis");
 
 const r = new snoowrap({
@@ -33,14 +37,6 @@ function redditSearch(query) {
       createMention(mention);
     });
   });
-}
-
-function displaySentiment(text) {
-  const sentiment = sentimentAnalysis(text);
-  let overallSentiment = "neutral";
-  if (sentiment > 0.2) overallSentiment = "good";
-  else if (sentiment < -0.2) overallSentiment = "bad";
-  return overallSentiment;
 }
 
 module.exports = {

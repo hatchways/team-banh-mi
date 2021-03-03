@@ -106,5 +106,6 @@ module.exports = {
   createMention,
   getMention,
   storeArrayOfMentions,
+  displaySentiment,
   Mention,
 };
