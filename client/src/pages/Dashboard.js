@@ -67,8 +67,8 @@ function DashBoard() {
   const [search, setSearch] = useState("search");
   const classes = useStyles();
 
-  const handleSearch = (event, newOrder) => {
-    setSearch(event);
+  const onchange = (data) => {
+    setSearch(data);
   };
   const handleOrderChange = (event, newOrder) => {
     setOrder(newOrder);
@@ -76,7 +76,12 @@ function DashBoard() {
 
   return (
     <div className={classes.root}>
-      <Navbar className={classes.navBar} onChange={handleSearch} />
+      <Navbar
+        className={classes.navBar}
+        onchange={(e) => {
+          onchange(e);
+        }}
+      />
       <div className={classes.screenContainer}>
         <Sidebar className={classes.sideBar} />
         <div className={classes.mainScreen}>
