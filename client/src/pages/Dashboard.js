@@ -64,15 +64,19 @@ const useStyles = makeStyles((theme) => ({
 
 function DashBoard() {
   const [order, setOrder] = useState("most recent");
+  const [search, setSearch] = useState("search");
   const classes = useStyles();
 
+  const handleSearch = (event, newOrder) => {
+    setSearch(event);
+  };
   const handleOrderChange = (event, newOrder) => {
     setOrder(newOrder);
   };
 
   return (
     <div className={classes.root}>
-      <Navbar className={classes.navBar} />
+      <Navbar className={classes.navBar} onChange={handleSearch} />
       <div className={classes.screenContainer}>
         <Sidebar className={classes.sideBar} />
         <div className={classes.mainScreen}>
@@ -103,7 +107,7 @@ function DashBoard() {
                 </ToggleButton>
               </ToggleButtonGroup>
             </div>
-            <MentionContainer companyName="tesla" />
+            <MentionContainer companyName={search} />
           </div>
         </div>
       </div>

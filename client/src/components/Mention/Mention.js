@@ -7,7 +7,9 @@ import CardMedia from "@material-ui/core/CardMedia";
 import CardContent from "@material-ui/core/CardContent";
 import MentionHeading from "../Mention/MentionHeading/MentionHeading";
 import MentionBody from "../Mention/MentionBody/MentionBody";
+import Dialog from "@material-ui/core/Dialog";
 
+import { DialogContent, DialogTitle } from "@material-ui/core";
 const useStyles = makeStyles((theme) => ({
   root: {
     padding: 10,
@@ -26,6 +28,12 @@ const useStyles = makeStyles((theme) => ({
     flexShrink: 0,
     flexGrow: 0,
   },
+  singleMention: {
+    display: "flex",
+    height: "40vh",
+    width: "90vw",
+    marginLeft: "20vw",
+  },
 }));
 
 const parseDefaultImages = (source, imgUrl) => {
@@ -42,20 +50,43 @@ const parseDefaultImages = (source, imgUrl) => {
   }
 };
 
-function Mention({ title, source, body, mood, imgSrc, imgAlt }) {
+function Mention({ title, source, body, mood, imgSrc, imgAlt, url }) {
   const classes = useStyles();
 
   const img = parseDefaultImages(source, imgSrc);
+  const [dialog, setDialog] = React.useState(false);
 
+  const handleClickOpen = () => {
+    setDialog(true);
+  };
+
+  const handleClose = () => {
+    setDialog(false);
+  };
   return (
-    <Card className={classes.root} variant="outlined">
-      <CardMedia className={classes.image} image={img} title={imgAlt} />
-      <CardContent>
-        <MoodIcon mood={mood} />
-        <MentionHeading title={title} source={source} />
-        <MentionBody body={body} />
-      </CardContent>
-    </Card>
+    <div>
+      <Card
+        className={classes.root}
+        variant="outlined"
+        onClick={handleClickOpen}
+      >
+        <CardMedia className={classes.image} image={img} title={imgAlt} />
+        <CardContent>
+          <MoodIcon mood={mood} />
+          <MentionHeading title={title} source={source} />
+          <MentionBody body={body} />
+        </CardContent>
+      </Card>
+      <Dialog
+        className={classes.singleMention}
+        open={dialog}
+        onClose={handleClose}
+      >
+        <DialogTitle>{title}</DialogTitle>
+        <DialogContent>{body}</DialogContent>
+        <DialogContent>{url}</DialogContent>
+      </Dialog>
+    </div>
   );
 }
 
