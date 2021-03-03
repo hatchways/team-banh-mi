@@ -239,9 +239,10 @@ userSchema.methods.registerUser = async function () {
     return { err: databaseErrorHandler(err) };
   }
 };
-async function getAllCompanyName() {
+
+userSchema.statics.getAllCompanyName = async function () {
   return await User.distinct("companyName");
-}
+};
 /**
  * User Model.
  * @constructor
@@ -252,4 +253,3 @@ async function getAllCompanyName() {
 const User = mongoose.model("User", userSchema);
 
 module.exports = User;
-module.exports = { getAllCompanyName };

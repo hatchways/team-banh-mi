@@ -5,6 +5,7 @@ const searchQueue = new bull("searchQueue", {
 });
 const { redditSearch, getReddit } = require("../crawlers/reddit");
 const { getAndStoreTwitterData } = require("../crawlers/twitter");
+const User = require("../models/user-model");
 
 const companyQueue = new bull("companyQueue", {
   redis: { port: 6379, host: "127.0.0.1" },
@@ -22,7 +23,7 @@ companyQueue.process(function (job, done) {
 });
 
 function updateMentionDatabase() {
-  getAllCompanyName().then((data) =>
+  User.getAllCompanyName().then((data) =>
     data.forEach((element) => {
       searchQueue.add({ company: element });
     })
