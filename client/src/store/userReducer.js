@@ -1,14 +1,17 @@
 import * as actionTypes from "./actionTypes";
 
 const userInitialState = {
+  id: "",
   email: "",
   companyName: [],
   platforms: [],
   favoriteMentions: [],
 };
 
-const updateUserData = (user) => {
+const updateUserData = (state, user) => {
   return {
+    ...state,
+    id: user._id,
     email: user.email,
     companyName: user.companyName,
     platforms: user.platforms,
@@ -52,7 +55,7 @@ const deletePlatform = (state, action) => {
 const userReducer = (state = userInitialState, action) => {
   switch (action.type) {
     case actionTypes.UPDATE_USER_DATA:
-      return updateUserData(action.user);
+      return updateUserData(state, action.data);
     case actionTypes.ADD_COMPANY_NAME:
       return addCompanyName(state, action);
     case actionTypes.DELETE_COMPANY_NAME:

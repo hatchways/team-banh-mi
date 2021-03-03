@@ -10,7 +10,7 @@ import { useFormik } from "formik";
 import * as yup from "yup";
 import Alert from "../components/Alert";
 import { AuthContext } from "../context/authContext";
-import { UserContext } from "../context/userContext";
+import { UserDispatchContext, UserStateContext } from "../context/userContext";
 import { UIReducer, UIInitialState } from "../store/authUIReducer";
 import * as actionTypes from "../store/actionTypes";
 
@@ -61,7 +61,8 @@ export default function SignupPage() {
   const [UIState, UIDispatch] = useReducer(UIReducer, UIInitialState);
 
   const authContext = useContext(AuthContext);
-  const { userDispatch, setId } = useContext(UserContext);
+  const userState = useContext(UserStateContext);
+  const userDispatch = useContext(UserDispatchContext);
 
   const signup = async (user) => {
     UIDispatch({ type: "SIGNUP_ACTION" });
@@ -90,8 +91,7 @@ export default function SignupPage() {
       if (response.ok) {
         Cookies.set("x-auth-token", data.accessToken, { expires: 30 });
         UIDispatch({ type: actionTypes.SIGNUP_SUCCESS });
-        setId(data.id);
-        userDispatch({ type: actionTypes.UPDATE_USER_DATA, user: data });
+        userDispatch({ type: actionTypes.UPDATE_USER_DATA, data });
         authContext.login();
       } else {
         authContext.logout();

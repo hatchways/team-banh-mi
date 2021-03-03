@@ -1,5 +1,5 @@
-import React, { useEffect, useState, useReducer } from "react";
-import { userReducer, userInitialState } from "../store/userReducer";
+import React, { useEffect, useState, useReducer, useContext } from "react";
+import { UserStateContext, UserDispatchContext } from "../context/userContext";
 import Pagination from "@material-ui/lab/Pagination";
 import { makeStyles } from "@material-ui/core";
 import axios from "axios";
@@ -15,8 +15,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const MentionContainer = () => {
-  const [userState] = useReducer(userReducer, userInitialState);
   const itemsPerPage = 10;
+  const userState = useContext(UserStateContext);
   const [isLoading, setIsLoading] = useState(true);
   const [mentions, setMentions] = useState([]);
   const [page, setPage] = useState(1);
@@ -42,7 +42,7 @@ const MentionContainer = () => {
     setNumberOfPages(() => {
       return Math.ceil(mentions.length / itemsPerPage);
     });
-  }, [userState.companyName, mentions.length, itemsPerPage]);
+  }, [userState.comapnyName, mentions.length, itemsPerPage]);
 
   const handlePageChange = (event, value) => {
     setPage(value);
@@ -68,7 +68,6 @@ const MentionContainer = () => {
   return (
     <div className={styles.root}>
       <div className={styles.mentions}>{mentionsRender}</div>
-      {/* <div className={styles.paginationContainer}> */}
       <Pagination
         count={numberOfPages}
         page={page}
@@ -78,7 +77,6 @@ const MentionContainer = () => {
         color="primary"
         className={styles.pagination}
       />
-      {/* </div> */}
     </div>
   );
 };

@@ -12,7 +12,7 @@ import Alert from "../components/Alert";
 import { AuthContext } from "../context/authContext";
 import { UserContext } from "../context/userContext";
 import { UIReducer, UIInitialState } from "../store/authUIReducer";
-import { userReducer, userInitialState } from "../store/userReducer";
+import { UserDispatchContext, UserStateContext } from "../context/userContext";
 import * as actionTypes from "../store/actionTypes";
 
 const validationSchema = yup.object({
@@ -56,7 +56,8 @@ export default function LoginPage() {
   const { vertical, horizontal } = { vertical: "bottom", horizontal: "center" };
 
   const authContext = useContext(AuthContext);
-  const { userDispatch, setId } = useContext(UserContext);
+  const userState = useContext(UserStateContext);
+  const userDispatch = useContext(UserDispatchContext);
 
   const [UIState, UIDispatch] = useReducer(UIReducer, UIInitialState);
 
@@ -85,8 +86,7 @@ export default function LoginPage() {
       if (response.ok) {
         Cookies.set("x-auth-token", data.accessToken, { expires: 30 });
         UIDispatch({ type: actionTypes.LOGIN_SUCCESS });
-        setId(data.id);
-        userDispatch({ type: actionTypes.UPDATE_USER_DATA, user: data });
+        userDispatch({ type: actionTypes.UPDATE_USER_DATA, data });
         authContext.login();
       } else {
         authContext.logout();

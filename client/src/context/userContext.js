@@ -1,25 +1,17 @@
-import React, { createContext, useReducer, useState } from "react";
-import { userReducer } from "../store/userReducer";
+import React, { createContext, useReducer } from "react";
+import { userReducer, userInitialState } from "../store/userReducer";
 
-export const UserContext = createContext({
-  id: "",
-  setId: () => {},
-  userDispatch: () => {},
-});
+export const UserStateContext = createContext();
+export const UserDispatchContext = createContext();
 
 const UserContextProvider = ({ children }) => {
-  const [id, setId] = useState("");
-  const [_, userDispatch] = useReducer(userReducer);
+  const [state, dispatch] = useReducer(userReducer, userInitialState);
   return (
-    <UserContext.Provider
-      value={{
-        id,
-        setId,
-        userDispatch,
-      }}
-    >
-      {children}
-    </UserContext.Provider>
+    <UserStateContext.Provider value={state}>
+      <UserDispatchContext.Provider value={dispatch}>
+        {children}
+      </UserDispatchContext.Provider>
+    </UserStateContext.Provider>
   );
 };
 
