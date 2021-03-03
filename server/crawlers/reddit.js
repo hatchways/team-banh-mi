@@ -1,5 +1,6 @@
 var snoowrap = require("snoowrap");
 const { createMention, getMention } = require("../models/mention-model");
+const sentimentAnalysis = require("sentiment-analysis");
 
 const r = new snoowrap({
   userAgent: "webcrawler",
@@ -10,7 +11,8 @@ const r = new snoowrap({
 });
 
 function getReddit(companyName) {
-  return getMention(companyName, "reddit");
+  const result = getMention(companyName, "reddit");
+  return result;
 }
 
 function redditSearch(query) {
@@ -26,10 +28,19 @@ function redditSearch(query) {
         date: date,
         popularity: element.ups,
         url: link,
+        mood: displaySentiment(element.selftext || element.title),
       };
       createMention(mention);
     });
   });
+}
+
+function displaySentiment(text) {
+  const sentiment = sentimentAnalysis(text);
+  let overallSentiment = "neutral";
+  if (sentiment > 0.2) overallSentiment = "good";
+  else if (sentiment < -0.2) overallSentiment = "bad";
+  return overallSentiment;
 }
 
 module.exports = {

@@ -51,9 +51,9 @@ const getTwitterData = async (query) => {
         date: created_at,
         popularity: public_metrics.like_count,
         url: `https://twitter.com/anyUser/status/${id}`,
+        mood: "good",
       };
     });
-
     return result;
   } catch (error) {
     console.error(error.message);
