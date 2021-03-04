@@ -64,7 +64,7 @@ const useStyles = makeStyles((theme) => ({
 
 function DashBoard() {
   const [order, setOrder] = useState("most recent");
-  const [search, setSearch] = useState("search");
+  const [search, setSearch] = useState("");
   const classes = useStyles();
 
   const onchange = (data) => {
@@ -112,7 +112,7 @@ function DashBoard() {
                 </ToggleButton>
               </ToggleButtonGroup>
             </div>
-            <MentionContainer companyName={search} />
+            <MentionContainer companyName="tesla" search={search} />
           </div>
         </div>
       </div>

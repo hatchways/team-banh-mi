@@ -14,13 +14,15 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const MentionContainer = (props) => {
-  const { companyName } = props;
+  const { companyName, search } = props;
   const itemsPerPage = 10;
   const [isLoading, setIsLoading] = useState(true);
   const [mentions, setMentions] = useState([]);
   const [page, setPage] = useState(1);
   const [numberOfPages, setNumberOfPages] = useState(1);
   const styles = useStyles();
+
+  console.log(`--- [MentionContainer] search: ${search}`);
 
   useEffect(() => {
     const makeCallToBackEnd = async (companyName) => {
