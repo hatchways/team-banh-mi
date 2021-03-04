@@ -26,6 +26,7 @@ function redditSearch(query) {
         date: date,
         popularity: element.ups,
         url: link,
+        favorite: false,
       };
       createMention(mention);
     });
