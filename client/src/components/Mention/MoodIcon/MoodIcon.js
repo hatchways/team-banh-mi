@@ -21,7 +21,7 @@ export default function MoodIcon({ mood }) {
   switch (mood) {
     case "good":
       return <MoodIconSmile className={classes.icon} />;
-    case "average":
+    case "neutral":
       return <SentimentDissatisfiedIcon className={classes.icon} />;
     case "bad":
       return <SentimentVeryDissatisfiedIcon className={classes.icon} />;

@@ -102,7 +102,7 @@ Mention.propTypes = {
   title: PropTypes.string,
   source: PropTypes.string,
   body: PropTypes.string,
-  mood: PropTypes.oneOf(["good", "average", "bad"]),
+  mood: PropTypes.oneOf(["good", "neutral", "bad"]),
   imgSrc: PropTypes.string,
   imgAlt: PropTypes.string,
   url: PropTypes.string,
