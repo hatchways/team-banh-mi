@@ -6,9 +6,8 @@ import ToggleButton from "@material-ui/lab/ToggleButton";
 import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
 // CSS
 
-import { CardContent, Typography } from "@material-ui/core";
+import { Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import { blue } from "@material-ui/core/colors";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -21,6 +20,7 @@ const useStyles = makeStyles((theme) => ({
     width: "100%",
     backgroundColor: theme.palette.background.light,
     flex: "1",
+    minHeight: "100vh",
     height: "100%",
     display: "flex",
     justifyContent: "center",
@@ -48,7 +48,7 @@ const useStyles = makeStyles((theme) => ({
   },
   content: {
     marginTop: theme.spacing(9),
-    maxWidth: "60%",
+    width: "60%",
     marginRight: theme.spacing(12),
   },
   mainHeader: {

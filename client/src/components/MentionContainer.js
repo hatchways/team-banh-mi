@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo } from "react";
+import React, { useEffect, useState } from "react";
 import Pagination from "@material-ui/lab/Pagination";
 import { makeStyles } from "@material-ui/core";
 import axios from "axios";
@@ -58,7 +58,12 @@ const MentionContainer = (props) => {
       />
     ));
 
-  if (isLoading) return <Spinner />;
+  if (isLoading)
+    return (
+      <div className={styles.root}>
+        <Spinner />
+      </div>
+    );
 
   return (
     <div className={styles.root}>

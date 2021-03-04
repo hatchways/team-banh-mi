@@ -147,8 +147,8 @@ export default function Sidebar() {
 
   const createSocialMediaListItem = socialMediaPlatforms.map((list) => {
     return (
-      <div>
-        <ListItem key={list.name}>
+      <div key={list.name}>
+        <ListItem>
           <ListItemAvatar>
             <Avatar style={{ backgroundColor: list.color, fontSize: 4 }}>
               <Icon className={list.image} />
@@ -168,7 +168,7 @@ export default function Sidebar() {
               inputProps={{
                 "aria-labelledby": "switch-list-label-" + list.name,
               }}
-              color="#6583f2"
+              color="primary"
             />
           </ListItemSecondaryAction>
         </ListItem>
@@ -181,7 +181,7 @@ export default function Sidebar() {
     <div className={classes.root} position="fixed">
       <div className={classes.drawerContainer}>
         <List className={classes.root}>
-          <div>{createSocialMediaListItem}</div>;
+          <div>{createSocialMediaListItem}</div>
         </List>
       </div>
     </div>
