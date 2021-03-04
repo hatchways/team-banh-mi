@@ -98,12 +98,15 @@ function Mention({
 }
 
 Mention.propTypes = {
+  id: PropTypes.string,
   title: PropTypes.string,
   source: PropTypes.string,
   body: PropTypes.string,
   mood: PropTypes.oneOf(["good", "average", "bad"]),
   imgSrc: PropTypes.string,
   imgAlt: PropTypes.string,
+  url: PropTypes.string,
+  favorite: PropTypes.bool,
 };
 
 export default Mention;

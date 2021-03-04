@@ -1,9 +1,10 @@
-import React, { useEffect, useState, useMemo } from "react";
+import React, { useEffect, useState, useReducer } from "react";
 import Pagination from "@material-ui/lab/Pagination";
 import { makeStyles } from "@material-ui/core";
 import axios from "axios";
 import Mention from "../components/Mention/Mention";
 import Spinner from "../components/Spinner";
+import { reducer, initialState } from "../store/userReducer";
 
 const useStyles = makeStyles((theme) => ({
   pagination: {
@@ -13,6 +14,17 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const filterMentions = (mentions, filterObject) => {
+  const filteredMentions = [];
+  if (filterObject.onlyFavorites) {
+    const filteredResults = mentions.filter((mention) => mention.favorite);
+    filteredMentions.push(...filteredResults);
+  }
+  return filteredMentions.length > 0 || filterObject.onlyFavorites === true
+    ? filteredMentions
+    : mentions;
+};
+
 const MentionContainer = (props) => {
   const { companyName } = props;
   const itemsPerPage = 10;
@@ -20,13 +32,15 @@ const MentionContainer = (props) => {
   const [mentions, setMentions] = useState([]);
   const [page, setPage] = useState(1);
   const [numberOfPages, setNumberOfPages] = useState(1);
+  const [state, dispatch] = useReducer(reducer, initialState);
   const styles = useStyles();
 
   useEffect(() => {
     const makeCallToBackEnd = async (companyName) => {
       try {
         const { data, status } = await axios(`/mention/company/${companyName}`);
-        setMentions(data);
+        const filteredMentions = await filterMentions(data, state);
+        setMentions(filteredMentions);
         setIsLoading(false);
       } catch (error) {
         console.error(error);

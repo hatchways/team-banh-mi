@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useReducer } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import InputAdornment from "@material-ui/core/InputAdornment";
@@ -7,8 +7,12 @@ import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
 import SettingsIcon from "@material-ui/icons/Settings";
 import HomeRoundedIcon from "@material-ui/icons/HomeRounded";
+import FavoriteRoundedIcon from "@material-ui/icons/FavoriteRounded";
+import FavoriteBorderRoundedIcon from "@material-ui/icons/FavoriteBorderRounded";
 import SearchIcon from "@material-ui/icons/Search";
 import { Link, useLocation } from "react-router-dom";
+import { initialState, reducer } from "../store/userReducer";
+import * as actionTypes from "../store/actionTypes";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -56,8 +60,8 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Navbar() {
   const classes = useStyles();
-
   const location = useLocation();
+  const [state, dispatch] = useReducer(reducer, initialState);
 
   let navBarIcon = null;
   if (location.pathname === "/settings") {
@@ -77,6 +81,28 @@ export default function Navbar() {
       </Link>
     );
   }
+
+  let favoritesIcon = null;
+  if (state.onlyFavorites) {
+    favoritesIcon = (
+      <IconButton
+        aria-label="favorites"
+        onClick={() => dispatch({ type: actionTypes.SHOW_ONLY_FAVORITES })}
+      >
+        <FavoriteRoundedIcon className={classes.settingsIcon} />
+      </IconButton>
+    );
+  } else {
+    favoritesIcon = (
+      <IconButton
+        aria-label="favorites"
+        onClick={() => dispatch({ type: actionTypes.SHOW_ALL_MENTIONS })}
+      >
+        <FavoriteBorderRoundedIcon className={classes.settingsIcon} />
+      </IconButton>
+    );
+  }
+
   return (
     <AppBar position="sticky" className={classes.root}>
       <Typography variant="h6" className={classes.title}>
@@ -94,7 +120,10 @@ export default function Navbar() {
           </InputAdornment>
         }
       />
-      {navBarIcon}
+      <div>
+        {favoritesIcon}
+        {navBarIcon}
+      </div>
     </AppBar>
   );
 }
