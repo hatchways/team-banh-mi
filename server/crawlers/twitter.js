@@ -51,6 +51,7 @@ const getTwitterData = async (query) => {
         date: created_at,
         popularity: public_metrics.like_count,
         url: `https://twitter.com/anyUser/status/${id}`,
+        favorite: false,
       };
     });
 
