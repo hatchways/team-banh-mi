@@ -1,5 +1,9 @@
 var snoowrap = require("snoowrap");
-const { createMention, getMention } = require("../models/mention-model");
+const {
+  createMention,
+  getMention,
+  displaySentiment,
+} = require("../models/mention-model");
 
 const r = new snoowrap({
   userAgent: "webcrawler",
@@ -26,6 +30,7 @@ function redditSearch(query) {
         date: date,
         popularity: element.ups,
         url: link,
+        mood: displaySentiment(element.selftext || element.title),
       };
       createMention(mention);
     });
