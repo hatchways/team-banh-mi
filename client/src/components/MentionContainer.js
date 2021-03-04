@@ -60,7 +60,6 @@ const MentionContainer = (props) => {
   };
 
   const mentionsRender = mentions
-    .slice((page - 1) * itemsPerPage, page * itemsPerPage)
     .map((mention, key) => (
       <Mention
         id={mention._id}
@@ -76,7 +75,8 @@ const MentionContainer = (props) => {
         mood={mention.mood}
         url={mention.url}
       />
-    ));
+    ))
+    .slice((page - 1) * itemsPerPage, page * itemsPerPage);
 
   if (isLoading)
     return (
