@@ -84,6 +84,11 @@ function Mention({
     />
   );
 
+  // console.log(`--- [Mention] id: ${id}`);
+  // console.log(`--- [Mention] mood: ${mood}`);
+  // console.log(`--- [Mention] favorite: ${favorite}`);
+  // console.count(`---- [counts]`);
+
   return (
     <Card className={classes.root} variant="outlined">
       {favIcon}

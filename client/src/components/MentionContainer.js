@@ -16,13 +16,19 @@ const useStyles = makeStyles((theme) => ({
 
 const filterMentions = (mentions, filterObject) => {
   const filteredMentions = [];
+  const smallMentions = [];
+
+  for (let i = 0; i < 20; i++) {
+    smallMentions.push(mentions[i]);
+    console.log(mentions[i]);
+  }
   if (filterObject.onlyFavorites) {
     const filteredResults = mentions.filter((mention) => mention.favorite);
     filteredMentions.push(...filteredResults);
   }
   return filteredMentions.length > 0 || filterObject.onlyFavorites === true
     ? filteredMentions
-    : mentions;
+    : smallMentions;
 };
 
 const MentionContainer = (props) => {
@@ -38,7 +44,7 @@ const MentionContainer = (props) => {
   useEffect(() => {
     const makeCallToBackEnd = async (companyName) => {
       try {
-        const { data, status } = await axios(
+        const { data } = await axios(
           `/mention/company/${companyName}?search=${search}`
         );
         const filteredMentions = await filterMentions(data, state);
@@ -53,29 +59,31 @@ const MentionContainer = (props) => {
     setNumberOfPages(() => {
       return Math.ceil(mentions.length / itemsPerPage);
     });
-  }, [companyName, mentions.length, itemsPerPage, state]);
+  }, [companyName, mentions.length, itemsPerPage, state, search]);
 
   const handlePageChange = (event, value) => {
     setPage(value);
   };
 
   const mentionsRender = mentions
-    .slice((page - 1) * itemsPerPage, page * itemsPerPage)
-    .map((mention, key) => (
-      <Mention
-        id={mention._id}
-        className={styles.mention}
-        key={key}
-        title={mention.title}
-        source={mention.platform}
-        body={mention.content}
-        imgSrc={mention.image}
-        imgAlt={mention.platform}
-        favorite={mention.favorite}
-        url={mention.url}
-        mood={mention.mood}
-      />
-    ));
+    .map((mention, key) => {
+      return (
+        <Mention
+          id={mention._id}
+          className={styles.mention}
+          key={key}
+          title={mention.title}
+          source={mention.platform}
+          body={mention.content}
+          imgSrc={mention.image}
+          imgAlt={mention.platform}
+          favorite={mention.favorite}
+          url={mention.url}
+          mood={mention.mood}
+        />
+      );
+    })
+    .slice((page - 1) * itemsPerPage, page * itemsPerPage);
 
   if (isLoading)
     return (
