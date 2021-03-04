@@ -7,7 +7,9 @@ import CardMedia from "@material-ui/core/CardMedia";
 import CardContent from "@material-ui/core/CardContent";
 import MentionHeading from "../Mention/MentionHeading/MentionHeading";
 import MentionBody from "../Mention/MentionBody/MentionBody";
-
+import Dialog from "@material-ui/core/Dialog";
+import Button from "@material-ui/core/Button";
+import { DialogContent, DialogTitle } from "@material-ui/core";
 const useStyles = makeStyles((theme) => ({
   root: {
     padding: 10,
@@ -26,6 +28,17 @@ const useStyles = makeStyles((theme) => ({
     flexShrink: 0,
     flexGrow: 0,
   },
+  dialogPaper: {
+    minHeight: "80vh",
+    maxHeight: "80vh",
+    minWidth: "80vw",
+    maxWidth: "80vw",
+    display: "flex",
+    margin: 0,
+  },
+  title: { flexGrow: 1 },
+  content: { flexGrow: 10 },
+  url: { flexGrow: 1 },
 }));
 
 const parseDefaultImages = (source, imgUrl) => {
@@ -41,20 +54,50 @@ const parseDefaultImages = (source, imgUrl) => {
   }
 };
 
-function Mention({ title, source, body, mood, imgSrc, imgAlt }) {
+function Mention({ title, source, body, mood, imgSrc, imgAlt, url }) {
   const classes = useStyles();
 
   const img = parseDefaultImages(source, imgSrc);
+  const [dialog, setDialog] = React.useState(false);
 
+  const handleClickOpen = () => {
+    setDialog(true);
+  };
+
+  const handleClose = () => {
+    setDialog(false);
+  };
   return (
-    <Card className={classes.root} variant="outlined">
-      <CardMedia className={classes.image} image={img} title={imgAlt} />
-      <CardContent>
-        <MoodIcon mood={mood} />
-        <MentionHeading title={title} source={source} />
-        <MentionBody body={body} />
-      </CardContent>
-    </Card>
+    <div>
+      <Card
+        className={classes.root}
+        variant="outlined"
+        onClick={handleClickOpen}
+      >
+        <CardMedia className={classes.image} image={img} title={imgAlt} />
+        <CardContent>
+          <MoodIcon mood={mood} />
+          <MentionHeading title={title} source={source} />
+          <MentionBody body={body} />
+        </CardContent>
+      </Card>
+      <Dialog
+        classes={{ paper: classes.dialogPaper }}
+        open={dialog}
+        onClose={handleClose}
+      >
+        <DialogTitle className={classes.title}>{title}</DialogTitle>
+        <DialogContent className={classes.content}>{body}</DialogContent>
+        <Button
+          variant="contained"
+          color="primary"
+          className={classes.url}
+          href={url}
+        >
+          Check Mention on Website
+        </Button>
+      </Dialog>
+    </div>
   );
 }
 

@@ -36,7 +36,7 @@ const getTwitterData = async (query) => {
       "tweet.fields": "entities,created_at,public_metrics",
       expansions: "author_id",
     });
-
+    if (data == undefined) return "none";
     const result = data.map((tweet) => {
       const { text, created_at, public_metrics, id, entities } = tweet;
 
@@ -75,6 +75,7 @@ const getTwitterData = async (query) => {
 const getAndStoreTwitterData = async (companyName) => {
   try {
     const twitterDataArr = await getTwitterData(companyName);
+    if (twitterDataArr == "none") return true;
     await storeArrayOfMentions(twitterDataArr);
     return true;
   } catch (error) {
