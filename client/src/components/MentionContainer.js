@@ -47,6 +47,7 @@ const MentionContainer = (props) => {
     .slice((page - 1) * itemsPerPage, page * itemsPerPage)
     .map((mention, key) => (
       <Mention
+        id={mention._id}
         className={styles.mention}
         key={key}
         title={mention.title}
@@ -56,6 +57,7 @@ const MentionContainer = (props) => {
         imgAlt={mention.platform}
         mood="good"
         favorite={mention.favorite}
+        url={mention.url}
       />
     ));
 

@@ -105,8 +105,8 @@ async function getFavoriteMentions(companyName) {
   return result;
 }
 
-async function toggleMentionFavorite(url) {
-  Mention.findOne({ url }, (err, mention) => {
+async function toggleMentionFavorite(id) {
+  await Mention.findById(id, (err, mention) => {
     mention.favorite = !mention.favorite;
     mention.save();
   });

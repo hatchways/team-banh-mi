@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import Card from "@material-ui/core/Card";
 import { makeStyles } from "@material-ui/core/styles";
@@ -9,6 +9,7 @@ import MentionHeading from "../Mention/MentionHeading/MentionHeading";
 import MentionBody from "../Mention/MentionBody/MentionBody";
 import FavoriteBorderRoundedIcon from "@material-ui/icons/FavoriteBorderRounded";
 import FavoriteRoundedIcon from "@material-ui/icons/FavoriteRounded";
+import axios from "axios";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -50,15 +51,37 @@ const parseDefaultImages = (source, imgUrl) => {
   }
 };
 
-function Mention({ title, source, body, mood, imgSrc, imgAlt, favorite }) {
+function Mention({
+  id,
+  title,
+  source,
+  body,
+  mood,
+  imgSrc,
+  imgAlt,
+  url,
+  favorite,
+}) {
   const classes = useStyles();
+  const [isFavorite, setIsFavorite] = useState(favorite);
 
   const img = parseDefaultImages(source, imgSrc);
 
-  const favIcon = favorite ? (
-    <FavoriteRoundedIcon className={classes.likeIcon} />
+  const toggleFavorites = async () => {
+    await axios.put(`http://localhost:3001/mention/favToggle/${id}`);
+    setIsFavorite((prevFav) => !prevFav);
+  };
+
+  const favIcon = isFavorite ? (
+    <FavoriteRoundedIcon
+      className={classes.likeIcon}
+      onClick={toggleFavorites}
+    />
   ) : (
-    <FavoriteBorderRoundedIcon className={classes.likeIcon} />
+    <FavoriteBorderRoundedIcon
+      className={classes.likeIcon}
+      onClick={toggleFavorites}
+    />
   );
 
   return (

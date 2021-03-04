@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { Mention } = require("../models/mention-model");
+const { Mention, toggleMentionFavorite } = require("../models/mention-model");
 const { mentionValidation } = require("../utils/validation");
 
 router.get("/ping", (req, res) => {
@@ -132,6 +132,15 @@ router.delete("/:id", async (req, res) => {
     res.status(200).send(result);
   } catch (e) {
     res.status(400).send(e.message);
+  }
+});
+
+router.put("/favToggle/:id", async (req, res) => {
+  try {
+    await toggleMentionFavorite(req.params.id);
+    res.status(200).send({ ok: true });
+  } catch (e) {
+    res.status(400).send({ ok: false, message: e.message });
   }
 });
 
