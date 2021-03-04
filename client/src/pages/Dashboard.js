@@ -1,5 +1,6 @@
 import React, { useState, useContext } from "react";
 import MentionContainer from "../components/MentionContainer";
+import FavoritesContainer from "../components/FavoritesContainer";
 import Navbar from "../components/Navbar";
 import Sidebar from "./Sidebar";
 import ToggleButton from "@material-ui/lab/ToggleButton";
@@ -107,7 +108,11 @@ function DashBoard() {
                 </ToggleButton>
               </ToggleButtonGroup>
             </div>
-            <MentionContainer companyName="tesla" />
+            {onlyFavorites ? (
+              <FavoritesContainer companyName="tesla" />
+            ) : (
+              <MentionContainer companyName="tesla" search="Platz" />
+            )}
           </div>
         </div>
       </div>

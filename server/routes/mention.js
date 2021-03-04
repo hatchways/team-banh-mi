@@ -140,6 +140,25 @@ router.delete("/:id", async (req, res) => {
   }
 });
 
+router.get("/:companyName/favorites", async (req, res) => {
+  try {
+    const result = await Mention.find({
+      $and: [
+        { favorite: true },
+        {
+          $or: [
+            { title: new RegExp(req.params.companyName, "i") },
+            { content: new RegExp(req.params.companyName, "i") },
+          ],
+        },
+      ],
+    });
+    console.log(`Executing... result coming up`);
+    console.log(result);
+    res.status(200).send(result);
+  } catch (error) {}
+});
+
 router.put("/favToggle/:id", async (req, res) => {
   try {
     await toggleMentionFavorite(req.params.id);
