@@ -28,6 +28,7 @@ router.get("/:id", async (req, res) => {
 router.get("/company/:companyName", async (req, res) => {
   try {
     const { companyName } = req.params;
+    const query = req.query.search || "";
     const contentResult = await Mention.find({
       content: new RegExp(companyName, "i"),
     });
@@ -35,7 +36,10 @@ router.get("/company/:companyName", async (req, res) => {
       title: new RegExp(companyName, "i"),
     });
     const result = contentResult.concat(titleResult);
-    res.status(200).send(result);
+    const filteredResults = result.filter((mention) =>
+      mention.title.includes(query)
+    );
+    res.status(200).send(filteredResults);
   } catch (e) {
     res.status(400).send(e.message);
   }
