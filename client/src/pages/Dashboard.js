@@ -71,8 +71,6 @@ function DashBoard() {
     setOrder(newOrder);
   };
 
-  console.log(`---[Dasboard] userState.id: ${userState.id}`);
-
   return (
     <div className={classes.root}>
       <Navbar className={classes.navBar} />

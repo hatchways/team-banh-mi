@@ -16,7 +16,9 @@ const useStyles = makeStyles((theme) => ({
 
 const MentionContainer = () => {
   const itemsPerPage = 10;
-  const userState = useContext(UserStateContext);
+  const { id, onlyFavorites, favoriteMentions, companyName } = useContext(
+    UserStateContext
+  );
   const [isLoading, setIsLoading] = useState(true);
   const [mentions, setMentions] = useState([]);
   const [page, setPage] = useState(1);
@@ -24,25 +26,37 @@ const MentionContainer = () => {
   const styles = useStyles();
 
   useEffect(() => {
-    const makeCallToBackEnd = async (companyName) => {
+    const getMentions = async (companyName) => {
       try {
-        // const mentions = [];
-        // for (let company of companyName) {
-        const { data, status } = await axios(`/mention/company/${companyName}`);
-        // mentions.concat(data);
-        // }
-        setMentions(data);
-        setIsLoading(false);
+        if (!onlyFavorites) {
+          const { data } = await axios(`/mention/company/${companyName}`);
+          setMentions(data);
+          setIsLoading(false);
+        }
+        if (onlyFavorites) {
+          const { data } = await axios(`/${id}/favoriteMentions/`);
+          setMentions(data);
+          setIsLoading(false);
+        }
       } catch (error) {
         console.error(error);
         setIsLoading(false);
       }
     };
-    makeCallToBackEnd(userState.comapnyName);
+
+    const addFavoritePropertyToLocalMentions = (mentions, favoriteMentions) => {
+      //! Warning: O(n2) - for more efficient solutions, add a "favorite"
+      //! property in mentions db (maybe with an array of user id's).
+    };
+
+    getMentions(companyName);
+    if (!onlyFavorites)
+      addFavoritePropertyToLocalMentions(mentions, favoriteMentions);
+
     setNumberOfPages(() => {
       return Math.ceil(mentions.length / itemsPerPage);
     });
-  }, [userState.comapnyName, mentions.length, itemsPerPage]);
+  }, [id, onlyFavorites, companyName, mentions.length, itemsPerPage]);
 
   const handlePageChange = (event, value) => {
     setPage(value);
@@ -60,6 +74,7 @@ const MentionContainer = () => {
         imgSrc={mention.image}
         imgAlt={mention.platform}
         mood="good"
+        favorite={mention.favorite} // Add this property using addFavoritePropertyToLocalMentions
       />
     ));
 
