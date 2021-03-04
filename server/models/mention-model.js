@@ -85,7 +85,10 @@ async function storeArrayOfMentions(mentionsArr) {
 
 async function getMention(companyName, platformSearch) {
   const result = await Mention.find({
-    title: new RegExp(companyName, "i"),
+    $or: [
+      { title: new RegExp(companyName, "i") },
+      { content: new RegExp(companyName, "i") },
+    ],
     platform: new RegExp(platformSearch, "i"),
   });
   return result;
@@ -102,7 +105,7 @@ async function getFavoriteMentions(companyName) {
   return result;
 }
 
-async function toggleFavoriteMention(url) {
+async function toggleMentionFavorite(url) {
   Mention.findOne({ url }, (err, mention) => {
     mention.favorite = !mention.favorite;
     mention.save();
@@ -114,6 +117,6 @@ module.exports = {
   getMention,
   getFavoriteMentions,
   storeArrayOfMentions,
-  toggleFavoriteMention,
+  toggleMentionFavorite,
   Mention,
 };
