@@ -1,4 +1,4 @@
-import React, { useReducer } from "react";
+import React, { useContext, useReducer } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import InputAdornment from "@material-ui/core/InputAdornment";
@@ -11,8 +11,8 @@ import FavoriteRoundedIcon from "@material-ui/icons/FavoriteRounded";
 import FavoriteBorderRoundedIcon from "@material-ui/icons/FavoriteBorderRounded";
 import SearchIcon from "@material-ui/icons/Search";
 import { Link, useLocation } from "react-router-dom";
-import { initialState, reducer } from "../store/userReducer";
 import * as actionTypes from "../store/actionTypes";
+import { UserStateContext, UserDispatchContext } from "../context/userContext";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -61,7 +61,8 @@ const useStyles = makeStyles((theme) => ({
 export default function Navbar() {
   const classes = useStyles();
   const location = useLocation();
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const state = useContext(UserStateContext);
+  const dispatch = useContext(UserDispatchContext);
 
   let navBarIcon = null;
   if (location.pathname === "/settings") {
@@ -87,7 +88,7 @@ export default function Navbar() {
     favoritesIcon = (
       <IconButton
         aria-label="favorites"
-        onClick={() => dispatch({ type: actionTypes.SHOW_ONLY_FAVORITES })}
+        onClick={() => dispatch({ type: actionTypes.SHOW_ALL_MENTIONS })}
       >
         <FavoriteRoundedIcon className={classes.settingsIcon} />
       </IconButton>
@@ -96,7 +97,7 @@ export default function Navbar() {
     favoritesIcon = (
       <IconButton
         aria-label="favorites"
-        onClick={() => dispatch({ type: actionTypes.SHOW_ALL_MENTIONS })}
+        onClick={() => dispatch({ type: actionTypes.SHOW_ONLY_FAVORITES })}
       >
         <FavoriteBorderRoundedIcon className={classes.settingsIcon} />
       </IconButton>

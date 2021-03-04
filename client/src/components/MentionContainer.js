@@ -1,10 +1,11 @@
-import React, { useEffect, useState, useReducer } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import Pagination from "@material-ui/lab/Pagination";
 import { makeStyles } from "@material-ui/core";
 import axios from "axios";
 import Mention from "../components/Mention/Mention";
 import Spinner from "../components/Spinner";
-import { reducer, initialState } from "../store/userReducer";
+import { UserStateContext, UserDispatchContext } from "../context/userContext";
+import * as actionTypes from "../store/actionTypes";
 
 const useStyles = makeStyles((theme) => ({
   pagination: {
@@ -32,7 +33,8 @@ const MentionContainer = (props) => {
   const [mentions, setMentions] = useState([]);
   const [page, setPage] = useState(1);
   const [numberOfPages, setNumberOfPages] = useState(1);
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const state = useContext(UserStateContext);
+  const dispatch = useContext(UserDispatchContext);
   const styles = useStyles();
 
   useEffect(() => {

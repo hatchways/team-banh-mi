@@ -1,7 +1,7 @@
 import * as actionTypes from "./actionTypes";
 
 const initialState = {
-  onlyFavorites: true,
+  onlyFavorites: false,
   companyName: "",
   platforms: [],
 };
@@ -12,6 +12,10 @@ const showAllMentions = (state) => ({ ...state, onlyFavorites: false });
 
 const updateCompanyName = (state, companyName) => ({});
 
+const isLoadingOn = (state) => ({ ...state, isLoading: true });
+
+const isLoadingOff = (state) => ({ ...state, isLoading: false });
+
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.SHOW_ONLY_FAVORITES:
@@ -20,6 +24,10 @@ const reducer = (state = initialState, action) => {
       return showAllMentions(state);
     case actionTypes.UPDATE_COMPANY_NAME:
       return updateCompanyName(state, action.companyName);
+    case actionTypes.IS_LOADING_OFF:
+      return isLoadingOff(state);
+    case actionTypes.IS_LOADING_ON:
+      return isLoadingOn(state);
     default:
       return initialState;
   }
