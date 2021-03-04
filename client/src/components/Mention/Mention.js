@@ -7,14 +7,16 @@ import CardMedia from "@material-ui/core/CardMedia";
 import CardContent from "@material-ui/core/CardContent";
 import MentionHeading from "../Mention/MentionHeading/MentionHeading";
 import MentionBody from "../Mention/MentionBody/MentionBody";
+import FavoriteBorderRoundedIcon from "@material-ui/icons/FavoriteBorderRounded";
+import FavoriteRoundedIcon from "@material-ui/icons/FavoriteRounded";
 
 const useStyles = makeStyles((theme) => ({
   root: {
+    position: "relative",
     padding: 10,
     maxHeight: 150,
     display: "flex",
     flexDirection: "row",
-    position: "relative",
     marginBottom: 10,
     borderRadius: 10,
     border: "none",
@@ -26,12 +28,18 @@ const useStyles = makeStyles((theme) => ({
     flexShrink: 0,
     flexGrow: 0,
   },
+  likeIcon: {
+    position: "absolute",
+    right: theme.spacing(2),
+    bottom: theme.spacing(2),
+    fontSize: "1.6rem",
+    color: theme.palette.primary.main,
+  },
 }));
 
 const parseDefaultImages = (source, imgUrl) => {
   switch (source) {
     case "reddit":
-      console.log(`Reddit executed: ${imgUrl}`);
       return imgUrl === "default" || imgUrl === "none"
         ? "/images/reddit-logo.png"
         : imgUrl;
@@ -42,13 +50,20 @@ const parseDefaultImages = (source, imgUrl) => {
   }
 };
 
-function Mention({ title, source, body, mood, imgSrc, imgAlt }) {
+function Mention({ title, source, body, mood, imgSrc, imgAlt, favorite }) {
   const classes = useStyles();
 
   const img = parseDefaultImages(source, imgSrc);
 
+  const favIcon = favorite ? (
+    <FavoriteRoundedIcon className={classes.likeIcon} />
+  ) : (
+    <FavoriteBorderRoundedIcon className={classes.likeIcon} />
+  );
+
   return (
     <Card className={classes.root} variant="outlined">
+      {favIcon}
       <CardMedia className={classes.image} image={img} title={imgAlt} />
       <CardContent>
         <MoodIcon mood={mood} />
