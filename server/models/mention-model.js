@@ -102,10 +102,18 @@ async function getFavoriteMentions(companyName) {
   return result;
 }
 
+async function toggleFavoriteMention(url) {
+  Mention.findOne({ url }, (err, mention) => {
+    mention.favorite = !mention.favorite;
+    mention.save();
+  });
+}
+
 module.exports = {
   createMention,
   getMention,
   getFavoriteMentions,
   storeArrayOfMentions,
+  toggleFavoriteMention,
   Mention,
 };
