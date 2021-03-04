@@ -26,7 +26,7 @@ const filterMentions = (mentions, filterObject) => {
 };
 
 const MentionContainer = (props) => {
-  const { companyName, search } = props;
+  const { companyName } = props;
   const itemsPerPage = 10;
   const [isLoading, setIsLoading] = useState(true);
   const [mentions, setMentions] = useState([]);
@@ -38,9 +38,7 @@ const MentionContainer = (props) => {
   useEffect(() => {
     const makeCallToBackEnd = async (companyName) => {
       try {
-        const { data, status } = await axios(
-          `/mention/company/${companyName}?search=${search}`
-        );
+        const { data, status } = await axios(`/mention/company/${companyName}`);
         const filteredMentions = await filterMentions(data, state);
         setMentions(filteredMentions);
         setIsLoading(false);
@@ -53,7 +51,7 @@ const MentionContainer = (props) => {
     setNumberOfPages(() => {
       return Math.ceil(mentions.length / itemsPerPage);
     });
-  }, [companyName, mentions.length, itemsPerPage, state, search]);
+  }, [companyName, mentions.length, itemsPerPage, state]);
 
   const handlePageChange = (event, value) => {
     setPage(value);
@@ -74,7 +72,6 @@ const MentionContainer = (props) => {
         favorite={mention.favorite}
         url={mention.url}
         mood={mention.mood}
-        url={mention.url}
       />
     ));
 

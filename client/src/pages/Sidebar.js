@@ -26,6 +26,8 @@ const useStyles = makeStyles((theme) => ({
   },
   drawerContainer: {
     overflow: "auto",
+    width: "100%",
+    position: "fixed",
   },
   listContainer: {
     paddingBottom: 16,

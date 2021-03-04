@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import MentionContainer from "../components/MentionContainer";
+import FavoritesContainer from "../components/FavoritesContainer";
 import Navbar from "../components/Navbar";
 import Sidebar from "./Sidebar";
 import ToggleButton from "@material-ui/lab/ToggleButton";
 import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
+import { UserStateContext } from "../context/userContext";
 // CSS
 
 import { Typography } from "@material-ui/core";
@@ -65,6 +67,7 @@ const useStyles = makeStyles((theme) => ({
 function DashBoard() {
   const [order, setOrder] = useState("most recent");
   const [search, setSearch] = useState("");
+  const { onlyFavorites } = useContext(UserStateContext);
   const classes = useStyles();
 
   const onchange = (data) => {
@@ -87,7 +90,9 @@ function DashBoard() {
         <div className={classes.mainScreen}>
           <div className={classes.content}>
             <div className={classes.mainHeader}>
-              <Typography className={classes.title}>My mentions</Typography>
+              <Typography className={classes.title}>
+                {onlyFavorites ? "My favorites" : "My mentions"}
+              </Typography>
               <ToggleButtonGroup
                 className={classes.toggleButtonsContainer}
                 exclusive
@@ -112,7 +117,11 @@ function DashBoard() {
                 </ToggleButton>
               </ToggleButtonGroup>
             </div>
-            <MentionContainer companyName="tesla" search={search} />
+            {onlyFavorites ? (
+              <FavoritesContainer companyName="tesla" />
+            ) : (
+              <MentionContainer companyName="tesla" search={search} />
+            )}
           </div>
         </div>
       </div>

@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { Mention } = require("../models/mention-model");
+const { Mention, toggleMentionFavorite } = require("../models/mention-model");
 const { mentionValidation } = require("../utils/validation");
 
 router.get("/ping", (req, res) => {
@@ -35,6 +35,7 @@ router.get("/company/:companyName", async (req, res) => {
     const titleResult = await Mention.find({
       title: new RegExp(companyName, "i"),
     });
+    console.log(`--- [route] query: ${query}`);
     const result = contentResult.concat(titleResult);
     const filteredResults = result.filter((mention) =>
       mention.title.includes(query)
@@ -141,6 +142,34 @@ router.delete("/:id", async (req, res) => {
     res.status(200).send(result);
   } catch (e) {
     res.status(400).send(e.message);
+  }
+});
+
+router.get("/:companyName/favorites", async (req, res) => {
+  try {
+    const result = await Mention.find({
+      $and: [
+        { favorite: true },
+        {
+          $or: [
+            { title: new RegExp(req.params.companyName, "i") },
+            { content: new RegExp(req.params.companyName, "i") },
+          ],
+        },
+      ],
+    });
+    console.log(`Executing... result coming up`);
+    console.log(result);
+    res.status(200).send(result);
+  } catch (error) {}
+});
+
+router.put("/favToggle/:id", async (req, res) => {
+  try {
+    await toggleMentionFavorite(req.params.id);
+    res.status(200).send({ ok: true });
+  } catch (e) {
+    res.status(400).send({ ok: false, message: e.message });
   }
 });
 

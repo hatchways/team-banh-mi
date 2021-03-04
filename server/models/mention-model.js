@@ -11,6 +11,7 @@ mongoose.set("useFindAndModify", false);
  * @property {string} date - date of the Mention.
  * @property {string} popularity - popularity of the Mention.
  * @property {string} url - url of the Mention source.
+ * @property {boolean} favorite - true if the mention was favorited, else false.
  * @property {string} mood - mood of mention source.
  */
 const mentionSchema = new mongoose.Schema({
@@ -39,6 +40,9 @@ const mentionSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  favorite: {
+    type: Boolean,
+  },
   mood: {
     type: String,
     required: true,
@@ -58,6 +62,7 @@ async function createMention(data) {
       date: data.date,
       popularity: data.popularity,
       url: data.url,
+      favorite: data.favorite,
       mood: displaySentiment(data.content),
     },
     {
@@ -94,16 +99,39 @@ async function storeArrayOfMentions(mentionsArr) {
 
 async function getMention(companyName, platformSearch) {
   const result = await Mention.find({
-    title: new RegExp(companyName, "i"),
+    $or: [
+      { title: new RegExp(companyName, "i") },
+      { content: new RegExp(companyName, "i") },
+    ],
     platform: new RegExp(platformSearch, "i"),
   });
   return result;
 }
 
+async function getFavoriteMentions(companyName) {
+  const result = await Mention.find({
+    $or: [
+      { title: new RegExp(companyName, "i") },
+      { content: new RegExp(companyName, "i") },
+    ],
+    favorite: true,
+  });
+  return result;
+}
+
+async function toggleMentionFavorite(id) {
+  await Mention.findById(id, (err, mention) => {
+    mention.favorite = !mention.favorite;
+    mention.save();
+  });
+}
+
 module.exports = {
   createMention,
   getMention,
+  getFavoriteMentions,
   storeArrayOfMentions,
+  toggleMentionFavorite,
   displaySentiment,
   Mention,
 };
