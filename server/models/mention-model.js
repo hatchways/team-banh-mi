@@ -10,6 +10,7 @@ mongoose.set("useFindAndModify", false);
  * @property {string} date - date of the Mention.
  * @property {string} popularity - popularity of the Mention.
  * @property {string} url - url of the Mention source.
+ * @property {boolean} favorite - true if the mention was favorited, else false.
  */
 const mentionSchema = new mongoose.Schema({
   content: {
@@ -37,6 +38,10 @@ const mentionSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  favorite: {
+    type: Boolean,
+    required: true,
+  },
 });
 
 const Mention = mongoose.model("mention", mentionSchema);
@@ -52,6 +57,7 @@ async function createMention(data) {
       date: data.date,
       popularity: data.popularity,
       url: data.url,
+      favorite: data.favorite,
     },
     {
       upsert: true,
@@ -85,9 +91,21 @@ async function getMention(companyName, platformSearch) {
   return result;
 }
 
+async function getFavoriteMentions(companyName) {
+  const result = await Mention.find({
+    $or: [
+      { title: new RegExp(companyName, "i") },
+      { content: new RegExp(companyName, "i") },
+    ],
+    favorite: true,
+  });
+  return result;
+}
+
 module.exports = {
   createMention,
   getMention,
+  getFavoriteMentions,
   storeArrayOfMentions,
   Mention,
 };
