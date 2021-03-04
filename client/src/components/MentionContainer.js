@@ -51,7 +51,7 @@ const MentionContainer = (props) => {
     setNumberOfPages(() => {
       return Math.ceil(mentions.length / itemsPerPage);
     });
-  }, [companyName, mentions.length, itemsPerPage]);
+  }, [companyName, mentions.length, itemsPerPage, state]);
 
   const handlePageChange = (event, value) => {
     setPage(value);
