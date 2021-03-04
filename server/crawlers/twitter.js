@@ -1,5 +1,8 @@
 const Twitter = require("twitter-v2");
-const { storeArrayOfMentions } = require("../models/mention-model");
+const {
+  storeArrayOfMentions,
+  displaySentiment,
+} = require("../models/mention-model");
 
 const { TWITTER_API_KEY, TWITTER_API_SECRET_KEY } = process.env;
 
@@ -52,9 +55,9 @@ const getTwitterData = async (query) => {
         popularity: public_metrics.like_count,
         url: `https://twitter.com/anyUser/status/${id}`,
         favorite: false,
+        mood: displaySentiment(text),
       };
     });
-
     return result;
   } catch (error) {
     console.error(error.message);

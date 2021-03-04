@@ -22,6 +22,7 @@
     "morgan": "^1.10.0",
     "nodemon": "^2.0.6",
     "rewire": "5.0.0",
+    "sentiment-analysis": "0.1.2",
     "snoowrap": "^1.22.0",
     "throng": "5.0.0",
     "twitter-v2": "^1.0.4"

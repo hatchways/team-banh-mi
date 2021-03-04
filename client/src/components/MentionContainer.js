@@ -71,13 +71,18 @@ const MentionContainer = (props) => {
         body={mention.content}
         imgSrc={mention.image}
         imgAlt={mention.platform}
-        mood="good"
         favorite={mention.favorite}
         url={mention.url}
+        mood={mention.mood}
       />
     ));
 
-  if (isLoading) return <Spinner />;
+  if (isLoading)
+    return (
+      <div className={styles.root}>
+        <Spinner />
+      </div>
+    );
 
   return (
     <div className={styles.root}>
