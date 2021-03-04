@@ -1,5 +1,5 @@
 const { redditSearch } = require("./reddit");
-const { getAndStoreTwitterData } = require("./twitter");
+const { getTwitterData } = require("./twitter");
 
 /**
  * Given a company name, crawl all the available platforms for that company
@@ -12,7 +12,7 @@ const { getAndStoreTwitterData } = require("./twitter");
 const crawlAllPlatformsAndStoreResults = async (companyName) => {
   try {
     await redditSearch(companyName);
-    await getAndStoreTwitterData(companyName);
+    await getTwitterData(companyName);
     return true;
   } catch (error) {
     console.error(error);
