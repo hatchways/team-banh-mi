@@ -55,6 +55,7 @@ const MentionContainer = (props) => {
         imgSrc={mention.image}
         imgAlt={mention.platform}
         mood="good"
+        favorite={mention.favorite}
       />
     ));
 
@@ -63,7 +64,6 @@ const MentionContainer = (props) => {
   return (
     <div className={styles.root}>
       <div className={styles.mentions}>{mentionsRender}</div>
-      {/* <div className={styles.paginationContainer}> */}
       <Pagination
         count={numberOfPages}
         page={page}
@@ -73,7 +73,6 @@ const MentionContainer = (props) => {
         color="primary"
         className={styles.pagination}
       />
-      {/* </div> */}
     </div>
   );
 };
