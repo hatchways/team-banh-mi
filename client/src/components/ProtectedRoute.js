@@ -41,7 +41,7 @@ const ProtectedRoute = ({ component: Comp, path, ...rest }) => {
       }
     };
     checkTokenValidity();
-  }, [login, logout, setLoading]);
+  }, [login, logout, setLoading, userDispatch]);
 
   return (
     <Route
