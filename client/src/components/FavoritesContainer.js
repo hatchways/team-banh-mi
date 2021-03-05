@@ -38,7 +38,7 @@ const MentionContainer = (props) => {
   useEffect(() => {
     const makeCallToBackEnd = async (companyName) => {
       try {
-        const { data, status } = await axios(`/mention/company/${companyName}`);
+        const { data } = await axios(`/mention/company/${companyName}`);
         const filteredMentions = await filterMentions(data, state);
         setMentions(filteredMentions);
         setIsLoading(false);

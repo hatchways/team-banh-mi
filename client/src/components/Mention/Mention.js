@@ -45,7 +45,6 @@ const useStyles = makeStyles((theme) => ({
   url: { flexGrow: 1 },
   likeIcon: {
     position: "absolute",
-    zIndex: "10",
     right: theme.spacing(2),
     bottom: theme.spacing(2),
     fontSize: "1.6rem",
