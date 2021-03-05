@@ -152,6 +152,7 @@ function Mention({
           color="primary"
           className={classes.url}
           href={url}
+          target="_blank"
         >
           Check Mention on Website
         </Button>
