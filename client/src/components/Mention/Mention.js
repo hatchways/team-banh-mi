@@ -7,6 +7,9 @@ import CardMedia from "@material-ui/core/CardMedia";
 import CardContent from "@material-ui/core/CardContent";
 import MentionHeading from "../Mention/MentionHeading/MentionHeading";
 import MentionBody from "../Mention/MentionBody/MentionBody";
+import Dialog from "@material-ui/core/Dialog";
+import Button from "@material-ui/core/Button";
+import { DialogContent, DialogTitle } from "@material-ui/core";
 import FavoriteBorderRoundedIcon from "@material-ui/icons/FavoriteBorderRounded";
 import FavoriteRoundedIcon from "@material-ui/icons/FavoriteRounded";
 import axios from "axios";
@@ -29,8 +32,20 @@ const useStyles = makeStyles((theme) => ({
     flexShrink: 0,
     flexGrow: 0,
   },
+  dialogPaper: {
+    minHeight: "80vh",
+    maxHeight: "80vh",
+    minWidth: "80vw",
+    maxWidth: "80vw",
+    display: "flex",
+    margin: 0,
+  },
+  title: { flexGrow: 1 },
+  content: { flexGrow: 10 },
+  url: { flexGrow: 1 },
   likeIcon: {
     position: "absolute",
+    zIndex: "10",
     right: theme.spacing(2),
     bottom: theme.spacing(2),
     fontSize: "1.6rem",
@@ -66,8 +81,17 @@ function Mention({
   const [isFavorite, setIsFavorite] = useState(favorite);
 
   const img = parseDefaultImages(source, imgSrc);
+  const [dialog, setDialog] = React.useState(false);
 
-  const toggleFavorites = async () => {
+  const handleClickOpen = () => {
+    setDialog(true);
+  };
+
+  const handleClose = () => {
+    setDialog(false);
+  };
+  const toggleFavorites = async (e) => {
+    e.stopPropagation();
     await axios.put(`http://localhost:3001/mention/favToggle/${id}`);
     setIsFavorite((prevFav) => !prevFav);
   };
@@ -75,30 +99,47 @@ function Mention({
   const favIcon = isFavorite ? (
     <FavoriteRoundedIcon
       className={classes.likeIcon}
-      onClick={toggleFavorites}
+      onClick={(e) => toggleFavorites(e)}
     />
   ) : (
     <FavoriteBorderRoundedIcon
       className={classes.likeIcon}
-      onClick={toggleFavorites}
+      onClick={(e) => toggleFavorites(e)}
     />
   );
 
-  // console.log(`--- [Mention] id: ${id}`);
-  // console.log(`--- [Mention] mood: ${mood}`);
-  // console.log(`--- [Mention] favorite: ${favorite}`);
-  // console.count(`---- [counts]`);
-
   return (
-    <Card className={classes.root} variant="outlined">
-      {favIcon}
-      <CardMedia className={classes.image} image={img} title={imgAlt} />
-      <CardContent>
-        <MoodIcon mood={mood} />
-        <MentionHeading title={title} source={source} />
-        <MentionBody body={body} />
-      </CardContent>
-    </Card>
+    <div>
+      <Card
+        className={classes.root}
+        variant="outlined"
+        onClick={handleClickOpen}
+      >
+        {favIcon}
+        <CardMedia className={classes.image} image={img} title={imgAlt} />
+        <CardContent>
+          <MoodIcon mood={mood} />
+          <MentionHeading title={title} source={source} />
+          <MentionBody body={body} />
+        </CardContent>
+      </Card>
+      <Dialog
+        classes={{ paper: classes.dialogPaper }}
+        open={dialog}
+        onClose={handleClose}
+      >
+        <DialogTitle className={classes.title}>{title}</DialogTitle>
+        <DialogContent className={classes.content}>{body}</DialogContent>
+        <Button
+          variant="contained"
+          color="primary"
+          className={classes.url}
+          href={url}
+        >
+          Check Mention on Website
+        </Button>
+      </Dialog>
+    </div>
   );
 }
 

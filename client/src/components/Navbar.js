@@ -58,11 +58,18 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Navbar() {
+export default function Navbar(props) {
   const classes = useStyles();
-  const location = useLocation();
+  let timer = null;
   const state = useContext(UserStateContext);
   const dispatch = useContext(UserDispatchContext);
+  const location = useLocation();
+  const handleChange = (event) => {
+    clearTimeout(timer);
+    timer = setTimeout(function () {
+      props.onchange(event.target.value);
+    }, 300);
+  };
 
   let navBarIcon = null;
   if (location.pathname === "/settings") {
@@ -113,6 +120,7 @@ export default function Navbar() {
         placeholder="Search…"
         className={classes.search}
         inputProps={{ "aria-label": "search" }}
+        onChange={handleChange}
         endAdornment={
           <InputAdornment position="end">
             <IconButton type="submit" aria-label="search">

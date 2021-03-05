@@ -28,13 +28,21 @@ router.get("/:id", async (req, res) => {
 router.get("/company/:companyName", async (req, res) => {
   try {
     const { companyName } = req.params;
-    const contentResult = await Mention.find({
-      content: new RegExp(companyName, "i"),
+    const query = req.query.search || "";
+    const result = await Mention.find({
+      $or: [
+        { content: new RegExp(companyName, "i") },
+        { title: new RegExp(companyName, "i") },
+      ],
+      $and: [
+        {
+          $or: [
+            { content: new RegExp(query, "i") },
+            { title: new RegExp(query, "i") },
+          ],
+        },
+      ],
     });
-    const titleResult = await Mention.find({
-      title: new RegExp(companyName, "i"),
-    });
-    const result = contentResult.concat(titleResult);
     res.status(200).send(result);
   } catch (e) {
     res.status(400).send(e.message);
@@ -153,8 +161,6 @@ router.get("/:companyName/favorites", async (req, res) => {
         },
       ],
     });
-    console.log(`Executing... result coming up`);
-    console.log(result);
     res.status(200).send(result);
   } catch (error) {}
 });

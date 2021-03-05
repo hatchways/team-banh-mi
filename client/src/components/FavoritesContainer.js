@@ -4,7 +4,7 @@ import { makeStyles } from "@material-ui/core";
 import axios from "axios";
 import Mention from "../components/Mention/Mention";
 import Spinner from "../components/Spinner";
-import { UserStateContext, UserDispatchContext } from "../context/userContext";
+import { UserStateContext } from "../context/userContext";
 
 const useStyles = makeStyles((theme) => ({
   pagination: {

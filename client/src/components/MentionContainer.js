@@ -14,23 +14,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const filterMentions = (mentions, filterObject) => {
-  const filteredMentions = [];
-  const smallMentions = [];
-
-  for (let i = 0; i < 20; i++) {
-    smallMentions.push(mentions[i]);
-    console.log(mentions[i]);
-  }
-  if (filterObject.onlyFavorites) {
-    const filteredResults = mentions.filter((mention) => mention.favorite);
-    filteredMentions.push(...filteredResults);
-  }
-  return filteredMentions.length > 0 || filterObject.onlyFavorites === true
-    ? filteredMentions
-    : smallMentions;
-};
-
 const MentionContainer = (props) => {
   const { companyName, search } = props;
   const itemsPerPage = 10;
@@ -47,8 +30,7 @@ const MentionContainer = (props) => {
         const { data } = await axios(
           `/mention/company/${companyName}?search=${search}`
         );
-        const filteredMentions = await filterMentions(data, state);
-        setMentions(filteredMentions);
+        setMentions(data);
         setIsLoading(false);
       } catch (error) {
         console.error(error);
@@ -66,23 +48,21 @@ const MentionContainer = (props) => {
   };
 
   const mentionsRender = mentions
-    .map((mention, key) => {
-      return (
-        <Mention
-          id={mention._id}
-          className={styles.mention}
-          key={key}
-          title={mention.title}
-          source={mention.platform}
-          body={mention.content}
-          imgSrc={mention.image}
-          imgAlt={mention.platform}
-          favorite={mention.favorite}
-          url={mention.url}
-          mood={mention.mood}
-        />
-      );
-    })
+    .map((mention, key) => (
+      <Mention
+        id={mention._id}
+        className={styles.mention}
+        key={key}
+        title={mention.title}
+        source={mention.platform}
+        body={mention.content}
+        imgSrc={mention.image}
+        imgAlt={mention.platform}
+        favorite={mention.favorite}
+        mood={mention.mood}
+        url={mention.url}
+      />
+    ))
     .slice((page - 1) * itemsPerPage, page * itemsPerPage);
 
   if (isLoading)

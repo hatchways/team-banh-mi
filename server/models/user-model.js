@@ -141,7 +141,9 @@ userSchema.methods.softRecover = function () {
  * @method
  */
 userSchema.methods.getCompanyName = async function () {
-  const result = await  User.find({ email: this.email }).select("companyName -_id");
+  const result = await User.find({ email: this.email }).select(
+    "companyName -_id"
+  );
   return result[0].companyName;
 };
 
@@ -154,7 +156,10 @@ userSchema.methods.getCompanyName = async function () {
  * @method
  */
 userSchema.methods.addCompanyName = async function (companyName) {
-  const { ok } = await User.updateOne({ email: this.email }, { $push: { companyName }})
+  const { ok } = await User.updateOne(
+    { email: this.email },
+    { $push: { companyName } }
+  );
   if (!ok) return false;
   return true;
 };
@@ -168,7 +173,10 @@ userSchema.methods.addCompanyName = async function (companyName) {
  * @method
  */
 userSchema.methods.deleteCompanyName = async function (companyName) {
-  const { ok } = await User.updateOne({ email: this.email }, { $pull: { companyName }});
+  const { ok } = await User.updateOne(
+    { email: this.email },
+    { $pull: { companyName } }
+  );
   if (!ok) return false;
   return true;
 };
@@ -232,6 +240,9 @@ userSchema.methods.registerUser = async function () {
   }
 };
 
+userSchema.statics.getAllCompanyName = async function () {
+  return await User.distinct("companyName");
+};
 /**
  * User Model.
  * @constructor
