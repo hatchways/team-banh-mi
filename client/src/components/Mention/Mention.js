@@ -36,8 +36,26 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     margin: 0,
   },
-  title: { flexGrow: 1 },
-  content: { flexGrow: 10 },
+  title: {
+    flexGrow: 1,
+    backgroundColor: theme.palette.primary.main,
+    color: theme.palette.common.white,
+    fontSize: 36,
+    textAlign: "center",
+  },
+  content: {
+    marginTop: 20,
+    flexGrow: 9,
+    backgroundColor: theme.palette.common.white,
+    fontSize: 25,
+  },
+  dialogImage: {
+    marginTop: 20,
+    height: 300,
+    width: 300,
+    marginLeft: "auto",
+    marginRight: "auto",
+  },
   url: { flexGrow: 1 },
 }));
 
@@ -45,7 +63,7 @@ const parseDefaultImages = (source, imgUrl) => {
   switch (source) {
     case "reddit":
       console.log(`Reddit executed: ${imgUrl}`);
-      return imgUrl === "default" || imgUrl === "none"
+      return imgUrl === "default" || imgUrl === "self"
         ? "/images/reddit-logo.png"
         : imgUrl;
     case "Twitter":
@@ -88,6 +106,7 @@ function Mention({ title, source, body, mood, imgSrc, imgAlt, url }) {
         onClose={handleClose}
       >
         <DialogTitle className={classes.title}>{title}</DialogTitle>
+        <img src={img} className={classes.dialogImage} alt="mentionImage" />
         <DialogContent className={classes.content}>{body}</DialogContent>
         <Button
           variant="contained"

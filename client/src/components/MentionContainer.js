@@ -14,7 +14,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const MentionContainer = (props) => {
-  const { companyName } = props;
+  const companyName = props.companyName;
+  const search = props.search;
   const itemsPerPage = 10;
   const [isLoading, setIsLoading] = useState(true);
   const [mentions, setMentions] = useState([]);
@@ -27,6 +28,7 @@ const MentionContainer = (props) => {
       try {
         const { data, status } = await axios(`/mention/company/${companyName}`);
         setMentions(data);
+
         setIsLoading(false);
       } catch (error) {
         console.error(error);
@@ -58,7 +60,11 @@ const MentionContainer = (props) => {
         url={mention.url}
       />
     ));
-
+  const filterMention = (data) => {
+    const ans = mentions.filter((mentions) => mentions.title.includes(data));
+    console.log(ans);
+    setMentions(ans);
+  };
   if (isLoading) return <Spinner />;
 
   return (

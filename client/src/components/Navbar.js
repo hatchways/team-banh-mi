@@ -62,7 +62,15 @@ export default function Navbar(props) {
     clearTimeout(timer);
     timer = setTimeout(function () {
       props.onchange(event.target.value);
+      setSearch(event.target.value);
     }, 300);
+  };
+  const [search, setSearch] = useState("tesla");
+  const setSearch = (data) => {
+    setSearch(data);
+  };
+  const buttonClick = (event) => {
+    props.onchange(event);
   };
   let navBarIcon = null;
   if (location.pathname === "/settings") {
@@ -94,7 +102,7 @@ export default function Navbar(props) {
         onChange={handleChange}
         endAdornment={
           <InputAdornment position="end">
-            <IconButton type="submit" aria-label="search">
+            <IconButton type="submit" aria-label="search" id="searchButton">
               <SearchIcon className={classes.searchIcon} />
             </IconButton>
           </InputAdornment>

@@ -6,9 +6,8 @@ import ToggleButton from "@material-ui/lab/ToggleButton";
 import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
 // CSS
 
-import { CardContent, Typography } from "@material-ui/core";
+import { Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import { blue } from "@material-ui/core/colors";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -64,7 +63,7 @@ const useStyles = makeStyles((theme) => ({
 
 function DashBoard() {
   const [order, setOrder] = useState("most recent");
-  const [search, setSearch] = useState("search");
+  const [search, setSearch] = useState("tesla");
   const classes = useStyles();
 
   const onchange = (data) => {
