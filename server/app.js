@@ -8,13 +8,10 @@ const indexRouter = require("./routes/index");
 const mentionRouter = require("./routes/mention");
 const cors = require("cors");
 const authRouter = require("./routes/auth");
-const socialMediaRouter = require("./routes/socialMedia");
 const taskRouter = require("./routes/jobs");
-const allowCors = require("./middlewares/cors");
-const { connectDB, disconnectDB } = require("./utils/database");
+const { connectDB } = require("./utils/database");
 const { start } = require("./utils/taskQueue");
 const { corsOptions } = require("./middlewares/cors");
-const { crawlAllPlatformsAndStoreResults } = require("./crawlers/index");
 
 const { json, urlencoded } = express;
 
@@ -36,8 +33,6 @@ app.use("/", indexRouter);
 app.use("/auth", authRouter);
 app.use("/task", taskRouter);
 app.use("/mention", mentionRouter);
-
-crawlAllPlatformsAndStoreResults("tesla");
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
