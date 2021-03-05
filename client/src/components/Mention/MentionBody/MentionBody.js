@@ -4,6 +4,7 @@ import Typography from "@material-ui/core/Typography";
 
 const useStyles = makeStyles((theme) => ({
   body: {
+    maxWidth: "95%",
     fontSize: ".8rem",
     color: "#888",
     fontWeight: 500,
