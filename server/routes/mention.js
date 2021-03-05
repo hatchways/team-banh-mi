@@ -3,10 +3,6 @@ const router = express.Router();
 const { Mention, toggleMentionFavorite } = require("../models/mention-model");
 const { mentionValidation } = require("../utils/validation");
 
-router.get("/ping", (req, res) => {
-  res.status(200).send("/mention route was pinged.");
-});
-
 router.get("/", async (req, res) => {
   try {
     const result = await Mention.find();
