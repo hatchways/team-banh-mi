@@ -91,7 +91,9 @@ function DashBoard() {
           <div className={classes.content}>
             <div className={classes.mainHeader}>
               <Typography className={classes.title}>
-                {onlyFavorites ? "My favorites" : "My mentions"}
+                {onlyFavorites
+                  ? `My favorites: ${companyName}`
+                  : `My mentions: ${companyName}`}
               </Typography>
               <ToggleButtonGroup
                 className={classes.toggleButtonsContainer}

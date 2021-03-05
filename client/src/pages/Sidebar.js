@@ -90,7 +90,7 @@ const IOSSwitch = withStyles((theme) => ({
 export default function Sidebar() {
   const classes = useStyles();
 
-  const [checked, setChecked] = React.useState([]);
+  const [checked, setChecked] = React.useState(["Twitter", "Reddit"]);
 
   const handleToggle = (value) => async () => {
     const currentIndex = checked.indexOf(value);
