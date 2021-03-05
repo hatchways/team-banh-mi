@@ -30,6 +30,11 @@ JWT_EXPIRES_MS=jwt-expires-ms
 REDIS_URL=redis-url
 TWITTER_API_KEY=twitter-api-key
 TWITTER_API_SECRET_KEY=twitter-secret-key
+REDDIT_USER_AGENT=reddit-user-agent
+REDDIT_CLIENT_ID=reddit-client-id
+REDDIT_CLIENT_SECRET=reddit-client-secret
+REDDIT_USER_NAME=reddit-user-name
+REDDIT_PASS=reddit-pass
 ```
 
 You can then use the `connectDB` and `disconnectDB` functions provided in the

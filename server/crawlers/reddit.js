@@ -1,40 +1,42 @@
-var snoowrap = require("snoowrap");
+const snoowrap = require("snoowrap");
+const { config } = require("./crawlers-config");
 const {
-  createMention,
-  getMention,
-  displaySentiment,
-} = require("../models/mention-model");
+  REDDIT_USER_AGENT,
+  REDDIT_CLIENT_ID,
+  REDDIT_CLIENT_SECRET,
+  REDDIT_USER_NAME,
+  REDDIT_PASS,
+} = process.env;
 
-const r = new snoowrap({
-  userAgent: "webcrawler",
-  clientId: "rwl4j4FrYnxqPA",
-  clientSecret: "qZ1p1Cp8q2Va6gBv8A18oI2KZGrK0Q",
-  username: "bot3424",
-  password: "bot3424",
+const {
+  storeMentionIntoDataBase,
+  getMentionFromDataBase,
+} = require("./crawler");
+
+const reddit = new snoowrap({
+  userAgent: REDDIT_USER_AGENT,
+  clientId: REDDIT_CLIENT_ID,
+  clientSecret: REDDIT_CLIENT_SECRET,
+  username: REDDIT_USER_NAME,
+  password: REDDIT_PASS,
 });
 
 function getReddit(companyName) {
-  return getMention(companyName, "reddit");
+  return getMentionFromDataBase(companyName, config.REDDIT);
 }
 
-function redditSearch(query) {
-  r.search({ query: query, subreddit: "all", sort: "top" }).then((data) => {
-    data.forEach((element) => {
-      date = new Date(element.created_utc * 1000);
-      link = "https://www.reddit.com/" + element.permalink;
-      mention = {
-        content: element.selftext || element.title,
-        title: element.title,
-        platform: "reddit",
-        image: element.thumbnail,
-        date: date,
-        popularity: element.ups,
-        url: link,
-        mood: displaySentiment(element.selftext || element.title),
-      };
-      createMention(mention);
+async function redditSearch(query) {
+  try {
+    const data = await reddit.search({
+      query: query,
+      subreddit: "all",
+      sort: "top",
     });
-  });
+
+    await storeMentionIntoDataBase(data, config.REDDIT);
+  } catch (error) {
+    console.error(error.message);
+  }
 }
 
 module.exports = {
