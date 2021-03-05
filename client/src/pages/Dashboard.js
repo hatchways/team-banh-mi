@@ -67,7 +67,7 @@ const useStyles = makeStyles((theme) => ({
 function DashBoard() {
   const [order, setOrder] = useState("most recent");
   const [search, setSearch] = useState("");
-  const { onlyFavorites } = useContext(UserStateContext);
+  const { onlyFavorites, companyName } = useContext(UserStateContext);
   const classes = useStyles();
 
   const onchange = (data) => {
@@ -118,9 +118,9 @@ function DashBoard() {
               </ToggleButtonGroup>
             </div>
             {onlyFavorites ? (
-              <FavoritesContainer companyName="tesla" />
+              <FavoritesContainer companyName={companyName} />
             ) : (
-              <MentionContainer companyName="tesla" search={search} />
+              <MentionContainer companyName={companyName} search={search} />
             )}
           </div>
         </div>

@@ -10,7 +10,10 @@ const showOnlyFavorites = (state) => ({ ...state, onlyFavorites: true });
 
 const showAllMentions = (state) => ({ ...state, onlyFavorites: false });
 
-const updateCompanyName = (state, companyName) => ({});
+const updateCompanyName = (state, companyName) => ({
+  ...state,
+  companyName: companyName,
+});
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {

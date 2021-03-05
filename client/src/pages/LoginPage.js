@@ -10,7 +10,9 @@ import { useFormik } from "formik";
 import * as yup from "yup";
 import Alert from "../components/Alert";
 import { AuthContext } from "../context/authContext";
+import { UserDispatchContext } from "../context/userContext";
 import { reducer, initialState } from "../store/authUIReducer";
+import * as actionTypes from "../store/actionTypes";
 
 const validationSchema = yup.object({
   email: yup
@@ -53,6 +55,7 @@ export default function LoginPage() {
   const { vertical, horizontal } = { vertical: "bottom", horizontal: "center" };
 
   const userContext = useContext(AuthContext);
+  const userDispatch = useContext(UserDispatchContext);
 
   const [state, dispatch] = useReducer(reducer, initialState);
 
@@ -78,6 +81,10 @@ export default function LoginPage() {
         requestOptions
       );
       const data = await response.json();
+      userDispatch({
+        type: actionTypes.UPDATE_COMPANY_NAME,
+        companyName: data.companyName,
+      });
       if (response.ok) {
         Cookies.set("x-auth-token", data.accessToken, { expires: 30 });
         dispatch({ type: "LOGIN_SUCCESS" });

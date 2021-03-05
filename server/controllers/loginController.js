@@ -26,6 +26,7 @@ async function loginUser(req, res) {
 
   if (token) {
     res.cookie(cookie.getCookiesName(), token, cookie.generateCookiesObject());
+    console.log(`--- [loginControler] user.companyName: ${user.companyName}`);
     return res.status(200).send({
       email: user.email,
       companyName: user.companyName,

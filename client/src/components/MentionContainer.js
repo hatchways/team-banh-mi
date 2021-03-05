@@ -71,7 +71,6 @@ const MentionContainer = (props) => {
         imgSrc={mention.image}
         imgAlt={mention.platform}
         favorite={mention.favorite}
-        url={mention.url}
         mood={mention.mood}
         url={mention.url}
       />
