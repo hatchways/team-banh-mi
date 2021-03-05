@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import MentionContainer from "../components/MentionContainer";
+import FavoritesContainer from "../components/FavoritesContainer";
 import Navbar from "../components/Navbar";
 import Sidebar from "./Sidebar";
 import ToggleButton from "@material-ui/lab/ToggleButton";
 import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
+import { UserStateContext } from "../context/userContext";
 // CSS
 
 import { Typography } from "@material-ui/core";
@@ -64,21 +66,35 @@ const useStyles = makeStyles((theme) => ({
 
 function DashBoard() {
   const [order, setOrder] = useState("most recent");
+  const [search, setSearch] = useState("");
+  const { onlyFavorites, companyName } = useContext(UserStateContext);
   const classes = useStyles();
 
+  const onchange = (data) => {
+    setSearch(data);
+  };
   const handleOrderChange = (event, newOrder) => {
     setOrder(newOrder);
   };
 
   return (
     <div className={classes.root}>
-      <Navbar className={classes.navBar} />
+      <Navbar
+        className={classes.navBar}
+        onchange={(e) => {
+          onchange(e);
+        }}
+      />
       <div className={classes.screenContainer}>
         <Sidebar className={classes.sideBar} />
         <div className={classes.mainScreen}>
           <div className={classes.content}>
             <div className={classes.mainHeader}>
-              <Typography className={classes.title}>My mentions</Typography>
+              <Typography className={classes.title}>
+                {onlyFavorites
+                  ? `My favorites: ${companyName}`
+                  : `My mentions: ${companyName}`}
+              </Typography>
               <ToggleButtonGroup
                 className={classes.toggleButtonsContainer}
                 exclusive
@@ -103,7 +119,11 @@ function DashBoard() {
                 </ToggleButton>
               </ToggleButtonGroup>
             </div>
-            <MentionContainer companyName="tesla" />
+            {onlyFavorites ? (
+              <FavoritesContainer companyName={companyName} search={search} />
+            ) : (
+              <MentionContainer companyName={companyName} search={search} />
+            )}
           </div>
         </div>
       </div>

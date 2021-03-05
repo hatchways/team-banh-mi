@@ -4,7 +4,7 @@ import { makeStyles } from "@material-ui/core";
 import axios from "axios";
 import Mention from "../components/Mention/Mention";
 import Spinner from "../components/Spinner";
-import { UserStateContext, UserDispatchContext } from "../context/userContext";
+import { UserStateContext } from "../context/userContext";
 
 const useStyles = makeStyles((theme) => ({
   pagination: {
@@ -14,8 +14,19 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const filterMentions = (mentions, filterObject) => {
+  const filteredMentions = [];
+  if (filterObject.onlyFavorites) {
+    const filteredResults = mentions.filter((mention) => mention.favorite);
+    filteredMentions.push(...filteredResults);
+  }
+  return filteredMentions.length > 0 || filterObject.onlyFavorites === true
+    ? filteredMentions
+    : mentions;
+};
+
 const MentionContainer = (props) => {
-  const { companyName, search } = props;
+  const { companyName } = props;
   const itemsPerPage = 10;
   const [isLoading, setIsLoading] = useState(true);
   const [mentions, setMentions] = useState([]);
@@ -27,10 +38,9 @@ const MentionContainer = (props) => {
   useEffect(() => {
     const makeCallToBackEnd = async (companyName) => {
       try {
-        const { data } = await axios(
-          `/mention/company/${companyName}?search=${search}`
-        );
-        setMentions(data);
+        const { data } = await axios(`/mention/company/${companyName}`);
+        const filteredMentions = await filterMentions(data, state);
+        setMentions(filteredMentions);
         setIsLoading(false);
       } catch (error) {
         console.error(error);
@@ -41,13 +51,14 @@ const MentionContainer = (props) => {
     setNumberOfPages(() => {
       return Math.ceil(mentions.length / itemsPerPage);
     });
-  }, [companyName, mentions.length, itemsPerPage, state, search]);
+  }, [companyName, mentions.length, itemsPerPage, state]);
 
   const handlePageChange = (event, value) => {
     setPage(value);
   };
 
   const mentionsRender = mentions
+    .slice((page - 1) * itemsPerPage, page * itemsPerPage)
     .map((mention, key) => (
       <Mention
         id={mention._id}
@@ -59,11 +70,10 @@ const MentionContainer = (props) => {
         imgSrc={mention.image}
         imgAlt={mention.platform}
         favorite={mention.favorite}
-        mood={mention.mood}
         url={mention.url}
+        mood={mention.mood}
       />
-    ))
-    .slice((page - 1) * itemsPerPage, page * itemsPerPage);
+    ));
 
   if (isLoading)
     return (

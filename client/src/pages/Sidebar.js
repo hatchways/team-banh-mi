@@ -26,6 +26,8 @@ const useStyles = makeStyles((theme) => ({
   },
   drawerContainer: {
     overflow: "auto",
+    width: "100%",
+    position: "fixed",
   },
   listContainer: {
     paddingBottom: 16,
@@ -88,7 +90,7 @@ const IOSSwitch = withStyles((theme) => ({
 export default function Sidebar() {
   const classes = useStyles();
 
-  const [checked, setChecked] = React.useState([]);
+  const [checked, setChecked] = React.useState(["Twitter", "Reddit"]);
 
   const handleToggle = (value) => async () => {
     const currentIndex = checked.indexOf(value);

@@ -10,7 +10,9 @@ import { useFormik } from "formik";
 import * as yup from "yup";
 import Alert from "../components/Alert";
 import { AuthContext } from "../context/authContext";
+import { UserDispatchContext } from "../context/userContext";
 import { reducer, initialState } from "../store/authUIReducer";
+import * as actionTypes from "../store/actionTypes";
 
 const validationSchema = yup.object({
   email: yup
@@ -19,7 +21,7 @@ const validationSchema = yup.object({
     .required("Email is required"),
   company: yup
     .string("Enter your company name")
-    .min(8, "Company name should be of minimum 8 characters length")
+    .min(1, "Company name should be of minimum 1 characters length")
     .required("Company name is required"),
   password: yup
     .string("Enter your password")
@@ -59,6 +61,7 @@ export default function SignupPage() {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   const userContext = useContext(AuthContext);
+  const userDispatch = useContext(UserDispatchContext);
 
   const signup = async (user) => {
     dispatch({ type: "SIGNUP_ACTION" });
@@ -84,6 +87,10 @@ export default function SignupPage() {
         requestOptions
       );
       const data = await response.json();
+      userDispatch({
+        type: actionTypes.UPDATE_COMPANY_NAME,
+        companyName: data.companyName,
+      });
       if (response.ok) {
         Cookies.set("x-auth-token", data.accessToken, { expires: 30 });
         dispatch({ type: "SIGNUP_SUCCESS" });

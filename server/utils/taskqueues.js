@@ -1,13 +1,13 @@
-let Queue = require('bull');
+let Queue = require("bull");
 const { REDIS_URL } = process.env;
 
 createTaskQueue = () => {
-    try{
-        let taskQueue = new Queue('taskQueue',REDIS_URL);
-        return taskQueue;
-    } catch(err){
-        console.log(err);
-    }
-}
+  try {
+    let taskQueue = new Queue("taskQueue", REDIS_URL);
+    return taskQueue;
+  } catch (err) {
+    console.error(err);
+  }
+};
 
 module.exports = { createTaskQueue };

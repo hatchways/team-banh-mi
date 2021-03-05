@@ -30,6 +30,7 @@ function redditSearch(query) {
         date: date,
         popularity: element.ups,
         url: link,
+        favorite: false,
         mood: displaySentiment(element.selftext || element.title),
       };
       createMention(mention);

@@ -1,11 +1,7 @@
 const express = require("express");
 const router = express.Router();
-const { Mention } = require("../models/mention-model");
+const { Mention, toggleMentionFavorite } = require("../models/mention-model");
 const { mentionValidation } = require("../utils/validation");
-
-router.get("/ping", (req, res) => {
-  res.status(200).send("/mention route was pinged.");
-});
 
 router.get("/", async (req, res) => {
   try {
@@ -28,13 +24,21 @@ router.get("/:id", async (req, res) => {
 router.get("/company/:companyName", async (req, res) => {
   try {
     const { companyName } = req.params;
-    const contentResult = await Mention.find({
-      content: new RegExp(companyName, "i"),
+    const query = req.query.search || "";
+    const result = await Mention.find({
+      $or: [
+        { content: new RegExp(companyName, "i") },
+        { title: new RegExp(companyName, "i") },
+      ],
+      $and: [
+        {
+          $or: [
+            { content: new RegExp(query, "i") },
+            { title: new RegExp(query, "i") },
+          ],
+        },
+      ],
     });
-    const titleResult = await Mention.find({
-      title: new RegExp(companyName, "i"),
-    });
-    const result = contentResult.concat(titleResult);
     res.status(200).send(result);
   } catch (e) {
     res.status(400).send(e.message);
@@ -137,6 +141,32 @@ router.delete("/:id", async (req, res) => {
     res.status(200).send(result);
   } catch (e) {
     res.status(400).send(e.message);
+  }
+});
+
+router.get("/:companyName/favorites", async (req, res) => {
+  try {
+    const result = await Mention.find({
+      $and: [
+        { favorite: true },
+        {
+          $or: [
+            { title: new RegExp(req.params.companyName, "i") },
+            { content: new RegExp(req.params.companyName, "i") },
+          ],
+        },
+      ],
+    });
+    res.status(200).send(result);
+  } catch (error) {}
+});
+
+router.put("/favToggle/:id", async (req, res) => {
+  try {
+    await toggleMentionFavorite(req.params.id);
+    res.status(200).send({ ok: true });
+  } catch (e) {
+    res.status(400).send({ ok: false, message: e.message });
   }
 });
 
