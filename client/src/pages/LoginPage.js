@@ -104,7 +104,7 @@ export default function LoginPage() {
   });
 
   const handleClose = () => {
-    console.log("Snackbar gone");
+    // TODO
   };
 
   if (userContext.isAuthenticated) return <Redirect to="/dashboard" />;

@@ -52,6 +52,7 @@ router.post("/", async (req, res) => {
       date,
       popularity,
       url,
+      mood,
     });
     if (
       validationErrorsForMentionObject &&
@@ -69,6 +70,7 @@ router.post("/", async (req, res) => {
       date,
       popularity,
       url,
+      mood,
     });
     const result = await mention.save();
     res.status(200).send(result);
@@ -116,6 +118,9 @@ router.put("/:id", async (req, res) => {
     }
     if (popularity) {
       mention.popularity = popularity;
+    }
+    if (mood) {
+      mention.mood = mood;
     }
 
     const result = await mention.save();

@@ -1,3 +1,4 @@
+const sentimentAnalysis = require("sentiment-analysis");
 const mongoose = require("mongoose");
 mongoose.set("useFindAndModify", false);
 
@@ -10,6 +11,7 @@ mongoose.set("useFindAndModify", false);
  * @property {string} date - date of the Mention.
  * @property {string} popularity - popularity of the Mention.
  * @property {string} url - url of the Mention source.
+ * @property {string} mood - mood of mention source.
  */
 const mentionSchema = new mongoose.Schema({
   content: {
@@ -37,6 +39,10 @@ const mentionSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  mood: {
+    type: String,
+    required: true,
+  },
 });
 
 const Mention = mongoose.model("mention", mentionSchema);
@@ -52,6 +58,7 @@ async function createMention(data) {
       date: data.date,
       popularity: data.popularity,
       url: data.url,
+      mood: displaySentiment(data.content),
     },
     {
       upsert: true,
@@ -59,6 +66,14 @@ async function createMention(data) {
       runValidators: true,
     }
   );
+}
+
+function displaySentiment(text) {
+  const sentiment = sentimentAnalysis(text);
+  let overallSentiment = "neutral";
+  if (sentiment > 0.2) overallSentiment = "good";
+  else if (sentiment < -0.2) overallSentiment = "bad";
+  return overallSentiment;
 }
 
 /**
@@ -89,5 +104,6 @@ module.exports = {
   createMention,
   getMention,
   storeArrayOfMentions,
+  displaySentiment,
   Mention,
 };
