@@ -21,7 +21,7 @@ const validationSchema = yup.object({
     .required("Email is required"),
   company: yup
     .string("Enter your company name")
-    .min(8, "Company name should be of minimum 8 characters length")
+    .min(1, "Company name should be of minimum 1 characters length")
     .required("Company name is required"),
   password: yup
     .string("Enter your password")
